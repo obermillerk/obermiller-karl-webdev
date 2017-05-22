@@ -1,0 +1,28 @@
+.wd-widget {
+  position: relative;
+  margin-bottom: 10px;
+  /* Place all contents of a widget in another div that is a direct child of the widget div
+      for the toolbar to be located at the top right corner of the content itself regardless
+      of the width of the screen.  Otherwise, it will appear at the right side of the page,
+      even if the content is smaller.*/ }
+  .wd-widget > div {
+    display: inline-block;
+    position: relative; }
+  .wd-widget .wd-widget-content > img, .wd-widget .wd-widget-content > iframe {
+    width: auto;
+    max-width: 100%; }
+  .wd-widget .wd-widget-toolbar {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    padding: 2px;
+    padding-left: 4px;
+    padding-bottom: 4px;
+    border-bottom-left-radius: 10px;
+    background-color: #477aff;
+    opacity: 0.5;
+    z-index: 1; }
+  .wd-widget .wd-widget-toolbar:hover {
+    opacity: 0.9; }
+
+/*# sourceMappingURL=widget.css.map */

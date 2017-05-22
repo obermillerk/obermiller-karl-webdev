@@ -1,0 +1,49 @@
+$bg-color: #303030;
+$text-color: #fff;
+$accent-diff: #101010;
+$second-color: #477aff;
+$third-color: #ff9a3f;
+
+body {
+  margin-top: 60px;
+  margin-bottom: 60px;
+  background-color: $bg-color;
+  color: $text-color;
+}
+
+a {
+  color: $second-color;
+}
+
+a:hover {
+  text-decoration: none;
+  color: $third-color;
+}
+
+.form-control {
+  margin-bottom: 5px;
+}
+
+.scrollable-left {
+  /* Fixed to prevent gap at bottom of scrollbar when right
+      panel is taller than the screen and page is scrolled down */
+  position: fixed;
+  top: 50px;
+  bottom: 50px;
+  overflow-y: scroll;
+  padding: 15px;
+
+  .list-group {
+    margin-bottom: 0px;
+  }
+}
+
+@media (min-width: 992px) {
+  .right-panel {
+    margin-left: 33%;
+  }
+}
+
+.list-group.borderless .list-group-item{
+  border: 0 solid #FFF;
+}

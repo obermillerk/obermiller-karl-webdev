@@ -1,0 +1,39 @@
+@import "palette.scss";
+
+.wd-widget {
+  position: relative;
+  margin-bottom: 10px;
+
+  /* Place all contents of a widget in another div that is a direct child of the widget div
+      for the toolbar to be located at the top right corner of the content itself regardless
+      of the width of the screen.  Otherwise, it will appear at the right side of the page,
+      even if the content is smaller.*/
+  > div {
+    display: inline-block;
+    position: relative;
+  }
+
+  .wd-widget-content {
+    > img, > iframe {
+      width: auto;
+      max-width: 100%;
+    }
+  }
+
+  .wd-widget-toolbar {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    padding: 2px;
+    padding-left: 4px;
+    padding-bottom: 4px;
+    border-bottom-left-radius: 10px;
+    background-color: $second-color;
+    opacity: 0.5;
+    z-index: 1;
+  }
+
+  .wd-widget-toolbar:hover {
+    opacity: 0.9;
+  }
+}
