@@ -1,0 +1,28 @@
+<div ng-class="model.styleType">
+    <div ng-include="'views/common/templates/navbar-header.view.client.html'"></div>
+
+    <div class="container-fluid">
+        <div ng-include="'views/widget/templates/edit/widget-'
+                    + (model.widget.widgetType | lowercase)
+                    + '.view.client.html'"></div>
+        <a class="btn btn-success btn-block"
+           href="#!{{model.previousPage}}"
+           ng-click="model.updateWidget()">
+            <span class="glyphicon glyphicon-ok"></span>
+            Confirm
+        </a>
+        <a class="btn btn-danger btn-block"
+           href="#!{{model.previousPage}}"
+           ng-click="model.deleteWidget()">
+            <span class="glyphicon glyphicon-trash"></span>
+            Delete
+        </a>
+        <a class="btn btn-warning btn-block"
+           href="#!{{model.previousPage}}">
+            <span class="glyphicon glyphicon-remove"></span>
+            Cancel
+        </a>
+    </div>
+
+    <div ng-include="'views/common/templates/navbar-footer.view.client.html'"></div>
+</div>

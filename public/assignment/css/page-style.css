@@ -1,43 +1,33 @@
-.list-group-item {
+div.page-style .list-group-item {
   background-color: #303030; }
-
-.list-group-item.active,
-.list-group-item.active:hover,
-.list-group-item.active:focus {
+div.page-style .list-group-item.active,
+div.page-style .list-group-item.active:hover,
+div.page-style .list-group-item.active:focus {
   background-color: #477aff;
   border-color: #376aef; }
-
-.navbar-default {
+div.page-style .navbar-default {
   background-color: #303030;
   border-color: #ff9a3f; }
-
-.panel-default {
+div.page-style .panel-default {
   background-color: #303030; }
-
-.navbar-header .navbar-brand {
+div.page-style .navbar .navbar-brand {
   color: #fff; }
-.navbar-header .navbar-brand:hover {
-  color: #ff9a3f; }
-
-.navbar .navbar-link {
+div.page-style .navbar .navbar-brand:hover {
   color: #fff; }
-.navbar .navbar-link:hover {
+div.page-style .navbar .navbar-link {
+  color: #fff; }
+div.page-style .navbar .navbar-link:hover {
   color: #ff9a3f; }
-
-h1 {
+div.page-style h1 {
   border-bottom: 1px solid #477aff; }
-
-.btn-primary {
+div.page-style .btn-primary {
   background-color: #477aff;
   border-color: #376aef; }
-
-.btn-primary:hover {
+div.page-style .btn-primary:hover {
   background-color: #275adf; }
-
-.btn-link {
+div.page-style .btn-link {
   color: #fff; }
-
-.btn-link:hover {
+div.page-style .btn-link:hover {
   color: #ff9a3f; }
 
 /*# sourceMappingURL=page-style.css.map */

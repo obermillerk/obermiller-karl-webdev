@@ -8,17 +8,17 @@
       for the toolbar to be located at the top right corner of the content itself regardless
       of the width of the screen.  Otherwise, it will appear at the right side of the page,
       even if the content is smaller.*/
-  > div {
-    display: inline-block;
-    position: relative;
-  }
-
-  .wd-widget-content {
-    > img, > iframe {
-      width: auto;
-      max-width: 100%;
-    }
-  }
+  //> div {
+  //  display: inline-block;
+  //  position: relative;
+  //}
+  //
+  //.wd-widget-content {
+  //  > img, > iframe {
+  //    width: auto;
+  //    max-width: 100%;
+  //  }
+  //}
 
   .wd-widget-toolbar {
     position: absolute;

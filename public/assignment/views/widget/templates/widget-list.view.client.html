@@ -1,0 +1,24 @@
+<div ng-class="model.styleType">
+    <div ng-include="'views/common/templates/navbar-header.view.client.html'"></div>
+
+    <div class="container-fluid">
+        <div ng-repeat="widget in model.widgets" class="wd-widget">
+            <div>
+                <div class="wd-widget-toolbar">
+                    <span class="glyphicon glyphicon-move pull-right"></span>
+                    <a href="#!{{model.previousPage+model.pageId}}/widget/{{widget._id}}"
+                       class="btn-link">
+                        <span class="glyphicon glyphicon-cog pull-right"></span>
+                    </a>
+                </div>
+                <div class="wd-widget-content"
+                     ng-include="'views/widget/templates/widget-'
+                        + (widget.widgetType | lowercase) + '.view.client.html'">
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div ng-include="'views/common/templates/navbar-footer.view.client.html'"></div>
+</div>

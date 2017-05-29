@@ -1,64 +1,64 @@
 @import "palette";
 
-.list-group-item {
-  background-color: $bg-color;
-}
+div.page-style {
+  .list-group-item {
+    background-color: $bg-color;
+  }
 
-.list-group-item.active,
-.list-group-item.active:hover,
-.list-group-item.active:focus {
-  background-color: $second-color;
-  border-color: $second-color - $accent-diff;
-}
+  .list-group-item.active,
+  .list-group-item.active:hover,
+  .list-group-item.active:focus {
+    background-color: $second-color;
+    border-color: $second-color - $accent-diff;
+  }
 
-.navbar-default {
-  background-color: $bg-color;
-  border-color: $third-color;
-}
+  .navbar-default {
+    background-color: $bg-color;
+    border-color: $third-color;
+  }
 
-.panel-default {
-  background-color: $bg-color;
-}
+  .panel-default {
+    background-color: $bg-color;
+  }
 
-.navbar-header {
-  .navbar-brand {
+  .navbar {
+    .navbar-brand {
+      color: $text-color;
+    }
+
+    .navbar-brand:hover {
+      color: $text-color;
+    }
+
+    .navbar-link {
+      color: $text-color;
+    }
+
+    .navbar-link:hover {
+      color: $third-color;
+    }
+  }
+
+  h1 {
+    border-bottom: 1px solid $second-color;
+  }
+
+  .btn-primary {
+    background-color: $second-color;
+    border-color: $second-color - $accent-diff;
+  }
+
+  .btn-primary:hover {
+    background-color: $second-color - (2 * $accent-diff);
+  }
+
+  .btn-link {
     color: $text-color;
   }
 
-  .navbar-brand:hover {
+  .btn-link:hover {
     color: $third-color;
   }
-}
-
-.navbar {
-  .navbar-link {
-    color: $text-color;
-  }
-
-  .navbar-link:hover {
-    color: $third-color;
-  }
-}
-
-h1 {
-  border-bottom: 1px solid $second-color;
-}
-
-.btn-primary {
-  background-color: $second-color;
-  border-color: $second-color - $accent-diff;
-}
-
-.btn-primary:hover {
-  background-color: $second-color - (2 * $accent-diff);
-}
-
-.btn-link {
-  color: $text-color;
-}
-
-.btn-link:hover {
-  color: $third-color;
 }
 
 

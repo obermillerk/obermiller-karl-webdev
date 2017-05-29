@@ -1,0 +1,51 @@
+<nav class="navbar navbar-fixed-top navbar-default">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Left Panel/Main Title -->
+            <div class="col-xs-8 col-md-4">
+
+                <!-- Previous Page Button -->
+                <a class="navbar-text navbar-link pull-left"
+                   ng-show="model.previousPage"
+                   href="#!{{model.previousPage}}">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                </a>
+
+                <div ng-show="model.leftPanelName" class="navbar-brand">
+                    <!-- Left Panel Title -->
+                    <strong class="hidden-sm hidden-xs">
+                        {{model.leftPanelName}}
+                    </strong>
+                    <!-- Main Title -->
+                    <strong class="visible-sm visible-xs">
+                        {{model.pageName}}
+                    </strong>
+                </div>
+
+                <!-- Main Title for page w/o Left Panel -->
+                <div ng-hide="model.leftPanelName" class="navbar-brand">
+                    <strong>{{model.pageName}}</strong>
+                </div>
+            </div>
+
+            <!-- Right Panel Title -->
+            <div class="col-md-4 hidden-sm hidden-xs">
+                <div ng-show="model.leftPanelName"
+                     class="navbar-brand">
+                    <strong>{{model.pageName}}</strong>
+                </div>
+            </div>
+
+            <!-- Navbar Options -->
+            <div class="col-xs-4">
+                <div ng-repeat="option in model.navOptions">
+                <a class="navbar-text navbar-link pull-right"
+                   href="#!{{option.href}}"
+                   ng-click="option.click()">
+                    <span class="glyphicon glyphicon-{{option.glyphicon}}"></span>
+                </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>

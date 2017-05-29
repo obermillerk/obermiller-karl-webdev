@@ -1,0 +1,31 @@
+<div ng-class="model.styleType">
+<div ng-include="'views/common/templates/navbar-header.view.client.html'"></div>
+
+<div class="container-fluid">
+    <div class="btn-group-vertical"
+         role="group">
+        <a ng-click="model.createWidget('HEADING')"
+           class="btn btn-primary">Heading</a>
+        <a ng-click="model.createWidget('LABEL')"
+           class="btn btn-primary">Label</a>
+        <a ng-click="model.createWidget('HTML')"
+           class="btn btn-primary">HTML</a>
+        <a ng-click="model.createWidget('TEXT INPUT')"
+           class="btn btn-primary">Text Input</a>
+        <a ng-click="model.createWidget('LINK')"
+           class="btn btn-primary">Link</a>
+        <a  ng-click="model.createWidget('BUTTON')"
+           class="btn btn-primary">Button</a>
+        <a ng-click="model.createWidget('IMAGE')"
+           class="btn btn-primary">Image</a>
+        <a ng-click="model.createWidget('YOUTUBE')"
+           class="btn btn-primary">YouTube</a>
+        <a ng-click="model.createWidget('DATA TABLE')"
+           class="btn btn-primary">Data Table</a>
+        <a ng-click="model.createWidget('REPEATER')"
+           class="btn btn-primary">Repeater</a>
+    </div>
+</div>
+
+<div ng-include="'views/common/templates/navbar-footer.view.client.html'"></div>
+</div>

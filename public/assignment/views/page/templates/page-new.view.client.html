@@ -1,0 +1,76 @@
+<div ng-class="model.styleType">
+    <div ng-include="'views/common/templates/navbar-header.view.client.html'"></div>
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-4 hidden-sm hidden-xs scrollable-left">
+                <ul class="list-group">
+                    <li class="list-group-item active">
+                        <div class="row">
+                            <div class="col-xs-7">Page</div>
+
+                            <div class="col-xs-2">Modified</div>
+
+                            <div class="col-xs-3">
+                                <a class="btn-link pull-right"
+                                   href="#!/user/{{model.userId}}/website/{{model.websiteId}}/page/new">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li ng-repeat="page in model.pages" class="list-group-item">
+                        <div class="row">
+                            <a href="#!/user/{{model.userId}}/website/{{model.websiteId}}/page/{{page._id}}/widget">
+                                <div class="col-xs-7">{{page.name}}</div>
+                            </a>
+
+                            <div class="col-xs-2">{{page.modified | date:'M/dd/yy'}}</div>
+
+                            <div class="col-xs-3">
+                                <a class="btn-link pull-right"
+                                   href="#!/user/{{model.userId}}/website/{{model.websiteId}}/page/{{page._id}}">
+                                    <span class="glyphicon glyphicon-cog"></span>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <! End Left Panel>
+
+
+            <div class="col-xs-12 col-md-8 right-panel">
+                <label for="name">Page Name</label>
+                <input id="name"
+                       value=""
+                       placeholder="Page Name"
+                       ng-model="model.page.name"
+                       class="form-control"/>
+
+                <label for="title">Title</label>
+                <input id="title"
+                       class="form-control"
+                       ng-model="model.page.title"
+                       placeholder="Page Title"/>
+
+                <a class="btn btn-success btn-block"
+                   ng-click="model.createPage()">
+                    <span class="glyphicon glyphicon-ok"></span>
+                    Create
+                </a>
+                <a class="btn btn-warning btn-block"
+                   href="#!{{model.previousPage}}">
+                    Cancel
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div ng-include="'views/common/templates/navbar-footer.view.client.html'"></div>
+</div>

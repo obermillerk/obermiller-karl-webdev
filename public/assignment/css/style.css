@@ -11,7 +11,7 @@ a:hover {
   text-decoration: none;
   color: #ff9a3f; }
 
-.form-control {
+.form-control, .btn-block {
   margin-bottom: 5px; }
 
 .scrollable-left {
