@@ -8,12 +8,22 @@
         model.login = login;
 
         function login (username, password) {
-            var user = userService.findUserByCredentials(username, password);
+            model.message = null;
+            if (typeof password === 'undefined') {
+                model.message = "Please enter a password.";
+                return;
+            }
 
-            if (user !== null) {
+            userService
+                .findUserByCredentials(username, password)
+                .then(login, error);
+
+            function login(user) {
                 $location.url('/user/' + user._id);
-            } else {
-                model.message = "Incorrect username or password."
+            }
+
+            function error() {
+                model.message = "Incorrect username or password.";
             }
         }
 
