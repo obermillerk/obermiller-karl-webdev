@@ -9,7 +9,13 @@
         model.websiteId = $routeParams['wid'];
         model.pageId = $routeParams['pid'];
 
-        model.widgets = widgetService.findWidgetsByPage(model.pageId);
+        widgetService
+            .findWidgetsByPage(model.pageId)
+            .then(renderWidgets);
+
+        function renderWidgets(data) {
+            model.widgets = data;
+        }
 
         model.getYouTubeEmbedUrl = getYouTubeEmbedUrl;
         model.trustHtmlContent = trustHtmlContent;

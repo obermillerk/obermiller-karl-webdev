@@ -10,7 +10,12 @@
         model.pageId = $routeParams['pid'];
         model.widgetId = $routeParams['wgid'];
 
-        model.widget = angular.copy(widgetService.findWidgetById(model.widgetId));
+        widgetService
+            .findWidgetById(model.widgetId).then(renderWidget);
+
+        function renderWidget(data) {
+            model.widget = data;
+        }
 
         model.updateWidget = updateWidget;
         model.deleteWidget = deleteWidget;

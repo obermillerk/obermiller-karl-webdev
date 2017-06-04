@@ -17,9 +17,9 @@ function createUser(req, res) {
     var user = req.body;
     user._id = new Date().getTime() + "";
     var username = user.username;
-    if (!findUser(function(user) {
+    if (findUser(function(user) {
             return user.username === username;
-        })) {
+        }) === null) {
         users.push(user);
         res.status(201);
         res.json(user);
@@ -30,7 +30,7 @@ function createUser(req, res) {
 
 function findUserById(req, res) {
     var userId = req.params['userId'];
-    var user = users.find(function(user) {
+    var user = findUser(function(user) {
         return user._id === userId;
     });
 

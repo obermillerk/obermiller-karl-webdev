@@ -18,8 +18,11 @@
             }
             var widget = {};
             widget.widgetType = type;
-            widgetService.createWidget(model.pageId, widget);
-            $location.url(model.previousPage + widget._id);
+            widgetService
+                .createWidget(model.pageId, widget)
+                .then(function(data) {
+                    $location.url(model.previousPage + data._id);
+                });
         }
 
         model.pageName = "New Widget";
