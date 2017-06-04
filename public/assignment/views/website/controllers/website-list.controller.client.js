@@ -7,7 +7,13 @@
 
         model.userId = $routeParams['uid'];
 
-        model.websites = websiteService.findWebsitesByUser(model.userId);
+        websiteService
+            .findWebsitesByUser(model.userId)
+            .then(renderWebsites);
+
+        function renderWebsites(data) {
+            model.websites = data;
+        }
 
         model.pageName = "Websites";
         model.previousPage = "/user/" + model.userId;

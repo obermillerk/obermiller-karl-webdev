@@ -14,8 +14,11 @@
         model.createWebsite = createWebsite;
 
         function createWebsite() {
-            websiteService.createWebsite(model.userId, model.website);
-            $location.url(model.previousPage);
+            websiteService
+                .createWebsite(model.userId, model.website)
+                .then(function() {
+                    $location.url(model.previousPage);
+                });
         }
 
 

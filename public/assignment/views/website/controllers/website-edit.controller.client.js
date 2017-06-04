@@ -8,8 +8,21 @@
         model.userId = $routeParams['uid'];
         model.websiteId = $routeParams['wid'];
 
-        model.websites = websiteService.findWebsitesByUser(model.userId);
-        model.website = angular.copy(websiteService.findWebsiteById(model.websiteId));
+        websiteService
+            .findWebsitesByUser(model.userId)
+            .then(renderWebsites);
+
+        function renderWebsites(data) {
+            model.websites = data;
+        }
+
+        websiteService
+            .findWebsiteById(model.websiteId)
+            .then(renderWebsite);
+
+        function renderWebsite(data) {
+            model.website = angular.copy(data);
+        }
 
         model.updateWebsite = updateWebsite;
         model.deleteWebsite = deleteWebsite;

@@ -34,9 +34,12 @@ function findUserById(req, res) {
         return user._id === userId;
     });
 
-    if (typeof user === 'undefined')
-        user = null;
-    res.send(user);
+    if (user === null) {
+        res.sendStatus(404);
+        return;
+    }
+
+    res.json(user);
 }
 
 function findUserByCredentials(req, res) {
@@ -65,8 +68,10 @@ function findUserByUsername(req, res) {
         return user.username === username;
     });
 
-    if (user === null)
+    if (user === null) {
         res.sendStatus(404);
+        return;
+    }
 
     res.json(user);
 }
