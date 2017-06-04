@@ -31,4 +31,7 @@ a:hover {
 .list-group.borderless .list-group-item {
   border: 0 solid #FFF; }
 
+.nav-option {
+  padding-left: 10px; }
+
 /*# sourceMappingURL=style.css.map */
