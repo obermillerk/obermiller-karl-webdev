@@ -21,11 +21,19 @@
         model.deleteWidget = deleteWidget;
 
         function updateWidget() {
-            widgetService.updateWidget(model.widgetId, model.widget);
+            widgetService
+                .updateWidget(model.widgetId, model.widget)
+                .then(function() {
+                    $location.url(model.previousPage);
+                });
         }
 
         function deleteWidget() {
-            widgetService.deleteWidget(model.widgetId);
+            widgetService
+                .deleteWidget(model.widgetId)
+                .then(function() {
+                    $location.url(model.previousPage);
+                });
         }
 
         model.pageName = "Edit Widget";
