@@ -8,14 +8,24 @@
         model.userId = $routeParams['uid'];
         model.websiteId = $routeParams['wid'];
 
-        model.pages = pageService.findPagesByWebsite(model.websiteId);
+        pageService
+            .findPagesByWebsite(model.websiteId)
+            .then(renderPages);
+
+        function renderPages(data) {
+            model.pages = data;
+        }
+
         model.page = {};
 
         model.createPage = createPage;
 
         function createPage() {
-            pageService.createPage(model.websiteId, model.page);
-            $location.url(model.previousPage);
+            pageService
+                .createPage(model.websiteId, model.page)
+                .then(function(response) {
+                    $location.url(model.previousPage);
+                });
         }
 
         model.pageName = "New Page";

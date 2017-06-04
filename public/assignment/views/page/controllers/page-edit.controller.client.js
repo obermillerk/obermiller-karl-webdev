@@ -9,8 +9,20 @@
         model.websiteId = $routeParams['wid'];
         model.pageId = $routeParams['pid'];
 
-        model.pages = pageService.findPagesByWebsite(model.websiteId);
-        model.page = angular.copy(pageService.findPageById(model.pageId));
+        pageService
+            .findPagesByWebsite(model.websiteId)
+            .then(renderPages);
+
+        function renderPages(data) {
+            model.pages = data;
+        }
+
+        pageService
+            .findPageById(model.pageId).then(renderPage);
+
+        function renderPage(data) {
+            model.page = angular.copy(data);
+        }
 
         model.updatePage = updatePage;
         model.deletePage = deletePage;

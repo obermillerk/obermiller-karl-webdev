@@ -8,7 +8,13 @@
         model.userId = $routeParams['uid'];
         model.websiteId = $routeParams['wid'];
 
-        model.pages = pageService.findPagesByWebsite(model.websiteId);
+        pageService
+            .findPagesByWebsite(model.websiteId)
+            .then(renderPages);
+
+        function renderPages(data) {
+            model.pages = data;
+        }
 
         model.previousPage = "/user/" + model.userId + "/website/";
         model.pageName = "Pages";
