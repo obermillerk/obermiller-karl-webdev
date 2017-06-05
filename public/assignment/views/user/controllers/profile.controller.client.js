@@ -5,10 +5,10 @@
     function profileController($routeParams, userService, $location) {
         var model = this;
 
-        var userId = $routeParams['uid'];
+        model.userId = $routeParams['uid'];
 
         userService
-            .findUserById(userId)
+            .findUserById(model.userId)
             .then(renderUser);
 
         function renderUser(user) {
