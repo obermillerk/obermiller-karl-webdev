@@ -1,9 +1,36 @@
 var app = require("../../express");
 
+var multer = require('multer');
+var upload = multer({ dest: __dirname + '/../../public/assignment/uploads' });
+
+app.post("/api/upload", upload.single('upload'), uploadImage);
+
+function uploadImage(req, res) {
+    var widgetId = req.body.widgetId;
+    var userId = req.body.userId;
+    var websiteId = req.body.websiteId;
+    var pageId = req.body.pageId;
+    var file = req.file;
+
+    var filename = file.filename;
+
+    var widget = findWidget(function(widget) {
+        return widget._id === widgetId;
+    });
+
+    if (widget !== null) {
+        widget.url = '/assignment/uploads/' + filename;
+        updateWidget(widgetId, widget);
+    }
+
+    var callbackUrl = "/assignment/#!/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget";
+    res.redirect(callbackUrl);
+}
+
 app.post("/api/page/:pageId/widget", createWidget);
 app.get("/api/page/:pageId/widget", findWidgetsByPage);
 app.get("/api/widget/:widgetId", findWidgetById);
-app.put("/api/widget/:widgetId", updateWidget);
+app.put("/api/widget/:widgetId", reqUpdateWidget);
 app.delete("/api/widget/:widgetId", deleteWidget);
 
 var widgets = [
@@ -56,20 +83,27 @@ function findWidgetById(req, res) {
     res.sendStatus(404);
 }
 
-function updateWidget(req, res) {
+function reqUpdateWidget(req, res) {
     var widgetId = req.params['widgetId'];
     var widget = req.body;
 
+    widget = updateWidget(widgetId, widget);
+    if (widget === null) {
+        res.sendStatus(404);
+    } else {
+        res.json(widget);
+    }
+}
+
+function updateWidget(widgetId, widget) {
     for (var wd in widgets) {
         var found = widgets[wd];
         if (found._id === widgetId) {
             widgets[wd] = widget;
-            res.json(widget);
-            return;
+            return widget;
         }
     }
-
-    res.sendStatus(404);
+    return null;
 }
 
 function deleteWidget(req, res) {
@@ -85,4 +119,11 @@ function deleteWidget(req, res) {
     }
 
     res.sendStatus(404);
+}
+
+function findWidget(comparator) {
+    var found = widgets.find(comparator);
+    if (typeof found === 'undefined')
+        return null;
+    return found;
 }

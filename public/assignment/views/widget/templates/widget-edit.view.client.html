@@ -5,6 +5,7 @@
             <div ng-include="'views/widget/templates/edit/widget-'
                     + (model.widget.widgetType | lowercase)
                     + '.view.client.html'"></div>
+
             <a class="btn btn-success btn-block"
                ng-click="model.updateWidget()">
                 <span class="glyphicon glyphicon-ok"></span>

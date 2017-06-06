@@ -1,35 +1,45 @@
 <h1>Image</h1>
 
-<form action="/api/upload" method="post" >
-    <label for="name">Name</label>
-    <input id="name"
-           type="text"
-           ng-model="model.widget.name"
-           class="form-control"/>
+<label for="name">Name</label>
+<input id="name"
+       type="text"
+       ng-model="model.widget.name"
+       class="form-control"/>
 
-    <label for="text">Text</label>
-    <input id="text"
-           type="text"
-           ng-model="model.widget.text"
-           class="form-control"/>
+<label for="text">Text</label>
+<input id="text"
+       type="text"
+       ng-model="model.widget.text"
+       class="form-control"/>
 
-    <label for="url">URL</label>
-    <input id="url"
-           type="url"
-           ng-model="model.widget.url"
-           class="form-control"/>
+<label for="url">URL</label>
+<input id="url"
+       type="url"
+       ng-model="model.widget.url"
+       class="form-control"/>
 
-    <label for="width">Width</label>
-    <input id="width"
-           type="text"
-           ng-model="model.widget.width"
-           min="1"
-           class="form-control"/>
+<label for="width">Width</label>
+<input id="width"
+       type="text"
+       ng-model="model.widget.width"
+       min="1"
+       class="form-control"/>
 
+<form action="/api/upload" method="post" enctype="multipart/form-data" >
     <label for="upload">Upload</label>
-    <input id="upload"
+    <input name="upload"
+           id="upload"
            type="file"
+           required
            class="form-control"/>
-    <btn type="submit"
-         class="btn btn-primary btn-block">Upload</btn>
+    <input name="widgetId"    style="display:none" value="{{model.widgetId}}" />
+    <input name="userId"      style="display:none" value="{{model.userId}}" />
+    <input name="websiteId"   style="display:none" value="{{model.websiteId}}" />
+    <input name="pageId"      style="display:none" value="{{model.pageId}}" />
+
+    <button type="submit"
+            class="btn btn-primary btn-block">
+        <span class="glyphicon glyphicon-upload"></span>
+        Upload
+    </button>
 </form>
