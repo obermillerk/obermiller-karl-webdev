@@ -18,6 +18,9 @@
             }
             var widget = {};
             widget.widgetType = type;
+            if (type === "HEADING") {
+                widget.size = "3";
+            }
             widgetService
                 .createWidget(model.pageId, widget)
                 .then(function(data) {

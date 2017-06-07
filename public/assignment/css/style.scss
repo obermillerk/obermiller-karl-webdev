@@ -1,8 +1,4 @@
-$bg-color: #303030;
-$text-color: #fff;
-$accent-diff: #101010;
-$second-color: #477aff;
-$third-color: #ff9a3f;
+@import "palette";
 
 body {
   margin-top: 60px;
@@ -50,4 +46,61 @@ a:hover {
 
 .nav-option {
   padding-left: 10px;
+}
+
+.flickr-search {
+  position: absolute;
+  width: 100%;
+  top: 60px;
+  bottom: 60px;
+
+  .flickr-result-list {
+    position: absolute;
+    overflow-y: scroll;
+    top: 50px;
+    right: 30px;
+    left: 20px;
+    bottom: 10px;
+  }
+
+  .flickr-result-img {
+    display: block;
+    margin: 5px auto;
+  }
+
+  .flickr-preview {
+    position: absolute;
+    text-align: center;
+    z-index: 2;
+    top: 40px;
+    left: 15px;
+    right: 15px;
+
+    > div {
+      display: inline-block;
+    }
+
+    img {
+      display: block;
+      margin: auto;
+      border-radius: 10px;
+      border: 1px solid $second-color;
+      max-width: 100%;
+    }
+
+    .row {
+      position: relative;
+      width: 100%;
+      bottom: 40px;
+    }
+
+    .btn {
+      opacity: 0.5;
+    }
+
+    .btn:hover {
+      opacity: 1;
+    }
+  }
+
 }

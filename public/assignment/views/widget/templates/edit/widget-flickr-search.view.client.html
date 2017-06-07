@@ -1,0 +1,53 @@
+<div ng-class="model.styleType">
+    <wd-nav-wrapper>
+        <div class="container-fluid flickr-search">
+            <div class="input-group">
+                <input ng-model="searchText"
+                       type="text"
+                       class="form-control"
+                       placeholder="Search"/>
+                <span class="input-group-btn">
+                    <a ng-click="model.searchPhotos(searchText)"
+                       class="btn btn-default"
+                       type="button">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </a>
+                </span>
+            </div>
+            <div class="row flickr-result-list">
+                <div ng-repeat="photo in model.photos.photo"
+                     class="col-xs-4">
+                    <img class="flickr-result-img"
+                         ng-click="model.selectPhoto(photo)"
+                         ng-src="https://farm{{photo.farm}}.staticflickr.com/{{photo.server}}/{{photo.id}}_{{photo.secret}}_s.jpg" />
+
+                </div>
+            </div>
+
+            <! Larger preview of a photo >
+
+            <div ng-show="model.selected" class="flickr-preview">
+                <div>
+                    <img ng-src="https://farm{{model.selected.farm}}.staticflickr.com/{{model.selected.server}}/{{model.selected.id}}_{{model.selected.secret}}_b.jpg"/>
+                    <div class="container-fluid row">
+                        <div class="col-xs-6">
+                            <button class="btn btn-block btn-danger"
+                                    ng-click="model.deselectPhoto()">
+                                Cancel
+                            </button>
+                        </div>
+                        <div class="col-xs-6">
+                            <button class="btn btn-block btn-success"
+                                    ng-click="model.finalizeSelection(model.selected)">
+                                Confirm
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </wd-nav-wrapper>
+</div>

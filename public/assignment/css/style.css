@@ -34,4 +34,43 @@ a:hover {
 .nav-option {
   padding-left: 10px; }
 
+.flickr-search {
+  position: absolute;
+  width: 100%;
+  top: 60px;
+  bottom: 60px; }
+  .flickr-search .flickr-result-list {
+    position: absolute;
+    overflow-y: scroll;
+    top: 50px;
+    right: 30px;
+    left: 20px;
+    bottom: 10px; }
+  .flickr-search .flickr-result-img {
+    display: block;
+    margin: 5px auto; }
+  .flickr-search .flickr-preview {
+    position: absolute;
+    text-align: center;
+    z-index: 2;
+    top: 40px;
+    left: 15px;
+    right: 15px; }
+    .flickr-search .flickr-preview > div {
+      display: inline-block; }
+    .flickr-search .flickr-preview img {
+      display: block;
+      margin: auto;
+      border-radius: 10px;
+      border: 1px solid #477aff;
+      max-width: 100%; }
+    .flickr-search .flickr-preview .row {
+      position: relative;
+      width: 100%;
+      bottom: 40px; }
+    .flickr-search .flickr-preview .btn {
+      opacity: 0.5; }
+    .flickr-search .flickr-preview .btn:hover {
+      opacity: 1; }
+
 /*# sourceMappingURL=style.css.map */

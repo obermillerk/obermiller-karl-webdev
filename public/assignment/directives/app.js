@@ -6,10 +6,23 @@
         .directive("wdNavFooter", wdNavFooter)
         .directive("wdNavWrapper", wdNavWrapper);
 
-    function wdDraggable() {
+    function wdDraggable($http, $routeParams) {
+
         function linkFunction(scope, element) {
-            $(element).sortable({handle: ".wd-handle",
-                axis: "y"});
+            var initial, final, pageId;
+            $(element).sortable({
+                handle: ".wd-handle",
+                axis: "y",
+                start: function(event, ui) {
+                    initial = ui.item.index();
+                },
+                stop: function(event, ui) {
+                    pageId = $routeParams['pid'];
+                    final = ui.item.index();
+                    var url = "/api/page/" + pageId + "/widget?initial=" + initial + "&final=" + final;
+                    $http.put(url);
+                }
+            });
         }
 
         return {
