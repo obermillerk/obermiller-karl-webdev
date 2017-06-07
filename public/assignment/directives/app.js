@@ -12,6 +12,7 @@
             var initial, final, pageId;
             $(element).sortable({
                 handle: ".wd-handle",
+                tolerance: 'touch',
                 axis: "y",
                 start: function(event, ui) {
                     initial = ui.item.index();
