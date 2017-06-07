@@ -1,4 +1,5 @@
 var app = require('../../express');
+var userModel = require('../models/user/user.model.server');
 
 app.post('/api/user', createUser);
 app.put('/api/user/:userId', updateUser);
@@ -15,17 +16,13 @@ var users = [
 
 function createUser(req, res) {
     var user = req.body;
-    user._id = new Date().getTime() + "";
-    var username = user.username;
-    if (findUser(function(user) {
-            return user.username === username;
-        }) === null) {
-        users.push(user);
+
+    userModel.createUser(user).then(function(user) {
         res.status(201);
         res.json(user);
-        return;
-    }
-    res.sendStatus(409);
+    }, function() {
+        res.sendStatus(409);
+    });
 }
 
 function findUserById(req, res) {
