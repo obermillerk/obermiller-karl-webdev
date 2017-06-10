@@ -1,0 +1,1 @@
+require('./poc/spotify.service.server');

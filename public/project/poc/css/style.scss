@@ -1,0 +1,68 @@
+@import "../../css/palette";
+
+@mixin darkmode {
+  background-color: $color1;
+  color: $color3;
+}
+
+body {
+  margin-top: 10px;
+  @include darkmode;
+}
+
+a {
+  color: $color8;
+}
+
+a:hover {
+  color: $color9;
+}
+
+#tp-album-art {
+  position: absolute;
+  top: 70px;
+  left: 15px;
+}
+
+#tp-info {
+  margin-left: 320px;
+  margin-bottom: 10px;
+  height: 300px;
+}
+
+
+.list-group {
+  @include darkmode;
+}
+
+.list-group-item {
+  @include darkmode;
+  border-color: $color9;
+}
+
+.list-group-item.active,
+.list-group-item.active:hover {
+  background-color: $color4;
+  border-color: $color4;
+  color: $color3;
+}
+
+.btn-primary {
+  background-color: $color4;
+  border-color: $color4;
+  color: $color3;
+}
+
+.btn-primary:hover {
+  background-color: $color9;
+  border-color: $color9;
+  color: $color4;
+}
+
+.btn-link {
+  color: $color3;
+}
+
+.btn-link:hover {
+   color: $color9;
+ }

@@ -1,7 +1,8 @@
 var app = require('../express');
 var mongoose = require('mongoose');
 
-console.log(mongoose.connections);
+mongoose.Promise = require('q').Promise;
+mongoose.connect('mongodb://localhost/assignment');
 
 require('./services/user.service.server');
 require('./services/website.service.server');

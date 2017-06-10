@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="poc">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../vendor/angular/angular.js"></script>
+    <script src="../../vendor/angular-route/angular-route.js"></script>
+    <script src="app.js"></script>
+</head>
+<body ng-controller="pocController as poc">
+{{poc.code}}<br/>
+<button ng-click="poc.requestToken()">Token</button><br/>
+{{poc.token}}
+
+</body>
+</html>
