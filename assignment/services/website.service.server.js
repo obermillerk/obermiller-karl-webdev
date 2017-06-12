@@ -1,5 +1,7 @@
 var app = require("../../express");
 var websiteModel = require("../models/website/website.model.server");
+var userModel = require("../models/user/user.model.server");
+var mongoose = require("mongoose");
 
 app.post("/api/user/:userId/website", createWebsite);
 app.get("/api/user/:userId/website", findWebsitesByUser);
@@ -32,8 +34,23 @@ function createWebsite(req, res) {
 
     websiteModel
         .createWebsite(website)
-        .then(function(website) {
-            res.json(website);
+        .then(function(created) {
+            website = created;
+            return userModel.findUserById(website._user);
+        })
+        .then(function(user) {
+            if (user === null) {
+                websiteModel.deleteOne(website);
+                res.sendStatus(404);
+                return;
+            }
+            var websites = user.websites;
+            websites.push(website);
+            return userModel
+                .updateUser(website._user, {websites: websites})
+                .then(function(response) {
+                    res.json(website);
+                })
         });
 }
 
@@ -76,13 +93,37 @@ function updateWebsite(req, res) {
 
 function deleteWebsite(req, res) {
     var websiteId = req.params['websiteId'];
+    var userId;
+    var website;
 
     websiteModel
-        .deleteWebsite(websiteId)
+        .findWebsiteById(websiteId)
+        .then(function(found) {
+            console.log('found website');
+            website = found;
+            userId = website._user;
+            return websiteModel.deleteWebsite(websiteId);
+        })
         .then(function(response) {
             if (response.deletedCount === 1)
-                res.sendStatus(200);
+                return userModel
+                    .findUserById(userId)
+                    .then(removeFromUser)
+                    .then(function(response) {
+                        res.sendStatus(200);
+                    });
             else
                 res.sendStatus(404);
         });
+
+    function removeFromUser(user) {
+        // If user is null, we don't need to worry about removing the website from it.
+        if (user !== null) {
+            var websites = user.websites;
+            var ind = websites.indexOf(mongoose.Types.ObjectId(userId));
+            websites.splice(ind, 1);
+            return userModel
+                .updateUser(userId, {websites: websites});
+        }
+    }
 }
