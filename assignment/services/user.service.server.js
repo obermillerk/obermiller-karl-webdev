@@ -78,7 +78,7 @@ function updateUser(req, res) {
     userModel
         .updateUser(userId, user)
         .then(function(response) {
-            if (response.nModified === 1)
+            if (response.n === 1)
                 res.sendStatus(200);
             else
                 res.sendStatus(404);

@@ -1,4 +1,5 @@
 var app = require("../../express");
+var websiteModel = require("../models/website/website.model.server");
 
 app.post("/api/user/:userId/website", createWebsite);
 app.get("/api/user/:userId/website", findWebsitesByUser);
@@ -27,71 +28,61 @@ function createWebsite(req, res) {
     var userId = req.params['userId'];
     var website = req.body;
 
-    website._id = new Date().getTime()+"";
-    website.developerId = userId;
-    website.created = new Date();
-    website.modified = new Date();
+    website._user = userId;
 
-    websites.push(website);
-    res.json(website);
+    websiteModel
+        .createWebsite(website)
+        .then(function(website) {
+            res.json(website);
+        });
 }
 
 function findWebsitesByUser(req, res) {
     var userId = req.params['userId'];
 
-    var found = [];
-    for (var w in websites) {
-        var website = websites[w];
-        if (website.developerId === userId) {
-            found.push(website);
-        }
-    }
-
-    res.send(found);
+    websiteModel
+        .findWebsitesByUser(userId)
+        .then(function(websites) {
+            res.send(websites);
+        })
 }
 
 function findWebsiteById(req, res) {
     var websiteId = req.params['websiteId'];
 
-    for (var w in websites) {
-        var website = websites[w];
-        if (website._id === websiteId) {
-            res.json(website);
-            return;
-        }
-    }
-
-    res.sendStatus(404);
+    websiteModel
+        .findWebsiteById(websiteId)
+        .then(function(website) {
+            if (website === null)
+                res.sendStatus(404);
+            else res.json(website);
+        });
 }
 
 function updateWebsite(req, res) {
     var websiteId = req.params['websiteId'];
     var website = req.body;
 
-    website.modified = new Date();
-    for (var w in websites) {
-        var found = websites[w];
-        if (found._id === websiteId) {
-            websites[w] = website;
-            res.json(website);
-            return;
-        }
-    }
+    website.dateModified = new Date();
 
-    res.sendStatus(404);
+    websiteModel.updateWebsite(websiteId, website)
+        .then(function(response) {
+            if (response.n === 1)
+                res.sendStatus(200);
+            else
+                res.sendStatus(404);
+        });
 }
 
 function deleteWebsite(req, res) {
     var websiteId = req.params['websiteId'];
 
-    for (var w in websites) {
-        var website = websites[w];
-        if (website._id === websiteId) {
-            websites.splice(w, 1);
-            res.sendStatus(200);
-            return;
-        }
-    }
-
-    res.sendStatus(404);
+    websiteModel
+        .deleteWebsite(websiteId)
+        .then(function(response) {
+            if (response.deletedCount === 1)
+                res.sendStatus(200);
+            else
+                res.sendStatus(404);
+        });
 }
