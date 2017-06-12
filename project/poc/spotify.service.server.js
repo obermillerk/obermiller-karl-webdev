@@ -56,7 +56,6 @@ function fetchToken(options, body) {
     });
 
     myReq.on('error', function(e) {
-        console.error(e);
         deferred.reject({ error: e });
     });
 
