@@ -1,6 +1,7 @@
 var app = require("../../express");
 var pageModel = require("../models/page/page.model.server");
 var websiteModel = require("../models/website/website.model.server");
+var mongoose = require("mongoose");
 
 app.post("/api/website/:websiteId/page", createPage);
 app.get("/api/website/:websiteId/page", findPagesByWebsite);
@@ -95,8 +96,8 @@ function deletePage(req, res) {
             return pageModel.deletePage(pageId);
         })
         .then(function(response) {
-            if (response.deletedCount === 1)
-                return websiteModel
+            if (response.result.n === 1)
+                websiteModel
                     .findWebsiteById(websiteId)
                     .then(removeFromWebsite)
                     .then(function(response) {
@@ -110,7 +111,7 @@ function deletePage(req, res) {
         // If website is null, we don't need to worry about removing the page from it.
         if (website !== null) {
             var pages = website.pages;
-            var ind = pages.indexOf(mongoose.Types.ObjectId(websiteId));
+            var ind = pages.indexOf(mongoose.Types.ObjectId(pageId));
             pages.splice(ind, 1);
             return websiteModel
                 .updateWebsite(websiteId, {pages: pages});

@@ -104,7 +104,7 @@ function deleteWebsite(req, res) {
             return websiteModel.deleteWebsite(websiteId);
         })
         .then(function(response) {
-            if (response.deletedCount === 1)
+            if (response.result.n === 1)
                 return userModel
                     .findUserById(userId)
                     .then(removeFromUser)
@@ -119,7 +119,7 @@ function deleteWebsite(req, res) {
         // If user is null, we don't need to worry about removing the website from it.
         if (user !== null) {
             var websites = user.websites;
-            var ind = websites.indexOf(mongoose.Types.ObjectId(userId));
+            var ind = websites.indexOf(mongoose.Types.ObjectId(websiteId));
             websites.splice(ind, 1);
             return userModel
                 .updateUser(userId, {websites: websites});
