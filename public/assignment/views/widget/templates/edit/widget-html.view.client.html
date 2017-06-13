@@ -7,7 +7,9 @@
        class="form-control"/>
 
 <label for="content">Content</label>
-<textarea id="content"
-          rows="5"
-          ng-model="model.widget.text"
-          class="form-control"></textarea>
+<div id="content"
+     ng-model="model.widget.text"
+     text-angular
+     ta-toolbar="[['h1','h2','h3'],['bold','italics','underline','strikeThrough'],
+        ['ul','ol'],['justifyLeft','justifyCenter','justifyRight','justifyFull'],
+        ['indent','outdent'],['html']]"></div>

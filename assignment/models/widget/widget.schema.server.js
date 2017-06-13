@@ -10,7 +10,7 @@ var widgetSchema = mongoose.Schema({
     placeholder: String,
     description: String,
     url: String,
-    width: String,
+    width: {type: String, default: '100%'},
     height: String,
     rows: Number,
     size: {type: String, min: 1, max: 6},

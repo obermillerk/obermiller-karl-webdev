@@ -13,7 +13,7 @@
 
         function createWidget(type) {
             if (!(type === "HEADING" || type === "YOUTUBE" ||
-                type === "HTML" || type === "IMAGE")) {
+                type === "HTML" || type === "IMAGE" || type === "INPUT")) {
                 return;
             }
             var widget = {};
