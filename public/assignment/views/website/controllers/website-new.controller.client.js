@@ -8,7 +8,13 @@
         model.userId = $routeParams['uid'];
         model.websiteId = $routeParams['wid'];
 
-        model.websites = websiteService.findWebsitesByUser(model.userId);
+        websiteService
+            .findWebsitesByUser(model.userId)
+            .then(renderWebsites);
+
+        function renderWebsites(data) {
+            model.websites = data;
+        }
         model.website = {};
 
         model.createWebsite = createWebsite;
