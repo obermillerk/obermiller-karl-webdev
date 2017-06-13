@@ -99,7 +99,6 @@ function deleteWebsite(req, res) {
     websiteModel
         .findWebsiteById(websiteId)
         .then(function(found) {
-            console.log('found website');
             website = found;
             userId = website._user;
             return websiteModel.deleteWebsite(websiteId);

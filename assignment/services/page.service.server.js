@@ -1,4 +1,6 @@
 var app = require("../../express");
+var pageModel = require("../models/page/page.model.server");
+var websiteModel = require("../models/website/website.model.server");
 
 app.post("/api/website/:websiteId/page", createPage);
 app.get("/api/website/:websiteId/page", findPagesByWebsite);
@@ -19,70 +21,99 @@ function createPage(req, res) {
     var websiteId = req.params['websiteId'];
     var page = req.body;
 
-    page._id = new Date().getTime()+"";
-    page.websiteId = websiteId;
-    page.created = new Date();
-    page.modified = new Date();
+    page._website = websiteId;
 
-    pages.push(page);
-
-    res.json(page);
+    pageModel
+        .createPage(page)
+        .then(function(created) {
+            page = created;
+            return websiteModel.findWebsiteById(page._website);
+        })
+        .then(function(website) {
+            if (website === null) {
+                pageModel.deleteOne(page);
+                res.sendStatus(404);
+                return;
+            }
+            var pages = website.pages;
+            pages.push(page);
+            return websiteModel
+                .updateWebsite(page._website, {pages: pages})
+                .then(function(response) {
+                    res.json(page);
+                })
+        });
 }
 
 function findPagesByWebsite(req, res) {
     var websiteId = req.params['websiteId'];
 
-    var found = [];
-    for (var p in pages) {
-        var page = pages[p];
-        if (page.websiteId === websiteId) {
-            found.push(page);
-        }
-    }
-
-    res.send(found);
+    pageModel
+        .findPagesByWebsite(websiteId)
+        .then(function(pages) {
+            res.send(pages);
+        });
 }
 
 function findPageById(req, res) {
     var pageId = req.params['pageId'];
 
-    for (var p in pages) {
-        var page = pages[p];
-        if (page._id === pageId) {
-            res.json(page);
-            return;
-        }
-    }
-
-    res.sendStatus(404);
+    pageModel
+        .findPageById(pageId)
+        .then(function(page) {
+            if (page === null)
+                res.sendStatus(404);
+            else res.json(page);
+        });
 }
 
 function updatePage(req, res) {
     var pageId = req.params['pageId'];
     var page = req.body;
 
-    page.modified = new Date();
-    for (var p in pages) {
-        var found = pages[p];
-        if (found._id === pageId) {
-            pages[p] = page;
-            res.json(page);
-            return;
-        }
-    }
-    res.sendStatus(404);
+    page.dateModified = new Date();
+
+    pageModel.updatePage(pageId, page)
+        .then(function(response) {
+            if (response.n === 1)
+                res.sendStatus(200);
+            else
+                res.sendStatus(404);
+        });
 }
 
 function deletePage(req, res) {
     var pageId = req.params['pageId'];
+    var websiteId;
+    var page;
 
-    for (var p in pages) {
-        var page = pages[p];
-        if (page._id === pageId) {
-            pages.splice(p, 1);
-            res.sendStatus(200);
-            return;
+    pageModel
+        .findPageById(pageId)
+        .then(function(found) {
+            page = found;
+            websiteId = page._website;
+            return pageModel.deletePage(pageId);
+        })
+        .then(function(response) {
+            if (response.deletedCount === 1)
+                return websiteModel
+                    .findWebsiteById(websiteId)
+                    .then(removeFromWebsite)
+                    .then(function(response) {
+                        res.sendStatus(200);
+                    });
+            else
+                res.sendStatus(404);
+        });
+
+    function removeFromWebsite(website) {
+        // If website is null, we don't need to worry about removing the page from it.
+        if (website !== null) {
+            var pages = website.pages;
+            var ind = pages.indexOf(mongoose.Types.ObjectId(websiteId));
+            pages.splice(ind, 1);
+            return websiteModel
+                .updateWebsite(websiteId, {pages: pages});
         }
     }
-    res.sendStatus(404);
 }
