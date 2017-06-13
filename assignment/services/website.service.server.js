@@ -9,23 +9,6 @@ app.get("/api/website/:websiteId", findWebsiteById);
 app.put("/api/website/:websiteId", updateWebsite);
 app.delete("/api/website/:websiteId", deleteWebsite);
 
-var websites = [
-    { "_id": "123", "name": "Facebook",    "developerId": "456", "description": "Lorem",
-        "created": new Date("Dec 2016"), "modified": new Date("Dec 2016") },
-    { "_id": "234", "name": "Tweeter",     "developerId": "456", "description": "Lorem",
-        "created": new Date("Dec 2016"), "modified": new Date("Dec 2016") },
-    { "_id": "456", "name": "Gizmodo",     "developerId": "456", "description": "Lorem",
-        "created": new Date("Dec 2016"), "modified": new Date("Dec 2016") },
-    { "_id": "890", "name": "Go",          "developerId": "123", "description": "Lorem",
-        "created": new Date("Dec 2016"), "modified": new Date("Dec 2016") },
-    { "_id": "567", "name": "Tic Tac Toe", "developerId": "123", "description": "Lorem",
-        "created": new Date("Dec 2016"), "modified": new Date("Dec 2016") },
-    { "_id": "678", "name": "Checkers",    "developerId": "123", "description": "Lorem",
-        "created": new Date("Dec 2016"), "modified": new Date("Dec 2016") },
-    { "_id": "789", "name": "Chess",       "developerId": "234", "description": "Lorem",
-        "created": new Date("Dec 2016"), "modified": new Date("Dec 2016") }
-];
-
 function createWebsite(req, res) {
     var userId = req.params['userId'];
     var website = req.body;
@@ -40,7 +23,7 @@ function createWebsite(req, res) {
         })
         .then(function(user) {
             if (user === null) {
-                websiteModel.deleteOne(website);
+                websiteModel.deleteWebsite(website._id);
                 res.sendStatus(404);
                 return;
             }

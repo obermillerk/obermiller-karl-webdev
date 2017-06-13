@@ -9,15 +9,6 @@ app.get("/api/page/:pageId", findPageById);
 app.put("/api/page/:pageId", updatePage);
 app.delete("/api/page/:pageId", deletePage);
 
-var pages = [
-    { "_id": "321", "name": "Post 1", "websiteId": "456", "description": "Lorem",
-        "created": new Date("Dec 2016"), "modified": new Date("Dec 2016") },
-    { "_id": "432", "name": "Post 2", "websiteId": "456", "description": "Lorem",
-        "created": new Date("Dec 2016"), "modified": new Date("Dec 2016") },
-    { "_id": "543", "name": "Post 3", "websiteId": "456", "description": "Lorem",
-        "created": new Date("Dec 2016"), "modified": new Date("Dec 2016") }
-];
-
 function createPage(req, res) {
     var websiteId = req.params['websiteId'];
     var page = req.body;
@@ -32,13 +23,13 @@ function createPage(req, res) {
         })
         .then(function(website) {
             if (website === null) {
-                pageModel.deleteOne(page);
+                pageModel.deletePage(page._id);
                 res.sendStatus(404);
                 return;
             }
             var pages = website.pages;
             pages.push(page);
-            return websiteModel
+            websiteModel
                 .updateWebsite(page._website, {pages: pages})
                 .then(function(response) {
                     res.json(page);

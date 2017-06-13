@@ -1,4 +1,7 @@
 var app = require("../../express");
+var widgetModel = require('../models/widget/widget.model.server');
+var pageModel = require('../models/page/page.model.server');
+var mongoose = require('mongoose');
 
 var multer = require('multer');
 var upload = multer({ dest: __dirname + '/../../public/assignment/uploads' });
@@ -14,178 +17,145 @@ function uploadImage(req, res) {
 
     var filename = file.filename;
 
-    var widget = findWidget(function(widget) {
-        return widget._id === widgetId;
-    });
-
-    if (widget !== null) {
-        widget.url = '/assignment/uploads/' + filename;
-        updateWidget(widgetId, widget);
-    }
-
-    var callbackUrl = "/assignment/#!/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget";
-    res.redirect(callbackUrl);
+    widgetModel
+        .findWidgetById(widgetId)
+        .then(function(widget) {
+            if (widget !== null) {
+                widget.url = '/assignment/uploads/' + filename;
+                return widgetModel.updateWidget(widgetId, widget);
+            }
+        })
+        .then(function(response) {
+            var callbackUrl = "/assignment/#!/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget";
+            res.redirect(callbackUrl);
+        });
 }
 
-app.put("/api/page/:pageId/widget", orderWidgets);
+app.put("/api/page/:pageId/widget", reorderWidgets);
 
-function orderWidgets(req, res) {
+function reorderWidgets(req, res) {
     var pageId = req.params['pageId'];
     var indexOld = Number(req.query['initial']);
     var indexNew = Number(req.query['final']);
 
-    var widget = findWidget(function(widget) {
-        return widget.pageId === pageId && widget.index === indexOld;
-    });
-
-    if (widget === null) {
-        res.sendStatus(404);
-        return;
-    }
-
-    widget.index = indexNew;
-
-    var update;
-
-    if (indexOld > indexNew) {
-        update = function(wg) {
-            if (wg.index >= indexNew && wg.index < indexOld) {
-                wg.index++;
-            }
-        }
-    } else {
-        update = function(wg) {
-            if (wg.index <= indexNew && wg.index > indexOld)
-                wg.index--;
-        }
-    }
-
-    for (var i in widgets) {
-        var wg = widgets[i];
-        if (wg.pageId === pageId && wg._id !== widget._id)
-            update(wg);
-    }
-
-    res.sendStatus(200);
+    widgetModel
+        .reorderWidgets(pageId, indexOld, indexNew)
+        .then(function(response) {
+            res.sendStatus(200);
+        })
 }
 
 app.post("/api/page/:pageId/widget", createWidget);
 app.get("/api/page/:pageId/widget", findWidgetsByPage);
 app.get("/api/widget/:widgetId", findWidgetById);
-app.put("/api/widget/:widgetId", reqUpdateWidget);
+app.put("/api/widget/:widgetId", updateWidget);
 app.delete("/api/widget/:widgetId", deleteWidget);
-
-var widgetCount = {
-    "321": 7
-};
-
-var widgets = [
-    { "_id": "123", "widgetType": "HEADING", "pageId": "321", "size": "2", "text": "GIZMODO", "index": 0},
-    { "_id": "234", "widgetType": "HEADING", "pageId": "321", "size": "4", "text": "Lorem ipsum", "index": 1},
-    { "_id": "345", "widgetType": "IMAGE", "pageId": "321", "width": "100%",
-        "url": "http://lorempixel.com/400/200/", "index": 2},
-    { "_id": "456", "widgetType": "HTML", "pageId": "321", "text": "<p>Lorem ipsum</p>", "index": 3},
-    { "_id": "567", "widgetType": "HEADING", "pageId": "321", "size": "4", "text": "Lorem ipsum", "index": 4},
-    { "_id": "678", "widgetType": "YOUTUBE", "pageId": "321", "width": "100%",
-        "url": "https://youtu.be/AM2Ivdi9c4E", "index": 5 },
-    { "_id": "789", "widgetType": "HTML", "pageId": "321", "text": "<p>Lorem ipsum</p>", "index": 6}
-];
 
 function createWidget(req, res) {
     var pageId = req.params['pageId'];
     var widget = req.body;
 
-    widget._id = new Date().getTime()+"";
-    widget.pageId = pageId;
-    widget.index = widgetCount[pageId]++;
+    widget._page = pageId;
 
-    widgets.push(widget);
-    res.json(widget);
+    pageModel.findPageById(pageId)
+        .then(function(page) {
+            if (page === null) {
+                res.sendStatus(404);
+                return;
+            }
+            widget.index = page.numWidgets;
+
+            widgetModel
+                .createWidget(widget)
+                .then(function(widget) {
+                    var widgets = page.widgets;
+                    widgets.push(widget);
+                    pageModel
+                        .updatePage(pageId,
+                            {widgets: widgets, $inc: {numWidgets: 1}})
+                        .then(function(response) {
+                            res.json(widget);
+                        })
+                })
+        });
 }
 
 function findWidgetsByPage(req, res) {
     var pageId = req.params['pageId'];
 
-    var pageWidgets = [];
-    for (var w in widgets) {
-        var widget = widgets[w];
-        if (widget.pageId === pageId)
-            pageWidgets.push(widget);
-    }
+    widgetModel
+        .findWidgetsByPage(pageId)
+        .then(function(widgets) {
+            widgets.sort(function(widget1, widget2) {
+                return widget1.index - widget2.index;
+            });
 
-    pageWidgets.sort(function(widget1, widget2) {
-        return widget1.index - widget2.index;
-    });
-
-    res.send(pageWidgets);
+            res.send(widgets);
+        });
 }
 
 function findWidgetById(req, res) {
     var widgetId = req.params['widgetId'];
 
-    for (var wd in widgets) {
-        var widget = widgets[wd];
-        if (widget._id === widgetId) {
-            res.json(widget);
-            return;
-        }
-    }
-
-    res.sendStatus(404);
+    widgetModel
+        .findWidgetById(widgetId)
+        .then(function(widget) {
+            if (widget === null)
+                res.sendStatus(404);
+            else
+                res.json(widget);
+        });
 }
 
-function reqUpdateWidget(req, res) {
+function updateWidget(req, res) {
     var widgetId = req.params['widgetId'];
     var widget = req.body;
 
-    widget = updateWidget(widgetId, widget);
-    if (widget === null) {
-        res.sendStatus(404);
-    } else {
-        res.json(widget);
-    }
-}
+    widget.dateModified = new Date();
 
-function updateWidget(widgetId, widget) {
-    for (var wd in widgets) {
-        var found = widgets[wd];
-        if (found._id === widgetId) {
-            widgets[wd] = widget;
-            return widget;
-        }
-    }
-    return null;
+    widgetModel
+        .updateWidget(widgetId, widget)
+        .then(function(response) {
+            if (response.n === 1)
+                res.sendStatus(200);
+            else
+                res.sendStatus(404);
+        });
 }
 
 function deleteWidget(req, res) {
     var widgetId = req.params['widgetId'];
+    var pageId;
+    var widget;
 
-    for (var wd in widgets) {
-        var widget = widgets[wd];
-        if (widget._id === widgetId) {
-            fixIndexes(widget.pageId, widget.index);
-            widgets.splice(wd, 1);
-            res.sendStatus(200);
-            return;
+    widgetModel
+        .findWidgetById(widgetId)
+        .then(function(found) {
+            widget = found;
+            pageId = widget._page;
+            return widgetModel.deleteWidget(widgetId);
+        })
+        .then(function(response) {
+            if (response.result.n === 1)
+                pageModel
+                    .findPageById(pageId)
+                    .then(removeFromPage)
+                    .then(function(response) {
+                        res.sendStatus(200);
+                    });
+            else
+                res.sendStatus(404);
+        });
+
+    function removeFromPage(page) {
+        // If page is null, we don't need to worry about removing the widget from it.
+        if (page !== null) {
+            var widgets = page.widgets;
+            var ind = widgets.indexOf(mongoose.Types.ObjectId(widgetId));
+            widgets.splice(ind, 1);
+            return pageModel
+                .updatePage(pageId,
+                    {widgets: widgets, $inc: {numWidgets: -1}});
         }
     }
-
-    function fixIndexes(pageId, index) {
-        widgetCount[pageId]--;
-        for (var wd in widgets) {
-            var widget = widgets[wd];
-            if (widget.pageId === pageId && widget.index > index) {
-                widget.index--;
-            }
-        }
-    }
-
-    res.sendStatus(404);
-}
-
-function findWidget(comparator) {
-    var found = widgets.find(comparator);
-    if (typeof found === 'undefined')
-        return null;
-    return found;
 }

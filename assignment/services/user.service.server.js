@@ -91,7 +91,7 @@ function deleteUser(req, res) {
     userModel
         .deleteUser(userId)
         .then(function(response) {
-            if (response.deletedCount === 1)
+            if (response.result.n === 1)
                 res.sendStatus(200);
             else
                 res.sendStatus(404);
