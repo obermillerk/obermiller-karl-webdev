@@ -1,5 +1,7 @@
 var app = require('../../express');
 var userModel = require('../models/user/user.model.server');
+var passport = require('passport');
+var LoaclStrategy = require('passport-local').Strategy;
 
 app.post('/api/user', createUser);
 app.put('/api/user/:userId', updateUser);
@@ -7,12 +9,40 @@ app.get('/api/user/:userId', findUserById);
 app.get('/api/user', findUserByCredentials);
 app.delete('/api/user/:userId', deleteUser);
 
-var users = [
-    {_id: "123", username: "alice",    password: "alice",    firstName: "Alice",  lastName: "Wonder"  },
-    {_id: "234", username: "bob",      password: "bob",      firstName: "Bob",    lastName: "Marley"  },
-    {_id: "345", username: "charly",   password: "charly",   firstName: "Charly", lastName: "Garcia"  },
-    {_id: "456", username: "jannunzi", password: "jannunzi", firstName: "Jose",   lastName: "Annunzi" }
-];
+passport.serializeUser(serializeUser);
+passport.deserializeUser(deserializeUser);
+passport.use(new LocalStrategy(localStrategy));
+
+function localStrategy(username, password, done) {
+    userModel
+        .findUserByCredentials(username, password)
+        .then(function(user) {
+                if (user.username === username && user.password === password) {
+                    return done(null, user);
+                } else {
+                    return done(null, false);
+                }
+            },
+            function(err) {
+                if (err)
+                    return done(err);
+            });
+}
+
+function serializeUser(user, done) {
+    done(null, user);
+}
+
+function deserializeUser(user, done) {
+    userModel
+        .findUserById(user._id)
+        .then(function(user) {
+                done(null, user);
+            },
+            function(err) {
+                done(err, null);
+            });
+}
 
 function createUser(req, res) {
     var user = req.body;
