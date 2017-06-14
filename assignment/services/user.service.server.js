@@ -1,9 +1,12 @@
 var app = require('../../express');
 var userModel = require('../models/user/user.model.server');
 var passport = require('passport');
-var LoaclStrategy = require('passport-local').Strategy;
+var LocalStrategy = require('passport-local').Strategy;
 
 app.post('/api/user', createUser);
+app.post('/api/login', passport.authenticate('local'), login);
+app.post('/api/logout', logout);
+app.post('/api/register', register)
 app.put('/api/user/:userId', updateUser);
 app.get('/api/user/:userId', findUserById);
 app.get('/api/user', findUserByCredentials);
@@ -17,7 +20,7 @@ function localStrategy(username, password, done) {
     userModel
         .findUserByCredentials(username, password)
         .then(function(user) {
-                if (user.username === username && user.password === password) {
+                if (user !== null && user.username === username && user.password === password) {
                     return done(null, user);
                 } else {
                     return done(null, false);
@@ -43,6 +46,36 @@ function deserializeUser(user, done) {
                 done(err, null);
             });
 }
+
+function login(req, res) {
+    var user = req.user;
+    res.json(user);
+}
+
+function logout(req, res) {
+    req.logOut();
+    res.sendStatus(200);
+}
+
+function register(req, res) {
+    var user = req.body;
+
+    userModel.createUser(user)
+        .then(function(user) {
+            if (user) {
+                req.login(user, function(err) {
+                    if(err)
+                        res.sendStatus(400);
+                    else
+                        res.json(user);
+                })
+            } else {
+                res.sendStatus(400);
+            }
+        })
+
+}
+
 
 function createUser(req, res) {
     var user = req.body;

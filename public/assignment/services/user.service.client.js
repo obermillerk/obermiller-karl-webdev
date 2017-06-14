@@ -11,6 +11,9 @@
         ];
 
         var api = {
+            login: login,
+            logout: logout,
+            register: register,
             createUser: createUser,
             findUserById: findUserById,
             findUserByUsername: findUserByUsername,
@@ -23,6 +26,21 @@
 
         function unwrap(response) {
             return response.data;
+        }
+
+        function login(user) {
+            var url = "/api/login";
+            return $http.post(url, user).then(unwrap);
+        }
+
+        function logout() {
+            var url = "/api/logout";
+            return $http.post(url);
+        }
+
+        function register(user) {
+            var url = "/api/register";
+            return $http.post(url, user).then(unwrap);
         }
 
         function createUser(user) {

@@ -2,7 +2,7 @@
     angular.module("WebAppMaker")
         .controller("profileController", profileController);
 
-    function profileController($routeParams, userService, $location) {
+    function profileController($routeParams, userService, $location, $rootScope) {
         var model = this;
 
         model.userId = $routeParams['uid'];
@@ -17,6 +17,7 @@
 
         model.updateUser = updateUser;
         model.deleteUser = deleteUser;
+        model.logout = logout;
 
         function updateUser(user) {
             userService.updateUser(user._id, user).then(function(){
@@ -30,6 +31,17 @@
             }, function() {
                 model.error = "Could not find user, delete unsuccessful.";
             });
+        }
+
+        function logout() {
+            userService
+                .logout()
+                .then(
+                    function(response) {
+                        $rootScope.currentUser = null;
+                        $location.url('/');
+                    }
+                )
         }
 
         model.pageName = "Profile";

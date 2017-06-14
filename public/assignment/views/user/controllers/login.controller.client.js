@@ -2,7 +2,7 @@
     angular.module("WebAppMaker")
         .controller("loginController", loginController);
 
-    function loginController($location, userService) {
+    function loginController($location, $rootScope, userService) {
         var model = this;
 
         model.login = login;
@@ -14,11 +14,17 @@
                 return;
             }
 
-            userService
-                .findUserByCredentials(username, password)
-                .then(login, error);
+            var user = {
+                username: username,
+                password: password
+            };
 
-            function login(user) {
+            userService
+                .login(user)
+                .then(success, error);
+
+            function success(user) {
+                $rootScope.currentUser = user;
                 $location.url('/user/' + user._id);
             }
 

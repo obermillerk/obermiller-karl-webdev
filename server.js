@@ -6,7 +6,7 @@ var passport = require('passport');
 app.use(cookieParser());
 app.use(session({ secret: process.env.SESSION_SECRET }));
 app.use(passport.initialize());
-app.use(passport.sessoin());
+app.use(passport.session());
 
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
