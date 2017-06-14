@@ -1,7 +1,7 @@
 var app = require('../../express');
 var userModel = require('../models/user/user.model.server');
 var passport = require('passport');
-var LoaclStrategy = require('passport-local').Strategy;
+var LocalStrategy = require('passport-local').Strategy;
 
 app.post('/api/user', createUser);
 app.put('/api/user/:userId', updateUser);
