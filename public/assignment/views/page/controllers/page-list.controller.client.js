@@ -5,7 +5,6 @@
     function pageListController ($routeParams, pageService) {
         var model = this;
 
-        model.userId = $routeParams['uid'];
         model.websiteId = $routeParams['wid'];
 
         pageService
@@ -16,7 +15,7 @@
             model.pages = data;
         }
 
-        model.previousPage = "/user/" + model.userId + "/website/";
+        model.previousPage = "/website/";
         model.pageName = "Pages";
 
         model.navOptions = [

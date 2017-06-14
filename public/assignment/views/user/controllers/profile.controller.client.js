@@ -2,18 +2,10 @@
     angular.module("WebAppMaker")
         .controller("profileController", profileController);
 
-    function profileController($routeParams, userService, $location, $rootScope) {
+    function profileController($routeParams, userService, $location, currentUser) {
         var model = this;
 
-        model.userId = $routeParams['uid'];
-
-        userService
-            .findUserById(model.userId)
-            .then(renderUser);
-
-        function renderUser(user) {
-            model.user = user;
-        }
+        model.user = currentUser;
 
         model.updateUser = updateUser;
         model.deleteUser = deleteUser;
@@ -38,7 +30,6 @@
                 .logout()
                 .then(
                     function(response) {
-                        $rootScope.currentUser = null;
                         $location.url('/');
                     }
                 )

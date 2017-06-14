@@ -5,7 +5,6 @@
     function widgetListController ($sce, $routeParams, widgetService) {
         var model = this;
 
-        model.userId = $routeParams['uid'];
         model.websiteId = $routeParams['wid'];
         model.pageId = $routeParams['pid'];
 
@@ -31,8 +30,7 @@
         }
 
         model.pageName = "Widgets";
-        model.previousPage = "/user/" + model.userId + "/website/"
-            + model.websiteId + "/page/";
+        model.previousPage = "/website/" + model.websiteId + "/page/";
 
         model.navOptions = [
             {name: "New Widget",

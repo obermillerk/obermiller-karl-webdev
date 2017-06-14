@@ -5,7 +5,6 @@
     function widgetFlickrSearchController($location, $routeParams, widgetService, flickrService) {
         var model = this;
 
-        model.userId = $routeParams['uid'];
         model.websiteId = $routeParams['wid'];
         model.pageId = $routeParams['pid'];
         model.widgetId = $routeParams['wgid'];
@@ -37,7 +36,7 @@
                     return widgetService.updateWidget(model.widgetId, widget)
                 })
                 .then(function(widget) {
-                    var url = "/user/" + model.userId + "/website/" + model.websiteId
+                    var url = "/website/" + model.websiteId
                         + "/page/" + model.pageId + "/widget";
                     $location.url(url);
                 });
@@ -45,7 +44,7 @@
 
 
         model.pageName = "Search Flickr";
-        model.previousPage = "/user/" + model.userId + "/website/" + model.websiteId
+        model.previousPage = "/website/" + model.websiteId
             + "/page/" + model.pageId + "/widget/" + model.widgetId;
 
         model.styleType = "page-style";

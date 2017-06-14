@@ -2,10 +2,10 @@
     angular.module("WebAppMaker")
         .controller("websiteEditController", websiteEditController);
 
-    function websiteEditController ($location, $routeParams, websiteService) {
+    function websiteEditController ($location, $routeParams, websiteService, currentUser) {
         var model = this;
 
-        model.userId = $routeParams['uid'];
+        model.userId = currentUser._id;
         model.websiteId = $routeParams['wid'];
 
         websiteService
@@ -39,7 +39,7 @@
 
         model.pageName = "Edit Website";
         model.leftPanelName = "Websites";
-        model.previousPage = "/user/" + model.userId + "/website/";
+        model.previousPage = "/website/";
 
         model.navOptions = [
             {name: "Confirm",

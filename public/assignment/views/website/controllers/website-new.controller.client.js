@@ -2,10 +2,10 @@
     angular.module("WebAppMaker")
         .controller("websiteNewController", websiteNewController);
 
-    function websiteNewController ($location, $routeParams, websiteService) {
+    function websiteNewController ($location, $routeParams, websiteService, currentUser) {
         var model = this;
 
-        model.userId = $routeParams['uid'];
+        model.userId = currentUser._id;
         model.websiteId = $routeParams['wid'];
 
         websiteService
@@ -30,7 +30,7 @@
 
         model.pageName = "New Website";
         model.leftPanelName = "Websites";
-        model.previousPage = "/user/" + model.userId + "/website/";
+        model.previousPage = "/website/";
 
         model.navOptions = [
             {name: "Confirm",

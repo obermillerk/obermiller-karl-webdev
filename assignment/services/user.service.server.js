@@ -3,14 +3,7 @@ var userModel = require('../models/user/user.model.server');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
-app.post('/api/user', createUser);
-app.post('/api/login', passport.authenticate('local'), login);
-app.post('/api/logout', logout);
-app.post('/api/register', register)
-app.put('/api/user/:userId', updateUser);
-app.get('/api/user/:userId', findUserById);
-app.get('/api/user', findUserByCredentials);
-app.delete('/api/user/:userId', deleteUser);
+/* PASSPORT SETUP */
 
 passport.serializeUser(serializeUser);
 passport.deserializeUser(deserializeUser);
@@ -46,6 +39,20 @@ function deserializeUser(user, done) {
                 done(err, null);
             });
 }
+
+
+/* BEGIN API EXPOSURE AND DEFINITION */
+
+app.post('/api/user', createUser);
+app.post('/api/login', passport.authenticate('local'), login);
+app.post('/api/logout', logout);
+app.post('/api/register', register)
+app.put('/api/user/:userId', updateUser);
+app.get('/api/user/:userId', findUserById);
+app.get('/api/user', findUserByCredentials);
+app.get('/api/loggedin', loggedin);
+app.delete('/api/user/:userId', deleteUser);
+
 
 function login(req, res) {
     var user = req.user;
@@ -132,6 +139,10 @@ function findUserByUsername(req, res) {
             else
                 res.json(user)
         });
+}
+
+function loggedin(req, res) {
+    res.send(req.isAuthenticated() ? req.user : '0');
 }
 
 function updateUser(req, res) {

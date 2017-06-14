@@ -5,7 +5,6 @@
     function pageNewController ($location, $routeParams, pageService) {
         var model = this;
 
-        model.userId = $routeParams['uid'];
         model.websiteId = $routeParams['wid'];
 
         pageService
@@ -30,7 +29,7 @@
 
         model.pageName = "New Page";
         model.leftPanelName = "Pages";
-        model.previousPage = "/user/" + model.userId + "/website/" + model.websiteId + "/page/";
+        model.previousPage = "/website/" + model.websiteId + "/page/";
 
         model.navOptions = [
             {name: "Confirm",

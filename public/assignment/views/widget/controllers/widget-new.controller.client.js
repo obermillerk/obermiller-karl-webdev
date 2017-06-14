@@ -5,7 +5,6 @@
     function widgetNewController($location, $routeParams, widgetService) {
         var model = this;
 
-        model.userId = $routeParams['uid'];
         model.websiteId = $routeParams['wid'];
         model.pageId = $routeParams['pid'];
 
@@ -29,7 +28,7 @@
         }
 
         model.pageName = "New Widget";
-        model.previousPage = "/user/" + model.userId + "/website/" + model.websiteId
+        model.previousPage = "/website/" + model.websiteId
             + "/page/" + model.pageId + "/widget/";
 
         model.styleType = "page-style";
