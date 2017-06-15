@@ -1,1 +1,1 @@
-require('./poc/spotify.service.server');
+require('./services/spotify.service.server');
