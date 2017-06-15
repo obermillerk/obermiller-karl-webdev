@@ -83,6 +83,7 @@
         });
     }
 
+    // Go to the login page if not logged in.
     function requireLoggedIn($q, $http, $location) {
         var deferred = $q.defer();
 
@@ -100,6 +101,7 @@
         return deferred.promise;
     }
 
+    // Go to the profile if already logged in.
     function checkLoggedIn($http, $location) {
         return $http.get('/api/loggedin')
             .then(function(response) {
