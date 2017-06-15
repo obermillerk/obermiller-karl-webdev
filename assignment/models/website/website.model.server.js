@@ -1,7 +1,7 @@
-var mongoose = require('mongoose');
+var db = require('../db');
 var websiteSchema = require('./website.schema.server');
 
-var websiteModel = mongoose.model('WebsiteModel', websiteSchema);
+var websiteModel = db.model('WebsiteModel', websiteSchema);
 
 websiteModel.createWebsite = createWebsite;
 websiteModel.findWebsitesByUser = findWebsitesByUser;

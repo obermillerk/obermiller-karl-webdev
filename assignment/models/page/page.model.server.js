@@ -1,7 +1,7 @@
-var mongoose = require('mongoose');
+var db = require('../db');
 var pageSchema = require('./page.schema.server');
 
-var pageModel = mongoose.model('PageModel', pageSchema);
+var pageModel = db.model('PageModel', pageSchema);
 
 pageModel.createPage = createPage;
 pageModel.findPagesByWebsite = findPagesByWebsite;

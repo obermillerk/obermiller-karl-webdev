@@ -1,8 +1,8 @@
-var mongoose = require('mongoose');
+var db = require('../db');
 var q = require('q');
 var userSchema = require('./user.schema.server');
 
-var userModel = mongoose.model('UserModel', userSchema);
+var userModel = db.model('UserModel', userSchema);
 
 userModel.createUser = createUser;
 userModel.findUserById = findUserById;
