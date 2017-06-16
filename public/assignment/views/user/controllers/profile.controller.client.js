@@ -6,7 +6,6 @@
         var model = this;
 
         model.user = currentUser;
-        console.log(currentUser);
 
         model.updateUser = updateUser;
         model.deleteUser = deleteUser;

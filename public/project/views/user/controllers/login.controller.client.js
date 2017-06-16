@@ -15,7 +15,6 @@
 
             userService.login(user)
                 .then(function(user) {
-                    console.log(user);
                     $location.url('/profile/' + user.username);
                 });
         }

@@ -39,9 +39,7 @@
     function currentUser($http) {
         return $http.get('/project/rest/loggedin')
             .then(function(response) {
-                console.log(response);
                 var user = response.data;
-                console.log(user);
 
                 if (user !== '0')
                     return user._id ? user : null;

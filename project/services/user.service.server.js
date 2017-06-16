@@ -29,7 +29,6 @@ function logout(req, res) {
 }
 
 function register(req, res) {
-    console.log(req);
     var user = req.body;
     userModel.createUser(user)
         .then(function(user) {
@@ -96,7 +95,7 @@ function unfollowUser(req, res) {
         .then(function(response) {
             res.sendStatus(200);
         }, function(err) {
-            console.log(err);
+            console.error(err);
             res.sendStatus(400);
         })
 }
