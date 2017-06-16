@@ -14,31 +14,31 @@
         return api;
 
         function createWebsite (userId, website) {
-            var url = "/api/user/" + userId + "/website";
+            var url = "/assignment/api/user/" + userId + "/website";
 
             return $http.post(url, website).then(unwrapData);
         }
 
         function findWebsitesByUser (userId) {
-            var url = "/api/user/" + userId + "/website";
+            var url = "/assignment/api/user/" + userId + "/website";
 
             return $http.get(url).then(unwrapData);
         }
 
         function findWebsiteById (websiteId) {
-            var url = "/api/website/" + websiteId;
+            var url = "/assignment/api/website/" + websiteId;
 
             return $http.get(url).then(unwrapData);
         }
 
         function updateWebsite(websiteId, website) {
-            var url = "/api/website/" + websiteId;
+            var url = "/assignment/api/website/" + websiteId;
 
             return $http.put(url, website).then(unwrapData);
         }
 
         function deleteWebsite (websiteId) {
-            var url = "/api/website/" + websiteId;
+            var url = "/assignment/api/website/" + websiteId;
 
             return $http.delete(url);
         }

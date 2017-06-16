@@ -1,3 +1,3 @@
 (function(){
-    angular.module("TestApp", []);
+    angular.module("Sharm", ['ngRoute']);
 })();

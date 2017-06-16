@@ -4,8 +4,7 @@
         .config(configRoutes);
 
     function configRoutes($routeProvider) {
-        var routes = [["default",
-            "./views/user/templates/home.view.client.html"],
+        var routes = [
             ["/",
                 "./views/user/templates/home.view.client.html"],
             ["/login",
@@ -87,7 +86,7 @@
     function requireLoggedIn($q, $http, $location) {
         var deferred = $q.defer();
 
-        $http.get('/api/loggedin')
+        $http.get('/assignment/api/loggedin')
             .then(function(response) {
                 var user = response.data;
                 if (user !== '0') {
@@ -103,7 +102,7 @@
 
     // Go to the profile if already logged in.
     function checkLoggedIn($http, $location) {
-        return $http.get('/api/loggedin')
+        return $http.get('/assignment/api/loggedin')
             .then(function(response) {
                 var user = response.data;
                 if (user !== '0') {

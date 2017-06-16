@@ -1,5 +1,5 @@
 const q = require('q');
-const app = require('../../express');
+const app = require('../../express').projectRouter;
 const https = require('https');
 const querystring = require('querystring');
 const btoa = require('btoa');

@@ -1,18 +1,28 @@
 <!DOCTYPE html>
-<html lang="en" ng-app>
+<html lang="en" ng-app="Sharm">
 <head>
     <meta charset="UTF-8">
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>-->
+    <script src="../vendor/angular/angular.js"></script>
+    <script src="../vendor/angular-route/angular-route.js"></script>
+
     <script src="app.js"></script>
+    <script src="config.js"></script>
+
+    <!-- Controllers -->
+    <script src="views/user/controllers/home.controller.client.js"></script>
+    <script src="views/user/controllers/login.controller.client.js"></script>
+    <script src="views/user/controllers/register.controller.client.js"></script>
+    <script src="views/user/controllers/profile.controller.client.js"></script>
+
+    <!-- Services -->
+    <script src="services/user.service.client.js"></script>
+
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
     <!link href="../vendor/css/bootstrap/css/bootstrap.css" rel="stylesheet"/>
-    <title>Project Home Page</title>
+    <title>Project</title>
 </head>
-<body>
-    <div class="container">
-        <h1>Project Home Page</h1>
-        <input ng-model="input" class="form-control" />
-        <p>{{input}}</p>
-    </div>
+<body ng-view>
+
 </body>
 </html>

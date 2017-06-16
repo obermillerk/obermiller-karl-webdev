@@ -1,4 +1,4 @@
-var app = require('../express');
+var app = require('../express').assignmentRouter;
 
 app.get("/api/test", findAllMessages);
 app.post("/api/test", createMessage);

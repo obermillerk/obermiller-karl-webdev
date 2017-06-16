@@ -1,4 +1,4 @@
-var app = require("../../express");
+var app = require("../../express").assignmentRouter;
 var websiteModel = require("../models/website/website.model.server");
 var userModel = require("../models/user/user.model.server");
 var mongoose = require("mongoose");

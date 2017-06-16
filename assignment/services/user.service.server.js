@@ -1,52 +1,13 @@
-var app = require('../../express');
+var app = require('../../express').assignmentRouter;
 var userModel = require('../models/user/user.model.server');
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
+var passport = require('../../passport').assignment;
 
-/* PASSPORT SETUP */
-
-passport.serializeUser(serializeUser);
-passport.deserializeUser(deserializeUser);
-passport.use(new LocalStrategy(localStrategy));
-
-function localStrategy(username, password, done) {
-    userModel
-        .findUserByCredentials(username, password)
-        .then(function(user) {
-                if (user !== null && user.username === username && user.password === password) {
-                    return done(null, user);
-                } else {
-                    return done(null, false);
-                }
-            },
-            function(err) {
-                if (err)
-                    return done(err);
-            });
-}
-
-function serializeUser(user, done) {
-    done(null, user);
-}
-
-function deserializeUser(user, done) {
-    userModel
-        .findUserById(user._id)
-        .then(function(user) {
-                done(null, user);
-            },
-            function(err) {
-                done(err, null);
-            });
-}
-
-
-/* BEGIN API EXPOSURE AND DEFINITION */
+/* API DEFINITION */
 
 app.post('/api/user', createUser);
-app.post('/api/login', passport.authenticate('local'), login);
+app.post('/api/login', passport.authenticate('assignment-local'), login);
 app.post('/api/logout', logout);
-app.post('/api/register', register)
+app.post('/api/register', register);
 app.put('/api/user/:userId', updateUser);
 app.get('/api/user/:userId', findUserById);
 app.get('/api/user', findUserByCredentials);
@@ -79,7 +40,7 @@ function register(req, res) {
             } else {
                 res.sendStatus(400);
             }
-        })
+        });
 
 }
 
@@ -142,6 +103,7 @@ function findUserByUsername(req, res) {
 }
 
 function loggedin(req, res) {
+    console.log(req.user);
     res.send(req.isAuthenticated() ? req.user : '0');
 }
 

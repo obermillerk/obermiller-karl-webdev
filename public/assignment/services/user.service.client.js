@@ -29,52 +29,52 @@
         }
 
         function login(user) {
-            var url = "/api/login";
+            var url = "/assignment/api/login";
             return $http.post(url, user).then(unwrap);
         }
 
         function logout() {
-            var url = "/api/logout";
+            var url = "/assignment/api/logout";
             return $http.post(url);
         }
 
         function register(user) {
-            var url = "/api/register";
+            var url = "/assignment/api/register";
             return $http.post(url, user).then(unwrap);
         }
 
         function createUser(user) {
-            var url = "/api/user";
+            var url = "/assignment/api/user";
 
             return $http.post(url, user).then(unwrap);
         }
 
         function findUserById(id) {
-            var url = "/api/user/" + id;
+            var url = "/assignment/api/user/" + id;
 
             return $http.get(url).then(unwrap);
         }
 
         function findUserByUsername(username) {
-            var url = "/api/user?username=" + username;
+            var url = "/assignment/api/user?username=" + username;
 
             return $http.get(url).then(unwrap);
         }
 
         function findUserByCredentials(username, password) {
-            var url = "/api/user?username=" + username + "&password=" + password;
+            var url = "/assignment/api/user?username=" + username + "&password=" + password;
 
             return $http.get(url).then(unwrap);
         }
 
         function updateUser(userId, user) {
-            var url = "/api/user/" + userId;
+            var url = "/assignment/api/user/" + userId;
 
             return $http.put(url, user);
         }
 
         function deleteUser(userId) {
-            var url = "/api/user/" + userId;
+            var url = "/assignment/api/user/" + userId;
             return $http.delete(url);
         }
     }

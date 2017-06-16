@@ -2,7 +2,7 @@
     angular.module("WebAppMaker")
         .controller("loginController", loginController);
 
-    function loginController($location, $rootScope, userService) {
+    function loginController($location, userService) {
         var model = this;
 
         model.login = login;
@@ -24,7 +24,6 @@
                 .then(success, error);
 
             function success(user) {
-                $rootScope.currentUser = user;
                 $location.url('/profile');
             }
 
