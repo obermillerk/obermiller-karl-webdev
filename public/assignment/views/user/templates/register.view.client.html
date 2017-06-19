@@ -6,23 +6,33 @@
         {{model.error}}
     </div>
 
-    <input type="text"
-           class="form-control"
-           id="username"
-           ng-model="username"
-           placeholder="username"/>
-    <input type="password"
-           class="form-control"
-           ng-model="password"
-           id="password"
-           placeholder="password"/>
-    <input type="password"
-           class="form-control"
-           ng-model="password2"
-           id="password2"
-           placeholder="verify password"/>
-    <a class="btn btn-primary btn-block"
-       ng-click="model.register(username, password, password2)">Register</a>
+    <form name="registerForm">
+        <input type="text"
+               class="form-control required"
+               name="username"
+               ng-model="username"
+               placeholder="username"
+               required/>
+        <input type="password"
+               class="form-control required"
+               ng-model="password"
+               name="password"
+               placeholder="password"
+               required/>
+        <input type="password"
+               class="form-control required"
+               ng-model="password2"
+               name="password2"
+               placeholder="verify password"
+               required/>
+        <input type="submit"
+               class="btn btn-primary btn-block"
+               ng-click="model.register(username, password, password2)"
+               ng-disabled="registerForm.username.$invalid ||
+                   registerForm.password.$invalid ||
+                   registerForm.password2.$invalid"
+               value="Register" />
+    </form>
     <a class="btn btn-danger  btn-block"
        href="#!/login">Cancel</a>
 </div>

@@ -4,6 +4,12 @@ body {
   background-color: #303030;
   color: #fff; }
 
+form input.ng-invalid.required {
+  background-color: #ffd9dc; }
+
+form input.ng-valid.required {
+  background-color: #b5ffb7; }
+
 a {
   color: #477aff; }
 

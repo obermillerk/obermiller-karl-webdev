@@ -2,15 +2,29 @@
     <wd-nav-wrapper>
 
         <div class="container-fluid">
-            <div ng-include="'views/widget/templates/edit/widget-'
+            <form name="widgetForm">
+                <label for="name">Widget Name</label>
+                <input id="name"
+                       name="name"
+                       type="text"
+                       ng-model="model.widget.name"
+                       placeholder="Widget Name"
+                       class="form-control required"
+                       required />
+
+                <div ng-include="'views/widget/templates/edit/widget-'
                     + (model.widget.widgetType | lowercase)
                     + '.view.client.html'"></div>
 
-            <a class="btn btn-success btn-block"
-               ng-click="model.updateWidget()">
-                <span class="glyphicon glyphicon-ok"></span>
-                Confirm
-            </a>
+                <button type="submit"
+                        class="btn btn-success btn-block"
+                        ng-click="model.updateWidget()"
+                        ng-disabled="widgetForm.name.$invalid">
+                    <span class="glyphicon glyphicon-ok"></span>
+                    Confirm
+                </button>
+            </form>
+
             <a class="btn btn-danger btn-block"
                ng-click="model.deleteWidget()">
                 <span class="glyphicon glyphicon-trash"></span>

@@ -42,23 +42,31 @@
                 <! End Left Panel>
 
                 <div class="col-xs-12 col-md-8 right-panel">
-                    <label for="name">Page Name</label>
-                    <input id="name"
-                           ng-model="model.page.name"
-                           placeholder="Page Name"
-                           class="form-control"/>
+                    <form name="pageForm">
+                        <label for="name">Page Name</label>
+                        <input id="name"
+                               name="name"
+                               type="text"
+                               ng-model="model.page.name"
+                               placeholder="Page Name"
+                               class="form-control required"
+                               required />
 
-                    <label for="title">Title</label>
-                    <input id="title"
-                           class="form-control"
-                           ng-model="model.page.description"
-                           placeholder="Page Title"/>
+                        <label for="description">Description</label>
+                        <textarea id="description"
+                                  placeholder="Page Description"
+                                  rows="5"
+                                  ng-model="model.page.description"
+                                  class="form-control"></textarea>
 
-                    <a class="btn btn-success btn-block"
-                       ng-click="model.updatePage()">
-                        <span class="glyphicon glyphicon-ok"></span>
-                        Confirm
-                    </a>
+                        <button type="submit"
+                                class="btn btn-success btn-block"
+                                ng-click="model.updatePage()"
+                                ng-disabled="pageForm.name.$invalid">
+                            <span class="glyphicon glyphicon-ok"></span>
+                            Confirm
+                        </button>
+                    </form>
                     <a class="btn btn-danger btn-block"
                        ng-click="model.deletePage()">
                         <span class="glyphicon glyphicon-trash"></span>

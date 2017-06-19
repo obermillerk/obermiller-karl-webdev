@@ -2,29 +2,50 @@
     <wd-nav-wrapper>
 
         <div class="container-fluid">
-            <div class="btn-group-vertical"
-                 role="group">
-                <a ng-click="model.createWidget('HEADING')"
-                   class="btn btn-primary">Heading</a>
-                <a ng-click="model.createWidget('LABEL')"
-                   class="btn btn-primary">Label</a>
-                <a ng-click="model.createWidget('HTML')"
-                   class="btn btn-primary">HTML</a>
-                <a ng-click="model.createWidget('INPUT')"
-                   class="btn btn-primary">Text Input</a>
-                <a ng-click="model.createWidget('LINK')"
-                   class="btn btn-primary">Link</a>
-                <a  ng-click="model.createWidget('BUTTON')"
-                    class="btn btn-primary">Button</a>
-                <a ng-click="model.createWidget('IMAGE')"
-                   class="btn btn-primary">Image</a>
-                <a ng-click="model.createWidget('YOUTUBE')"
-                   class="btn btn-primary">YouTube</a>
-                <a ng-click="model.createWidget('DATA TABLE')"
-                   class="btn btn-primary">Data Table</a>
-                <a ng-click="model.createWidget('REPEATER')"
-                   class="btn btn-primary">Repeater</a>
-            </div>
+            <form name="widgetForm">
+                <label for="name">Widget Name</label>
+                <input id="name"
+                       name="name"
+                       type="text"
+                       ng-model="model.widget.name"
+                       placeholder="Widget Name"
+                       class="form-control required"
+                       required />
+
+                <div class="btn-group-vertical"
+                     role="group">
+                    <a ng-click="model.createWidget('HEADING')"
+                       ng-disabled="widgetForm.name.$invalid"
+                       class="btn btn-primary">Heading</a>
+                    <a ng-click="model.createWidget('LABEL')"
+                       ng-disabled="widgetForm.name.$invalid"
+                       class="btn btn-primary">Label</a>
+                    <a ng-click="model.createWidget('HTML')"
+                       ng-disabled="widgetForm.name.$invalid"
+                       class="btn btn-primary">HTML</a>
+                    <a ng-click="model.createWidget('INPUT')"
+                       ng-disabled="widgetForm.name.$invalid"
+                       class="btn btn-primary">Text Input</a>
+                    <a ng-click="model.createWidget('LINK')"
+                       ng-disabled="widgetForm.name.$invalid"
+                       class="btn btn-primary">Link</a>
+                    <a  ng-click="model.createWidget('BUTTON')"
+                        ng-disabled="widgetForm.name.$invalid"
+                        class="btn btn-primary">Button</a>
+                    <a ng-click="model.createWidget('IMAGE')"
+                       ng-disabled="widgetForm.name.$invalid"
+                       class="btn btn-primary">Image</a>
+                    <a ng-click="model.createWidget('YOUTUBE')"
+                       ng-disabled="widgetForm.name.$invalid"
+                       class="btn btn-primary">YouTube</a>
+                    <a ng-click="model.createWidget('DATA TABLE')"
+                       ng-disabled="widgetForm.name.$invalid"
+                       class="btn btn-primary">Data Table</a>
+                    <a ng-click="model.createWidget('REPEATER')"
+                       ng-disabled="widgetForm.name.$invalid"
+                       class="btn btn-primary">Repeater</a>
+                </div>
+            </form>
         </div>
 
     </wd-nav-wrapper>

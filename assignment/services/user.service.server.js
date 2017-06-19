@@ -1,12 +1,13 @@
 var app = require('../../express').assignmentRouter;
 var userModel = require('../models/user/user.model.server');
+var bcrypt = require('bcrypt-nodejs');
 var passport = require('../../passport').assignment;
 var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 
 passport.serializeUser(serializeUser);
 passport.deserializeUser(deserializeUser);
-passport.use('assignment-local', new LocalStrategy(assignmentStrategy));
+passport.use('assignment-local', new LocalStrategy(localStrategy));
 
 
 function serializeUser(user, done) {
@@ -24,11 +25,12 @@ function deserializeUser(user, done) {
             });
 }
 
-function assignmentStrategy(username, password, done) {
+function localStrategy(username, password, done) {
     userModel
-        .findUserByCredentials(username, password)
+        .findUserByUsername(username)
         .then(function(user) {
-                if (user !== null && user.username === username && user.password === password) {
+                if (user !== null && user.username === username
+                    && bcrypt.compareSync(password, user.password)) {
                     return done(null, user);
                 } else {
                     return done(null, false);
@@ -84,6 +86,7 @@ function logout(req, res) {
 
 function register(req, res) {
     var user = req.body;
+    user.password = bcrypt.hashSync(user.password);
 
     userModel.createUser(user)
         .then(function(user) {

@@ -5,7 +5,7 @@ var LocalStrategy = require('passport-local').Strategy;
 
 passport.serializeUser(serializeUser);
 passport.deserializeUser(deserializeUser);
-passport.use('project-local', new LocalStrategy(projectStrategy));
+passport.use('project-local', new LocalStrategy(localStrategy));
 
 
 function serializeUser(user, done) {
@@ -23,7 +23,7 @@ function deserializeUser(user, done) {
             });
 }
 
-function projectStrategy(username, password, done) {
+function localStrategy(username, password, done) {
     userModel
         .findUserByCredentials(username, password)
         .then(function(user) {

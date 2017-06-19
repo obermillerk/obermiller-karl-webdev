@@ -41,26 +41,31 @@
                 </div>
                 <! End Left Panel>
                 <div class="col-xs-12 col-md-8 right-panel">
-                    <label for="name">Website Name</label>
-                    <input id="name"
-                           value=""
-                           type="text"
-                           placeholder="Website Name"
-                           ng-model="model.website.name"
-                           class="form-control"/>
+                    <form name="websiteForm">
+                        <label for="name">Website Name</label>
+                        <input id="name"
+                               name="name"
+                               type="text"
+                               ng-model="model.website.name"
+                               placeholder="Website Name"
+                               class="form-control required"
+                               required />
 
-                    <label for="description">Description</label>
-                    <textarea id="description"
-                              rows="5"
-                              class="form-control"
-                              ng-model="model.website.description"
-                              placeholder="Website Description"></textarea>
+                        <label for="description">Description</label>
+                        <textarea id="description"
+                                  placeholder="Website Description"
+                                  rows="5"
+                                  ng-model="model.website.description"
+                                  class="form-control"></textarea>
 
-                    <a class="btn btn-success btn-block"
-                       ng-click="model.createWebsite()">
-                        <span class="glyphicon glyphicon-ok"></span>
-                        Create
-                    </a>
+                        <button type="submit"
+                                class="btn btn-success btn-block"
+                                ng-click="model.createWebsite()"
+                                ng-disabled="websiteForm.name.$invalid">
+                            <span class="glyphicon glyphicon-ok"></span>
+                            Create
+                        </button>
+                    </form>
                     <a class="btn btn-warning btn-block"
                        href="#!{{model.previousPage}}">
                         Cancel

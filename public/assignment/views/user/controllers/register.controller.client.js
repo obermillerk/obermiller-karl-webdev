@@ -10,16 +10,6 @@
         function register(username, password, password2) {
             model.error = null;
 
-            // Requires non-empty username and password
-            if (typeof username === 'undefined') {
-                model.error = "Please enter a username.";
-                return;
-            }
-            if (typeof password === 'undefined') {
-                model.error = "Please enter a password.";
-                return;
-            }
-
             if (password !== password2) {
                 model.error = "Passwords must match.";
                 return;

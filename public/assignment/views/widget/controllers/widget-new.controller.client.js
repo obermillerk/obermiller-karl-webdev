@@ -15,7 +15,7 @@
                 type === "HTML" || type === "IMAGE" || type === "INPUT")) {
                 return;
             }
-            var widget = {};
+            var widget = model.widget;
             widget.widgetType = type;
             if (type === "HEADING") {
                 widget.size = "3";

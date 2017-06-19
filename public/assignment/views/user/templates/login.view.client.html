@@ -6,18 +6,29 @@
         {{model.message}}
     </div>
 
-    <input type="text"
-           ng-model="username"
-           class="form-control"
-           placeholder="username"/>
-    <input type="password"
-           ng-model="password"
-           class="form-control"
-           placeholder="password"/>
-    <a class="btn btn-primary btn-block"
-       ng-click="model.login(username,password)">Login</a>
+    <form name="loginForm">
+        <input type="text"
+               ng-model="username"
+               name="username"
+               class="form-control required"
+               placeholder="username"
+               required/>
+        <input type="password"
+               name="password"
+               ng-model="password"
+               class="form-control required"
+               placeholder="password"
+               required/>
+        <input type="submit"
+               class="btn btn-primary btn-block"
+               ng-disabled="loginForm.username.$invalid || loginForm.password.$invalid"
+               ng-click="model.login(username,password)"
+               value="Login" />
+    </form>
     <a class="btn btn-success btn-block"
-       href="#!/register">Register</a>
+       href="#!/register">
+        Register
+    </a>
     <a class="btn btn-default btn-block"
        href="/assignment/auth/facebook">
         <span class="fa fa-facebook"></span>
