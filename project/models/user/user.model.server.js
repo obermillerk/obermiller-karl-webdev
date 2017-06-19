@@ -8,7 +8,7 @@ module.exports = userModel;
 userModel.followUser = followUser;
 userModel.unfollowUser = unfollowUser;
 userModel.createUser = createUser;
-userModel.deleteUser = deleteUser;
+userModel.unregister = unregister;
 userModel.findUserByCredentials = findUserByCredentials;
 userModel.findUserById = findUserById;
 userModel.findUserByUsername = findUserByUsername;
@@ -26,7 +26,7 @@ function createUser(user) {
     return userModel.create(user);
 }
 
-function deleteUser(userId) {
+function unregister(userId) {
     return userModel.remove({ _id: userId });
 }
 
