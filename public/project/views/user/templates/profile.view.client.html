@@ -1,5 +1,14 @@
+<nav-header></nav-header>
+
 <div class="container">
-    <h4>{{model.user.username}}</h4>
-    <h4>{{model.user.password}}</h4>
-    <h4>{{model.user._id}}</h4>
+    <h2>{{model.user.username}}</h2>
+    <follow></follow>
+
+    <h4>Following:</h4>
+    <ul class="list-group">
+        <li ng-repeat="user in model.user.following"
+            class="list-group-item">
+            {{user.username}}
+        </li>
+    </ul>
 </div>

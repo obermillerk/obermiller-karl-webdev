@@ -2,10 +2,15 @@
 <html lang="en" ng-app="Sharm">
 <head>
     <meta charset="UTF-8">
+
+    <title>Project</title>
+
+    <!-- Angular -->
     <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>-->
     <script src="../vendor/angular/angular.js"></script>
     <script src="../vendor/angular-route/angular-route.js"></script>
 
+    <!-- Angular Setup -->
     <script src="app.js"></script>
     <script src="config.js"></script>
 
@@ -14,13 +19,27 @@
     <script src="views/user/controllers/login.controller.client.js"></script>
     <script src="views/user/controllers/register.controller.client.js"></script>
     <script src="views/user/controllers/profile.controller.client.js"></script>
+    <script src="views/common/controllers/nav-header.controller.client.js"></script>
+    <script src="views/common/controllers/follow.controller.client.js"></script>
 
     <!-- Services -->
     <script src="services/user.service.client.js"></script>
 
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
-    <!link href="../vendor/css/bootstrap/css/bootstrap.css" rel="stylesheet"/>
-    <title>Project</title>
+    <!-- Directives -->
+    <script src="directives/nav-header.directive.client.js"></script>
+    <script src="directives/follow.directive.client.js"></script>
+
+    <!-- JQuery -->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+    <script src="../vendor/jquery-ui/jquery-ui.min.js"></script>
+
+    <!-- Bootstrap -->
+    <!--<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>-->
+    <script src="../vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+    <link href="../vendor/bootstrap/dist/css/bootstrap.css" rel="stylesheet"/>
+
+    <!-- Style -->
+    <link href="css/style.css" rel="stylesheet" />
 </head>
 <body ng-view>
 

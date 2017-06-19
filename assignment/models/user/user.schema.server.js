@@ -7,8 +7,7 @@ var userSchema = mongoose.Schema({
     lastName: String,
     email: String,
     dateCreated: {type: Date, default: Date.now},
-    websites: {type: [{type: mongoose.Schema.ObjectId, ref: 'WebsiteModel'}], default: []},
-    zone: {type: String, enum: ['assignment'], default: 'assignment'}
+    websites: {type: [{type: mongoose.Schema.ObjectId, ref: 'WebsiteModel'}], default: []}
 }, {collection: 'user'});
 
 module.exports = userSchema;
