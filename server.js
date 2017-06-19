@@ -21,18 +21,18 @@ var passEx = require('./passport');
 var assignmentPassport = passEx.assignment;
 var projectPassport = passEx.project;
 
-assignmentApp.use('/assignment*', assignmentPassport.initialize());
-assignmentApp.use('/assignment*', assignmentPassport.session());
-
-projectApp.use(projectPassport.initialize());
-projectApp.use(projectPassport.session());
-
 // configure a public directory to host static content
 assignmentApp.use(express.static(__dirname + '/public'));
 
 require ("./test/app.js");
 require ("./assignment/app.js");
 require ("./project/app.js");
+
+assignmentApp.use('/assignment*', assignmentPassport.initialize());
+assignmentApp.use('/assignment*', assignmentPassport.session());
+
+projectApp.use(projectPassport.initialize());
+projectApp.use(projectPassport.session());
 
 projectApp.use(projectRouter);
 assignmentApp.use('/assignment/', assignmentRouter);

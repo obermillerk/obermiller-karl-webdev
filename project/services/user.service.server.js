@@ -1,6 +1,44 @@
 var app = require('../../express').projectRouter;
 var userModel = require('../models/user/user.model.server');
 var passport = require('../../passport').project;
+var LocalStrategy = require('passport-local').Strategy;
+
+passport.serializeUser(serializeUser);
+passport.deserializeUser(deserializeUser);
+passport.use('project-local', new LocalStrategy(projectStrategy));
+
+
+function serializeUser(user, done) {
+    done(null, user);
+}
+
+function deserializeUser(user, done) {
+    userModel
+        .findUserById(user._id)
+        .then(function(user) {
+                done(null, user);
+            },
+            function(err) {
+                done(err, null);
+            });
+}
+
+function projectStrategy(username, password, done) {
+    userModel
+        .findUserByCredentials(username, password)
+        .then(function(user) {
+                if (user !== null && user.username === username && user.password === password) {
+                    return done(null, user);
+                } else {
+                    return done(null, false);
+                }
+            },
+            function(err) {
+                if (err)
+                    return done(err);
+            });
+}
+
 
 /* API DEFINITION */
 
@@ -50,7 +88,7 @@ function register(req, res) {
 
 function unregister(req, res) {
     var user = req.body;
-    userModel.deleteUser(user._id)
+    userModel.unregister(user._id)
         .then(function(response) {
             res.sendStatus(200);
         }, function(err) {

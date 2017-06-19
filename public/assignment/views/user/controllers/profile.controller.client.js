@@ -8,7 +8,7 @@
         model.user = currentUser;
 
         model.updateUser = updateUser;
-        model.deleteUser = deleteUser;
+        model.unregister = unregister;
         model.logout = logout;
 
         function updateUser(user) {
@@ -17,8 +17,8 @@
             });
         }
 
-        function deleteUser(userId) {
-            userService.deleteUser(userId).then(function() {
+        function unregister() {
+            userService.unregister().then(function() {
                 $location.url("/");
             }, function() {
                 model.error = "Could not find user, delete unsuccessful.";

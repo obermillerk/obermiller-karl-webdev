@@ -1,6 +1,56 @@
 var app = require('../../express').assignmentRouter;
 var userModel = require('../models/user/user.model.server');
 var passport = require('../../passport').assignment;
+var LocalStrategy = require('passport-local').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
+
+passport.serializeUser(serializeUser);
+passport.deserializeUser(deserializeUser);
+passport.use('assignment-local', new LocalStrategy(assignmentStrategy));
+
+
+function serializeUser(user, done) {
+    done(null, user);
+}
+
+function deserializeUser(user, done) {
+    userModel
+        .findUserById(user._id)
+        .then(function(user) {
+                done(null, user);
+            },
+            function(err) {
+                done(err, null);
+            });
+}
+
+function assignmentStrategy(username, password, done) {
+    userModel
+        .findUserByCredentials(username, password)
+        .then(function(user) {
+                if (user !== null && user.username === username && user.password === password) {
+                    return done(null, user);
+                } else {
+                    return done(null, false);
+                }
+            },
+            function(err) {
+                if (err)
+                    return done(err);
+            });
+}
+
+
+
+var facebookConfig = {
+    clientID: process.env.FACEBOOK_CLIENT_ID,
+    clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+    callbackURL: process.env.FACEBOOK_CALLBACK_URL,
+    profileFields: ['id', 'email', 'first_name', 'last_name'],
+    enableProof: true
+};
+
+passport.use(new FacebookStrategy(facebookConfig, facebookStrategy));
 
 /* API DEFINITION */
 
@@ -12,7 +62,14 @@ app.put('/api/user/:userId', updateUser);
 app.get('/api/user/:userId', findUserById);
 app.get('/api/user', findUserByCredentials);
 app.get('/api/loggedin', loggedin);
-app.delete('/api/user/:userId', deleteUser);
+app.get('/auth/facebook', passport.authenticate('facebook',
+    { authType: 'rerequest', scope: 'email' }));
+app.get('/auth/facebook/callback', passport.authenticate('facebook', {
+    successRedirect: '/assignment/#!/profile',
+    failureRedirect: '/assignment/#!/login'
+}));
+app.delete('/api/user/:userId', isAdmin, deleteUser);
+app.delete('/api/unregister', unregister);
 
 
 function login(req, res) {
@@ -42,6 +99,28 @@ function register(req, res) {
             }
         });
 
+}
+
+
+function facebookStrategy(token, refreshToken, profile, done) {
+    userModel.findUserByFacebookId(profile.id)
+        .then(function(user) {
+            if (user === null) {
+                var username = 'facebook' + profile.id;
+                userModel.createUser({
+                    'username': username,
+                    'facebook.id': profile  .id,
+                    'facebook.token': token,
+                    'firstName': profile.name.givenName,
+                    'lastName': profile.name.familyName,
+                    'email': profile.emails[0].value})
+                    .then(function(user) {
+                        done(null, user);
+                    });
+            } else {
+                done(null, user);
+            }
+        });
 }
 
 
@@ -124,11 +203,34 @@ function deleteUser(req, res) {
     var userId = req.params['userId'];
 
     userModel
-        .deleteUser(userId)
+        .unregister(userId)
         .then(function(response) {
-            if (response.result.n === 1)
+            if (response.result.n === 1) {
+                req.logout();
                 res.sendStatus(200);
+            }
             else
                 res.sendStatus(404);
         });
+}
+
+function unregister(req, res) {
+    if (req.isAuthenticated())
+        userModel
+            .deleteUser(req.user._id)
+            .then(function(status) {
+                req.logout();
+                res.sendStatus(200);
+            });
+    else res.sendStatus(400);
+}
+
+/* MIDDLEWARE */
+
+function isAdmin(req, res, next) {
+    if (req.isAuthenticated() && req.user.roles.indexOf('ADMIN') > -1) {
+        next();
+    } else {
+        res.sendStatus(401);
+    }
 }

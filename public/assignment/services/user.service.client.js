@@ -3,12 +3,6 @@
         .factory("userService", userService);
 
     function userService($http) {
-        var users = [
-            {_id: "123", username: "alice",    password: "alice",    firstName: "Alice",  lastName: "Wonder"  },
-            {_id: "234", username: "bob",      password: "bob",      firstName: "Bob",    lastName: "Marley"  },
-            {_id: "345", username: "charly",   password: "charly",   firstName: "Charly", lastName: "Garcia"  },
-            {_id: "456", username: "jannunzi", password: "jannunzi", firstName: "Jose",   lastName: "Annunzi" }
-        ];
 
         var api = {
             login: login,
@@ -19,7 +13,8 @@
             findUserByUsername: findUserByUsername,
             findUserByCredentials: findUserByCredentials,
             updateUser: updateUser,
-            deleteUser: deleteUser
+            deleteUser: deleteUser,
+            unregister: unregister
         };
 
         return api;
@@ -75,6 +70,11 @@
 
         function deleteUser(userId) {
             var url = "/assignment/api/user/" + userId;
+            return $http.delete(url);
+        }
+
+        function unregister() {
+            var url = '/assignment/api/unregister';
             return $http.delete(url);
         }
     }
