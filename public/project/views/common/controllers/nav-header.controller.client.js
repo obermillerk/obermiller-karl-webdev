@@ -12,6 +12,8 @@
                 model.unregister = unregister;
             });
 
+        model.search = search;
+
         function logout() {
             userService.logout()
                 .then(function (response) {
@@ -24,6 +26,12 @@
                 .then(function (response) {
                     $location.url('/');
                 })
+        }
+
+        function search(query) {
+            if (query) {
+                $location.url('/m/search?q=' + query);
+            }
         }
     }
 })();

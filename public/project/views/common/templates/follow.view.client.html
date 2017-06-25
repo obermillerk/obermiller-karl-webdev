@@ -8,13 +8,21 @@
 <button class="btn btn-primary follow-btn"
         ng-if="follow.isSelf"
         disabled>
-    <span class="glyphicon glyphicon-plus-sign"></span>
+    <span class="glyphicon glyphicon-ban-circle"></span>
     Follow
 </button>
 
 <button class="btn btn-primary follow-btn"
         ng-click="follow.unfollowUser()"
-        ng-if="!follow.isSlef && follow.isFollowing">
-    <span class="glyphicon glyphicon-remove-sign"></span>
-    Unfollow
+        ng-if="!follow.isSlef && follow.isFollowing"
+        ng-mouseover="follow.hover = true"
+        ng-mouseleave="follow.hover = false">
+    <div ng-show="follow.hover">
+        <span class="glyphicon glyphicon-remove-sign"></span>
+        Unfollow
+    </div>
+    <div ng-show="!follow.hover">
+        <span class="glyphicon glyphicon-check"></span>
+        Following
+    </div>
 </button>

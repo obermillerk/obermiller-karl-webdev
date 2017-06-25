@@ -48,11 +48,14 @@ app.post('/rest/register', register);
 app.post('/rest/unregister', unregister);
 app.post('/rest/follow', followUser);
 app.post('/rest/unfollow', unfollowUser);
+app.post('/rest/library/add/track/:trackid', addTrackToLibrary);
+app.post('/rest/library/remove/track/:trackid', removeTrackFromLibrary);
 
 app.get('/rest/user/:username', findUserByUsername);
 app.get('/rest/loggedin', loggedin);
 app.get('/rest/follow/:username', isCurrentUserFollowing);
 app.get('/rest/self/:username', isUserSelf);
+app.get('/rest/library/track/:trackid', userHasTrack);
 
 
 
@@ -64,7 +67,7 @@ function login(req, res) {
 
 function logout(req, res) {
     req.logOut();
-    res.send(200);
+    res.sendStatus(200);
 }
 
 function register(req, res) {
@@ -106,6 +109,11 @@ function followUser(req, res) {
     }
 
     var user = req.body;
+
+    if (follower._id === user._id) {
+        res.sendStatus(400);
+        return;
+    }
 
     userModel.followUser(follower._id, user._id)
         .then(function(response) {
@@ -191,4 +199,59 @@ function unfollowUser(req, res) {
             console.error(err);
             res.sendStatus(400);
         })
+}
+
+function userHasTrack(req, res) {
+    var user = req.user;
+
+    if (typeof user === 'undefined') {
+        res.json(false);
+        return;
+    }
+
+    var trackId = req.params['trackid'];
+
+    return userModel.userHasTrack(user, trackId)
+        .then(function(response) {
+            res.send(response);
+        });
+}
+
+function addTrackToLibrary(req, res) {
+    var user = req.user;
+
+    var trackId = req.params['trackid'];
+
+    if (typeof user === 'undefined') {
+        res.send('Not logged in');
+        return;
+    }
+
+    userModel.addTrackToLibrary(user, trackId)
+        .then(function(response) {
+            console.log(response);
+            res.sendStatus(200);
+        }, function(err) {
+            console.error(err);
+            res.sendStatus(400);
+        });
+}
+
+function removeTrackFromLibrary(req, res) {
+    var user = req.user;
+
+    var trackId = req.params['trackid'];
+
+    if (typeof user === 'undefined') {
+        res.send('Not logged in');
+        return;
+    }
+
+    userModel.removeTrackFromLibrary(user, trackId)
+        .then(function(response) {
+            res.sendStatus(200);
+        }, function(err) {
+            console.error(err);
+            res.sendStatus(400);
+        });
 }

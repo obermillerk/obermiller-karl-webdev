@@ -13,7 +13,14 @@
             ["/profile/:username",
                 "./views/user/templates/profile.view.client.html",
                 "profileController",
-                {currentUser: currentUser}]
+                {currentUser: currentUser}],
+            ["/m/track/:trackid",
+                "./views/music/templates/track.view.client.html",
+                "trackController",
+                {currentUser: currentUser}],
+            ["/m/search",
+                "./views/music/templates/search.view.client.html",
+                "searchController"]
         ];
 
         for (var r in routes) {
@@ -31,8 +38,13 @@
 
             $routeProvider.when(rt[0], options);
         }
+
+        $routeProvider.otherwise("/");
     }
 
+    /** Retrieve the current user if there is one,
+     * otherwise simply be anonymous.
+     */
     function currentUser($http) {
         return $http.get('/project/rest/loggedin')
             .then(function(response) {

@@ -2,7 +2,7 @@
     angular.module('Sharm')
         .factory('userService', userService);
 
-    function userService($http) {
+    function userService($http, $q) {
         return {
             register: register,
             unregister: unregister,
@@ -13,7 +13,10 @@
             followUser: followUser,
             unfollowUser: unfollowUser,
             isCurrentUserFollowing: isCurrentUserFollowing,
-            isUserSelf: isUserSelf
+            isUserSelf: isUserSelf,
+            userHasTrack: userHasTrack,
+            addTrackToLibrary: addTrackToLibrary,
+            removeTrackFromLibrary: removeTrackFromLibrary
         };
 
         function register(user) {
@@ -73,6 +76,21 @@
                 .then(function(response) {
                     return response.data;
                 });
+        }
+
+        function userHasTrack(trackId) {
+            return $http.get('/project/rest/library/track/' + trackId)
+                .then(function(response) {
+                    return response.data;
+                })
+        }
+
+        function addTrackToLibrary(trackId) {
+            return $http.post('/project/rest/library/add/track/' + trackId);
+        }
+
+        function removeTrackFromLibrary(trackId) {
+            return $http.post('/project/rest/library/remove/track/' + trackId);
         }
     }
 })();

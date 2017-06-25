@@ -2,13 +2,8 @@
     angular.module('Sharm')
         .controller('loginController', loginController);
 
-    function loginController(userService, $route, $routeParams) {
+    function loginController(userService, $route) {
         var model = this;
-        if ($routeParams['msg']) {
-            var msg = $routeParams['msg'];
-            if (msg === 'follow')
-                model.message = "You must login to follow someone!";
-        }
 
         model.login = login;
 
@@ -21,6 +16,9 @@
             userService.login(user)
                 .then(function(user) {
                     $route.reload();
+                }, function(err) {
+                    if (err.statusText === 'Unauthorized')
+                        model.err = 'Bad username or password';
                 });
         }
     }

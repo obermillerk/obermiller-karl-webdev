@@ -113,16 +113,6 @@
             }
         }
 
-        function nextPage() {
-            if (typeof model.query !== 'undefined' && model.page < model.totalPages)
-                search(model.query, model.page + 1);
-        }
-
-        function prevPage() {
-            if (typeof model.query !== 'undefined' && model.page > 1)
-                search(model.query, model.page - 1);
-        }
-
 
         // Used for user authorization of account-specific functionality.
         // Not used in POC.
@@ -138,7 +128,7 @@
             //     cb: callback
             // };
 
-            return $http.post('/rest/spotify/token').then(function(data){
+            return $http.post('/project/rest/spotify/token').then(function(data){
                 data = data.data;
                 var accessToken = data.access_token;
                 var tokenType = data.token_type;

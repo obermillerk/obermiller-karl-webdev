@@ -1,28 +1,35 @@
 
-<div ng-if="model.message"
-     class="alert alert-info">
-    {{model.message}}
+<div ng-if="model.err">
+    <div class="text-center alert alert-danger">
+        {{model.err}}
+    </div>
+    <button class="btn btn-block btn-warning"
+            ng-click="model.err = ''">
+        Try Again
+    </button>
 </div>
 
-<form>
+<form ng-if="!model.err">
     <label for="username">Username</label>
     <input type="text"
            class="form-control"
            id="username"
            ng-model="username"
-           placeholder="username"/>
+           placeholder="username"
+           required />
 
     <label for="password">Password</label>
     <input type="password"
            class="form-control"
            id="password"
            ng-model="password"
-           placeholder="password"/>
+           placeholder="password"
+           required />
 
-    <button class="btn btn-block btn-success"
-            ng-click="model.login(username, password)">
-        Login
-    </button>
+    <input type="submit"
+            class="btn btn-block btn-success"
+            ng-click="model.login(username, password)"
+            value="Login" />
 
     <a href="#!/register"
        class="btn btn-block btn-primary">

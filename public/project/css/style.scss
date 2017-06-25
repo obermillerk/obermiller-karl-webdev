@@ -10,14 +10,6 @@ body {
   @include darkmode;
 }
 
-a {
-  color: $color8;
-}
-
-a:hover {
-  color: $color9;
-}
-
 #tp-album-art {
   position: absolute;
   top: 70px;
@@ -33,6 +25,38 @@ a:hover {
 
 .form-control {
   margin-bottom: 10px;
+}
+
+.follow-btn {
+  width: 100px;
+}
+
+.user-menu {
+  display: inline-block;
+}
+
+nav-search {
+  margin-right: 10px;
+
+  .input-group-btn#search-button {
+    display: inline-block;
+  }
+
+  #search-input {
+    width: 10px;
+  }
+}
+
+
+/******** THEME ********/
+
+
+a {
+  color: $color8;
+}
+
+a:hover {
+  color: $color9;
 }
 
 .list-group {
@@ -51,7 +75,20 @@ a:hover {
   color: $color3;
 }
 
-.modal,
+.dropdown-menu {
+  background-color: $color4;
+  border-color: $color9;
+  color: $color3;
+
+  li a {
+    color: $color3;
+  }
+
+  li a:hover {
+    color: $color4;
+  }
+}
+
 .modal-content{
   @include darkmode;
 }
@@ -77,5 +114,6 @@ a:hover {
 }
 
 .navbar-fixed-top {
+  @include darkmode;
   border-bottom: 1px solid $color2;
 }

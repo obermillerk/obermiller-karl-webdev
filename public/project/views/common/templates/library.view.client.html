@@ -1,0 +1,21 @@
+<button class="btn btn-primary library-btn"
+        ng-click="library.addToLibrary()"
+        ng-if="!library.isInLibrary">
+    <span class="glyphicon glyphicon-plus-sign"></span>
+    Add to my library
+</button>
+
+<button class="btn btn-primary library-btn"
+        ng-click="library.removeFromLibrary()"
+        ng-if="library.isInLibrary"
+        ng-mouseover="library.hover = true"
+        ng-mouseleave="library.hover = false">
+    <div ng-show="library.hover">
+        <span class="glyphicon glyphicon-remove-sign"></span>
+        Remove from library
+    </div>
+    <div ng-show="!library.hover">
+        <span class="glyphicon glyphicon-check"></span>
+        In my library
+    </div>
+</button>

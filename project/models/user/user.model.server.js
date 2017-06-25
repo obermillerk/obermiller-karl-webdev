@@ -13,6 +13,9 @@ userModel.findUserByCredentials = findUserByCredentials;
 userModel.findUserById = findUserById;
 userModel.findUserByUsername = findUserByUsername;
 userModel.isUserFollowing = isUserFollowing;
+userModel.userHasTrack = userHasTrack;
+userModel.addTrackToLibrary = addTrackToLibrary;
+userModel.removeTrackFromLibrary = removeTrackFromLibrary;
 
 function followUser(followerId, userId) {
     return userModel.updateOne({_id: followerId}, {$addToSet: {following: userId}});
@@ -53,4 +56,21 @@ function isUserFollowing(follower, user) {
         .then(function(found) {
             return found.following.indexOf(user._id) > -1;
         });
+}
+
+function userHasTrack(user, trackId) {
+    return userModel.findOne({_id: user._id})
+        .then(function(found) {
+            return found.library.tracks.indexOf(trackId) > -1;
+        })
+}
+
+function addTrackToLibrary(user, trackId) {
+    return userModel.updateOne({_id: user._id},
+        {$addToSet: {'library.tracks': trackId}} );
+}
+
+function removeTrackFromLibrary(user, trackId) {
+    return userModel.updateOne({_id: user._id},
+        {$pull: {'library.tracks': trackId}});
 }
