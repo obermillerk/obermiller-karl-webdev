@@ -10,7 +10,8 @@
             requestToken: requestToken,
             search: search,
             getTrack: getTrack,
-            getTracks: getTracks
+            getTracks: getTracks,
+            getArtist: getArtist
         };
 
         function getAuthHead() {
@@ -42,7 +43,7 @@
         }
 
 
-        function search(query, page, type) {
+        function search(query, page, type, limit) {
             // Default page to 1;
             if (typeof page === 'undefined') {
                 page = 1;
@@ -50,11 +51,14 @@
             var offset = 20 * (page - 1);
             // Default to track search
             if (typeof type === 'undefined')
-                type = "track";
+                type = "track,artist,album";
+            if (typeof limit === 'undefined')
+                limit = 20;
             var body = {
                 q: query,
                 type: type,
-                offset: offset
+                offset: offset,
+                limit: limit
             };
 
             return getAuthHead().then(function(head) {
@@ -96,7 +100,7 @@
                     {headers: head});
             }).then(function (response) {
                 var track = response.data;
-                track.duration_formated = formatDuration(track.duration_ms);
+                track.duration_formatted = formatDuration(track.duration_ms);
                 return track;
             });
         }
@@ -115,6 +119,15 @@
                     return (a.name <  b.name) ? -1 : (a.name === b.name) ? 0 : 1;
                 });
                 return tracks;
+            });
+        }
+
+        function getArtist(artistId) {
+            return getAuthHead().then(function(head) {
+                return $http.get('https://api.spotify.com/v1/artists/' + artistId,
+                    {headers: head});
+            }).then(function(response) {
+                return response.data;
             });
         }
     }

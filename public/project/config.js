@@ -18,8 +18,15 @@
                 "./views/music/templates/track.view.client.html",
                 "trackController",
                 {currentUser: currentUser}],
+            ["/m/artist/:artistid",
+                "./views/music/templates/artist.view.client.html",
+                "artistController",
+                {currentUser: currentUser}],
             ["/m/search",
-                "./views/music/templates/search.view.client.html",
+                "./views/search/templates/search.view.client.html",
+                "searchController"],
+            ["/m/search/:type",
+                "./views/search/templates/search.view.client.html",
                 "searchController"]
         ];
 

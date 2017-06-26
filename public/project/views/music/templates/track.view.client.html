@@ -1,26 +1,77 @@
 <nav-header></nav-header>
 
-<img id="tp-album-art"
-     ng-src="{{model.track.album.images[1].url}}" />
-<div id="tp-info">
-    <h1 id="tp-song-name">{{model.track.name}}</h1>
-    <h4 id="tp-artist-album">{{model.track.artists[0].name}} • {{model.track.album.name}}</h4>
-    <h5>{{model.track.duration_formated}}</h5>
-    <div ng-show="model.track.artists[1]">
-        <h5>Other artists on this track:</h5>
-        <ul>
-            <li ng-repeat="artist in model.track.artists"
-                ng-if="$index > 0">
-                {{artist.name}}
-            </li>
-        </ul>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-5 col-md-4">
+            <div class="tp-album-img visible-xs center-block">
+                <img ng-if="model.track.album.images[0]"
+                     ng-src="{{model.track.album.images[0].url}}" />
+            </div>
+            <div class="tp-album-img hidden-xs">
+                <img ng-if="model.track.album.images[0]"
+                     ng-src="{{model.track.album.images[0].url}}" />
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-7 col-md-8">
+            <h1 align="center"
+                class="visible-xs">{{model.track.name}}</h1>
+            <h1 class="hidden-xs">{{model.track.name}}</h1>
+            <h4 align="center"
+                class="visible-xs">
+                <a href="#!/m/artist/{{model.track.artists[0].id}}">
+                    {{model.track.artists[0].name}}
+                </a>
+                •
+                {{model.track.album.name}}
+            </h4>
+            <h4 class="hidden-xs">
+                <a href="#!/m/artist/{{model.track.artists[0].id}}">
+                    {{model.track.artists[0].name}}
+                </a>
+                •
+                {{model.track.album.name}}
+            </h4>
+            <h6 align="center"
+                class="visible-xs">{{model.track.duration_formatted}}</h6>
+            <h6 class="hidden-xs">{{model.track.duration_formatted}}</h6>
+
+            <div class="visible-xs text-center"
+                 ng-if="model.track.artists.length > 1">
+                Also featured:<br/>
+                <span ng-repeat="artist in model.track.artists"
+                      ng-if="$index > 0">
+                    <a href="#!/m/artist/{{artist.id}}">
+                        {{artist.name}}
+                    </a>
+                    <br/>
+                </span>
+            </div>
+            <div class="hidden-xs"
+                 ng-if="model.track.artists.length > 1">
+                Also featured:<br/>
+                <span ng-repeat="artist in model.track.artists"
+                      ng-if="$index > 0">
+                    <a href="#!/m/artist/{{artist.id}}">
+                        {{artist.name}}
+                    </a>
+                    <br/>
+                </span>
+            </div>
+
+            <div class="text-center visible-xs">
+                <library></library>
+            </div>
+            <div class="hidden-xs">
+                <library></library>
+            </div>
+
+        </div>
     </div>
+
+    <iframe ng-src="{{model.embedURL}}"
+            width="250"
+            height="80"
+            frameborder="0"
+            class="center-block"
+            allowtransparency="true"></iframe>
 </div>
-
-<library></library>
-
-<iframe ng-src="{{model.embedURL}}"
-        width="250"
-        height="80"
-        frameborder="0"
-        allowtransparency="true"></iframe>

@@ -1,0 +1,90 @@
+<!-- TRACKS -->
+<div class="search-section-label">
+    <h3>Tracks</h3>
+    <a class="pull-right"
+       ng-if="model.tracks.length > 0"
+       href="#!/m/search/track?q={{model.q}}">
+        View all >>
+    </a>
+</div>
+<ul class="list-group">
+    <li class="list-group-item"
+        ng-if="!model.tracks || model.tracks.length < 1">
+        No tracks found
+    </li>
+    <li class="list-group-item active"
+        ng-if="model.tracks.length > 0">
+        <div class="row">
+            <div class="col-xs-7 col-sm-5">
+                Title
+            </div>
+            <div class="hidden-xs col-sm-4">
+                Album
+            </div>
+            <div class="col-xs-5 col-sm-3">
+                Artist
+            </div>
+        </div>
+    </li>
+    <li class="list-group-item"
+        ng-if="model.tracks.length > 0"
+        ng-repeat="track in model.tracks">
+        <div class="row">
+            <div class="col-xs-7 col-sm-5 single-line">
+                <a href="#!/m/track/{{track.id}}"
+                   data-toggle="tooltip"
+                   title="{{track.name}}">
+                    {{track.name}}
+                </a>
+            </div>
+            <div class="hidden-xs col-sm-4 single-line"
+                 data-toggle="tooltip"
+                 title="{{track.album.name}}">
+                {{track.album.name}}
+            </div>
+            <div class="col-xs-5 col-sm-3 single-line"
+                 data-toggle="tooltip"
+                 title="{{track.artists[0].name}}">
+                <a href="#!/m/artist/{{track.artists[0].id}}">
+                    {{track.artists[0].name}}
+                </a>
+            </div>
+        </div>
+    </li>
+</ul>
+
+<!-- ARTISTS -->
+<div class="search-section-label">
+    <h3>Artists</h3>
+    <a class="pull-right"
+       ng-if="model.artists.length > 0"
+       href="#!/m/search/artist?q={{model.q}}">
+        View all >>
+    </a>
+</div>
+<ul class="list-group"
+    ng-if="!model.artists || model.artists.length < 1">
+    <li class="list-group-item">
+        No artists found
+    </li>
+</ul>
+<div class="row">
+    <div ng-repeat="artist in model.artists"
+         class="col-xs-6 col-sm-4 artist-result">
+        <a href="#!/m/artist/{{artist.id}}">
+            <div class="artist-img"
+                 data-toggle="tooltip"
+                 title="{{artist.name}}">
+                <img ng-if="artist.images[0]"
+                     ng-src="{{artist.images[0].url}}" />
+            </div>
+        </a>
+        <a href="#!/m/artist/{{artist.id}}">
+            <h5 align="center"
+                data-toggle="tooltip"
+                title="{{artist.name}}">
+                {{artist.name}}
+            </h5>
+        </a>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+<nav-header></nav-header>
+
+<div class="container">
+    <div class="input-group">
+        <input class="form-control"
+               ng-model="model.q" />
+        <span class="input-group-btn">
+            <button class="btn btn-default"
+                    type="submit"
+                    ng-click="model.search(model.q)">
+                <span class="glyphicon glyphicon-search"></span>
+            </button>
+        </span>
+    </div>
+
+    <div ng-switch="model.type">
+        <div ng-switch-default>
+            <div ng-include="'views/search/templates/general-search.view.client.html'"></div>
+        </div>
+
+        <div ng-switch-when="track">
+            <div ng-include="'views/search/templates/track-search.view.client.html'"></div>
+        </div>
+
+        <div ng-switch-when="artist">
+            <div ng-include="'views/search/templates/artist-search.view.client.html'"></div>
+        </div>
+
+        <div ng-switch-when="album">
+            <div ng-include="'views/search/templates/album-search.view.client.html'"></div>
+        </div>
+    </div>
+
+
+</div>

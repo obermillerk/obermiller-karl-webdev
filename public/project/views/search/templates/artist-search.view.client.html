@@ -1,0 +1,30 @@
+<div ng-include="'views/search/templates/page-scroll.view.client.html'"></div>
+
+<ul class="list-group"
+    ng-if="!model.artists || model.artists.length < 1">
+    <li class="list-group-item">
+        No artists found
+    </li>
+</ul>
+<div class="row">
+    <div ng-repeat="artist in model.artists"
+         class="col-xs-6 col-sm-4 artist-result">
+        <a href="#!/m/artist/{{artist.id}}">
+            <div class="artist-img"
+                 data-toggle="tooltip"
+                 title="{{artist.name}}">
+                <img ng-if="artist.images[0]"
+                     ng-src="{{artist.images[0].url}}" />
+            </div>
+        </a>
+        <a href="#!/m/artist/{{artist.id}}">
+            <h5 align="center"
+                data-toggle="tooltip"
+                title="{{artist.name}}">
+                {{artist.name}}
+            </h5>
+        </a>
+    </div>
+</div>
+
+<div ng-include="'views/search/templates/page-scroll.view.client.html'"></div>

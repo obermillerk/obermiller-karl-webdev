@@ -8,6 +8,30 @@ body {
   top: 70px;
   left: 15px; }
 
+.tp-artist-img {
+  border-radius: 100px;
+  width: 200px;
+  height: 200px;
+  background-color: #d33f49;
+  border: 1px solid #f9cb40;
+  margin-bottom: 10px; }
+  .tp-artist-img img {
+    width: inherit;
+    height: inherit;
+    border-radius: inherit;
+    object-fit: cover;
+    border: inherit; }
+
+.tp-album-img {
+  width: 300px;
+  height: 300px;
+  background-color: #d33f49;
+  margin-bottom: 10px; }
+  .tp-album-img img {
+    width: inherit;
+    height: inherit;
+    object-fit: cover; }
+
 #tp-info {
   margin-left: 320px;
   margin-bottom: 10px;
@@ -19,6 +43,13 @@ body {
 .follow-btn {
   width: 100px; }
 
+.library-btn {
+  width: 150px;
+  margin-bottom: 10px; }
+
+.input-group {
+  margin-bottom: 10px; }
+
 .user-menu {
   display: inline-block; }
 
@@ -28,6 +59,48 @@ nav-search {
     display: inline-block; }
   nav-search #search-input {
     width: 10px; }
+
+.search-section-label {
+  margin-bottom: 10px;
+  border-bottom: 1px solid #384e77; }
+  .search-section-label h3 {
+    display: inline-block;
+    margin: 0; }
+
+.artist-result {
+  margin-bottom: 10px; }
+  .artist-result div.artist-img {
+    border-radius: 50px;
+    border: 1px solid #f9cb40;
+    width: 100px;
+    height: 100px;
+    margin: auto;
+    background-color: #d33f49; }
+    .artist-result div.artist-img img {
+      border-radius: inherit;
+      width: inherit;
+      height: inherit;
+      object-fit: cover;
+      border: inherit; }
+  .artist-result h5 {
+    margin: auto;
+    height: 2em;
+    overflow: hidden; }
+
+.single-line {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; }
+
+.overflow-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis; }
+
+.track-result > div {
+  height: 64px; }
+  .track-result > div > div {
+    max-height: 3em;
+    text-overflow: ellipsis; }
 
 /******** THEME ********/
 a {

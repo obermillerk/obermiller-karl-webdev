@@ -1,0 +1,88 @@
+<nav-header></nav-header>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-4 col-md-3">
+            <div class="tp-artist-img visible-xs center-block">
+                <img ng-if="model.artist.images[0]"
+                     ng-src="{{model.artist.images[0].url}}" />
+            </div>
+            <div class="tp-artist-img hidden-xs">
+                <img ng-if="model.artist.images[0]"
+                     ng-src="{{model.artist.images[0].url}}" />
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-8 col-md-9">
+            <h1 align="center"
+                class="visible-xs">{{model.artist.name}}</h1>
+            <h1 class="hidden-xs">{{model.artist.name}}</h1>
+            <h6 align="center"
+                class="visible-xs">{{model.artist.followers.total}} followers</h6>
+            <h6 class="hidden-xs">{{model.artist.followers.total}} followers</h6>
+
+            <div class="text-center visible-xs">
+                <library></library>
+            </div>
+            <div class="hidden-xs">
+                <library></library>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-right">
+        <a href="#!/m/search/track?q=artist:&quot;{{model.artist.name}}&quot;">
+            More >>
+        </a>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item active">
+            <div class="row">
+                <div class="col-xs-3 col-sm-2 col-md-1">
+                </div>
+                <div class="col-xs-5 col-sm-4 col-md-5">
+                    Song
+                </div>
+                <div class="col-xs-4 col-sm-3">
+                    Album
+                </div>
+                <div class="hidden-xs col-sm-3">
+                    Artist
+                </div>
+            </div>
+        </li>
+        <li class="list-group-item track-result"
+            ng-repeat="track in model.tracks">
+            <div class="row">
+                <div class="col-xs-3 col-sm-2 col-md-1">
+                    <a href="#!/m/track/{{track.id}}">
+                        <img ng-src="{{track.album.images[2].url}}" />
+                    </a>
+                </div>
+                <div class="col-xs-5 col-sm-4 col-md-5">
+                    <a href="#!/m/track/{{track.id}}">
+                        {{track.name}}
+                    </a>
+                </div>
+                <div class="col-xs-4 col-sm-3 overflow-ellipsis">
+                    {{track.album.name}}
+                </div>
+                <div class="hidden-xs col-sm-3">
+                    {{track.artists[0].name}}
+                    <br />
+                    <span ng-if="track.artists.length === 2">
+                        1 other
+                    </span>
+                    <span ng-if="track.artists.length > 2">
+                        {{track.artists.length - 1}} others
+                    </span>
+                </div>
+            </div>
+        </li>
+        <div class="text-right">
+            <a href="#!/m/search/track?q=artist:&quot;{{model.artist.name}}&quot;">
+                More >>
+            </a>
+        </div>
+    </ul>
+</div>
