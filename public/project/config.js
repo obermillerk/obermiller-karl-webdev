@@ -13,15 +13,15 @@
             ["/profile/:username",
                 "./views/user/templates/profile.view.client.html",
                 "profileController",
-                {currentUser: currentUser}],
+                {currentUser: currentUser, profileUser: profileUser}],
             ["/m/track/:trackid",
                 "./views/music/templates/track.view.client.html",
                 "trackController",
-                {currentUser: currentUser}],
+                {currentUser: currentUser, track: track}],
             ["/m/artist/:artistid",
                 "./views/music/templates/artist.view.client.html",
                 "artistController",
-                {currentUser: currentUser}],
+                {currentUser: currentUser, artist: artist}],
             ["/m/search",
                 "./views/search/templates/search.view.client.html",
                 "searchController"],
@@ -60,6 +60,25 @@
                 if (user !== '0')
                     return user._id ? user : null;
             });
+    }
+
+    function profileUser(userService, $route, $location) {
+        return userService.findUserByUsername($route.current.params['username'])
+            .then(function(response) {
+                return response;
+            }, function(err) {
+                if (err.status === 404) {
+                    $location.url('/');
+                }
+            });
+    }
+
+    function track(spotifyService, $route) {
+        return spotifyService.getTrack($route.current.params['trackid']);
+    }
+
+    function artist(spotifyService, $route) {
+        return spotifyService.getArtist($route.current.params['artistid']);
     }
 
 })();

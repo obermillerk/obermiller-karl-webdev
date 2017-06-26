@@ -18,11 +18,17 @@ userModel.addTrackToLibrary = addTrackToLibrary;
 userModel.removeTrackFromLibrary = removeTrackFromLibrary;
 
 function followUser(followerId, userId) {
-    return userModel.updateOne({_id: followerId}, {$addToSet: {following: userId}});
+    return userModel.updateOne({_id: followerId}, {$addToSet: {following: userId}})
+        .then(function(response) {
+            return userModel.updateOne({_id: userId}, {$addToSet: {followers: followerId}});
+        });
 }
 
 function unfollowUser(followerId, userId) {
-    return userModel.updateOne({_id: followerId}, {$pull: {following: userId}});
+    return userModel.updateOne({_id: followerId}, {$pull: {following: userId}})
+        .then(function(response) {
+            return userModel.updateOne({_id: userId}, {$pull: {followers: followerId}});
+        });
 }
 
 function createUser(user) {
@@ -36,18 +42,21 @@ function unregister(userId) {
 function findUserByCredentials(username, password) {
     return userModel.findOne({ username: username, password: password })
         .populate('following')
+        .populate('followers')
         .exec();
 }
 
 function findUserById(userId) {
     return userModel.findById(userId)
         .populate('following')
+        .populate('followers')
         .exec();
 }
 
 function findUserByUsername(username) {
     return userModel.findOne({ username: username })
         .populate('following')
+        .populate('followers')
         .exec();
 }
 

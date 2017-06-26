@@ -23,22 +23,36 @@
                     <img ng-src="{{track.album.images[2].url}}" />
                 </a>
             </div>
-            <div class="col-xs-5 col-sm-4 col-md-5">
-                <a href="#!/m/track/{{track.id}}">
+            <div class="col-xs-5 col-sm-4 col-md-5 text">
+                <a href="#!/m/track/{{track.id}}"
+                   data-toggle="tooltip"
+                   title="{{track.name}}">
                     {{track.name}}
                 </a>
+                <div class="text-fade-down"></div>
             </div>
-            <div class="hidden-xs col-sm-3">
-                {{track.album.name}}
+            <div class="hidden-xs col-sm-3 text">
+                    <span data-toggle="tooltip"
+                          title="{{track.album.name}}">
+                        {{track.album.name}}
+                    </span>
+                <div class="text-fade-down"></div>
             </div>
-            <div class="col-xs-4 col-sm-3">
-                <a href="#!/m/artist/{{track.artists[0].id}}">
+            <div class="col-xs-4 col-sm-3 text">
+                <a href="#!/m/artist/{{track.artists[0].id}}"
+                   data-toggle="tooltip"
+                   title="{{track.artists[0].name}}">
                     {{track.artists[0].name}}
                 </a>
+
                 <br />
-                <span ng-if="track.artists.length > 1">
-                    {{track.artists.length - 1}} others
-                </span>
+                <span ng-if="track.artists.length === 2">
+                        1 other
+                    </span>
+                <span ng-if="track.artists.length > 2">
+                        {{track.artists.length - 1}} others
+                    </span>
+                <div class="text-fade-down"></div>
             </div>
         </div>
     </li>

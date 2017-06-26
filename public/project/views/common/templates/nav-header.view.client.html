@@ -53,18 +53,21 @@
 
         <!-- Search Bar -->
         <nav-search class="input-group navbar-btn pull-right">
-            <input type="text"
-                   id="search-input"
-                   placeholder="Search"
-                   class="form-control"
-                   ng-model="query"/>
-            <span class="input-group-btn"
-                  id="search-button">
-                <button class="btn btn-default"
-                        ng-click="nav.search(query)">
-                    <span class="glyphicon glyphicon-search"></span>
-                </button>
-            </span>
+            <form>
+                <input type="text"
+                       id="search-input"
+                       placeholder="Search"
+                       class="form-control"
+                       ng-model="query" />
+                <span class="input-group-btn"
+                      id="search-button">
+                    <button class="btn btn-default"
+                            type="submit"
+                            ng-click="nav.search(query)">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </span>
+            </form>
         </nav-search>
     </div>
 </div>

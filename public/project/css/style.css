@@ -89,18 +89,38 @@ nav-search {
 
 .single-line {
   overflow: hidden;
-  text-overflow: ellipsis;
   white-space: nowrap; }
 
 .overflow-ellipsis {
   overflow: hidden;
   text-overflow: ellipsis; }
 
+.text-fade-down {
+  position: absolute;
+  bottom: 0;
+  left: 15px;
+  right: 15px;
+  height: 1em;
+  z-index: 1;
+  background-image: linear-gradient(to bottom, transparent, #343434);
+  pointer-events: none; }
+
+.text-fade-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 3em;
+  z-index: 1;
+  background-image: linear-gradient(to right, transparent, #343434);
+  pointer-events: none; }
+
 .track-result > div {
   height: 64px; }
-  .track-result > div > div {
-    max-height: 3em;
-    text-overflow: ellipsis; }
+  .track-result > div .text {
+    height: 4em;
+    text-overflow: ellipsis;
+    overflow: hidden; }
 
 /******** THEME ********/
 a {
