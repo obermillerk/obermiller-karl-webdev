@@ -22,14 +22,18 @@
                     {{model.track.artists[0].name}}
                 </a>
                 •
-                {{model.track.album.name}}
+                <a href="#!/m/album/{{model.track.album.id}}">
+                    {{model.track.album.name}}
+                </a>
             </h4>
             <h4 class="hidden-xs">
                 <a href="#!/m/artist/{{model.track.artists[0].id}}">
                     {{model.track.artists[0].name}}
                 </a>
                 •
-                {{model.track.album.name}}
+                <a href="#!/m/album/{{model.track.album.id}}">
+                    {{model.track.album.name}}
+                </a>
             </h4>
             <h6 align="center"
                 class="visible-xs">{{model.track.duration_formatted}}</h6>
@@ -59,19 +63,19 @@
             </div>
 
             <div class="text-center visible-xs">
-                <library></library>
+                <library type="track"></library>
             </div>
             <div class="hidden-xs">
-                <library></library>
+                <library type="track"></library>
             </div>
 
         </div>
     </div>
 
-    <iframe ng-src="{{model.embedURL}}"
-            width="250"
-            height="80"
-            frameborder="0"
-            class="center-block"
-            allowtransparency="true"></iframe>
+    <!--<iframe ng-src="{{model.embedURL}}"-->
+            <!--width="250"-->
+            <!--height="80"-->
+            <!--frameborder="0"-->
+            <!--class="center-block"-->
+            <!--allowtransparency="true"></iframe>-->
 </div>

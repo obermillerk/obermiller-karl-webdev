@@ -1,0 +1,83 @@
+<nav-header></nav-header>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-5 col-md-4">
+            <div class="tp-album-img visible-xs center-block">
+                <div ng-if="!model.album.images[0]"></div>
+                <img ng-if="model.album.images[0]"
+                     ng-src="{{model.album.images[0].url}}" />
+            </div>
+            <div class="tp-album-img hidden-xs">
+                <div ng-if="!model.album.images[0]"></div>
+                <img ng-if="model.album.images[0]"
+                     ng-src="{{model.album.images[0].url}}" />
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-7 col-md-8">
+            <h1 align="center"
+                class="visible-xs">{{model.album.name}}</h1>
+            <h1 class="hidden-xs">{{model.album.name}}</h1>
+            <h3 align="center"
+                class="visible-xs">
+                <a href="#!/m/artist/{{model.album.artists[0].id}}">
+                    {{model.album.artists[0].name}}
+                </a>
+            </h3>
+            <h3 class="hidden-xs">
+                <a href="#!/m/artist/{{model.album.artists[0].id}}">
+                    {{model.album.artists[0].name}}
+                </a>
+            </h3>
+
+            <div class="text-center visible-xs">
+                <library type="album"></library>
+            </div>
+            <div class="hidden-xs">
+                <library type="album"></library>
+            </div>
+        </div>
+    </div>
+
+    <ul class="list-group">
+        <li class="list-group-item active">
+            <div class="row">
+                <div class="col-xs-6 col-sm-7 col-md-8">
+                    Song
+                </div>
+                <div class="col-xs-6 col-sm-5 col-md-4">
+                    Artist
+                </div>
+            </div>
+        </li>
+        <li class="list-group-item"
+            ng-repeat="track in model.album.tracks.items">
+            <div class="row">
+                <div class="col-xs-6 col-sm-7 col-md-8 single-line">
+                    <a href="#!/m/track/{{track.id}}"
+                       data-toggle="tooltip"
+                       title="{{track.name}}">
+                        {{track.name}}
+                    </a>
+                    <div class="text-fade-right"></div>
+                </div>
+                <div class="col-xs-6 col-sm-5 col-md-4 single-line">
+                    <a href="#!/m/artist/{{track.artists[0].id}}"
+                       data-toggle="tooltip"
+                       title="{{track.artists[0].name}}">
+                        {{track.artists[0].name}}
+                    </a>
+
+                    <span ng-if="track.artists.length === 2">
+                        , 1 other
+                    </span>
+                    <span ng-if="track.artists.length > 2">
+                        , {{track.artists.length - 1}} others
+                    </span>
+                    <div class="text-fade-right"></div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>

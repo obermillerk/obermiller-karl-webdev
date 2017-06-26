@@ -1,0 +1,32 @@
+<div ng-include="'views/search/templates/page-scroll.view.client.html'"></div>
+
+<ul class="list-group"
+    ng-if="!model.albums || model.albums.length < 1">
+    <li class="list-group-item">
+        No albums found
+    </li>
+</ul>
+<div class="row">
+    <div ng-repeat="album in model.albums"
+         class="col-xs-6 col-sm-4 album-result">
+        <div class="album-img"
+             data-toggle="tooltip"
+             title="{{album.name}}">
+            <a href="#!/m/album/{{album.id}}">
+                <div ng-if="!album.images[0]"></div>
+                <img ng-if="album.images[0]"
+                     ng-src="{{album.images[0].url}}" />
+            </a>
+        </div>
+        <h5 align="center"
+            data-toggle="tooltip"
+            title="{{album.name}}">
+            <a href="#!/m/album/{{album.id}}">
+                {{album.name}}
+            </a>
+        </h5>
+        <div class="text-fade-down"></div>
+    </div>
+</div>
+
+<div ng-include="'views/search/templates/page-scroll.view.client.html'"></div>

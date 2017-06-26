@@ -10,8 +10,10 @@
         if ($routeParams['q']) {
             model.q = $routeParams['q'];
             model.page = $routeParams['page'] ? $routeParams['page'] : 1;
-            if (model.type)
-                searchExecute(model.q, model.page, model.type, 20);
+            if (model.type) {
+                var limit = 20;
+                searchExecute(model.q, model.page, model.type, limit);
+            }
             else
                 searchExecute(model.q);
         }
@@ -45,7 +47,7 @@
                 limit = 6;
 
             spotifyService.search(query, page, type, limit).then(function (data) {
-                console.log(data);
+                    console.log(data);
                     if (data.tracks)
                         model.tracks = data.tracks.items;
                     if (data.artists)
@@ -67,7 +69,7 @@
                         }
                     }
                     model.query = query;
-                    model.totalPages = Math.ceil(total / 20);
+                    model.totalPages = Math.ceil(total / limit);
                     if (page > model.totalPages)
                         search(query, model.totalPages);
                     model.page = page;

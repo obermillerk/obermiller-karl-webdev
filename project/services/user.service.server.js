@@ -48,14 +48,14 @@ app.post('/rest/register', register);
 app.post('/rest/unregister', unregister);
 app.post('/rest/follow', followUser);
 app.post('/rest/unfollow', unfollowUser);
-app.post('/rest/library/add/track/:trackid', addTrackToLibrary);
-app.post('/rest/library/remove/track/:trackid', removeTrackFromLibrary);
+app.post('/rest/library/add/:type/:id', addToLibrary);
+app.post('/rest/library/remove/:type/:id', removeFromLibrary);
 
 app.get('/rest/user/:username', findUserByUsername);
 app.get('/rest/loggedin', loggedin);
 app.get('/rest/follow/:username', isCurrentUserFollowing);
 app.get('/rest/self/:username', isUserSelf);
-app.get('/rest/library/track/:trackid', userHasTrack);
+app.get('/rest/library/:type/:id', isInLibrary);
 
 
 
@@ -201,35 +201,46 @@ function unfollowUser(req, res) {
         })
 }
 
-function userHasTrack(req, res) {
+function isInLibrary(req, res) {
     var user = req.user;
+
+    var id = req.params['id'];
+    var type = req.params['type'];
+
+    if (type !== 'track' && type !== 'album') {
+        res.sendStatus(400);
+        return;
+    }
 
     if (typeof user === 'undefined') {
         res.json(false);
         return;
     }
 
-    var trackId = req.params['trackid'];
-
-    return userModel.userHasTrack(user, trackId)
+    return userModel.isInLibrary(user, type, id)
         .then(function(response) {
             res.send(response);
         });
 }
 
-function addTrackToLibrary(req, res) {
+function addToLibrary(req, res) {
     var user = req.user;
 
-    var trackId = req.params['trackid'];
+    var id = req.params['id'];
+    var type = req.params['type'];
+
+    if (type !== 'track' && type !== 'album') {
+        res.sendStatus(400);
+        return;
+    }
 
     if (typeof user === 'undefined') {
         res.send('Not logged in');
         return;
     }
 
-    userModel.addTrackToLibrary(user, trackId)
+    userModel.addToLibrary(user, type, id)
         .then(function(response) {
-            console.log(response);
             res.sendStatus(200);
         }, function(err) {
             console.error(err);
@@ -237,17 +248,23 @@ function addTrackToLibrary(req, res) {
         });
 }
 
-function removeTrackFromLibrary(req, res) {
+function removeFromLibrary(req, res) {
     var user = req.user;
 
-    var trackId = req.params['trackid'];
+    var id = req.params['id'];
+    var type = req.params['type'];
+
+    if (type !== 'track' && type !== 'album') {
+        res.sendStatus(400);
+        return;
+    }
 
     if (typeof user === 'undefined') {
         res.send('Not logged in');
         return;
     }
 
-    userModel.removeTrackFromLibrary(user, trackId)
+    userModel.removeFromLibrary(user, type, id)
         .then(function(response) {
             res.sendStatus(200);
         }, function(err) {

@@ -13,9 +13,10 @@
         url = $sce.trustAsResourceUrl(url);
         model.embedURL = url;
 
-        spotifyService.search('artist:"'+artist.name + '"', 1, 'track', 10)
+        spotifyService.search('artist:"'+artist.name + '"', 1, 'track,album', 6)
             .then(function(data) {
                 model.tracks = data.tracks.items;
+                model.albums = data.albums.items;
             });
 
     }

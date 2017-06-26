@@ -2,15 +2,17 @@
     angular.module('Sharm')
         .controller('libraryController', libraryController);
 
-    function libraryController(userService, $routeParams, $route) {
+    function libraryController(userService, $routeParams, $attrs, $route) {
         var model = this;
 
-        model.trackId = $routeParams['trackid'];
+        model.type = $attrs.type;
+
+        model.id = $routeParams[model.type + 'id'];
 
         model.addToLibrary = addToLibrary;
         model.removeFromLibrary = removeFromLibrary;
 
-        userService.userHasTrack(model.trackId)
+        userService.isInLibrary(model.type, model.id)
             .then(function(ans) {
                 model.isInLibrary = ans;
             });
@@ -18,7 +20,7 @@
 
 
         function addToLibrary() {
-            userService.addTrackToLibrary(model.trackId)
+            userService.addToLibrary(model.type, model.id)
                 .then(function(response) {
                         if (response.data === 'Not logged in') {
                             $('#loginModal').modal();
@@ -29,7 +31,7 @@
         }
 
         function removeFromLibrary() {
-            userService.removeTrackFromLibrary(model.trackId)
+            userService.removeFromLibrary(model.type, model.id)
                 .then(function(response) {
                     $route.reload();
                 });

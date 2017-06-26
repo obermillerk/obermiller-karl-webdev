@@ -10,13 +10,20 @@
             logout: logout,
             findUserByUsername: findUserByUsername,
             getCurrentUser: getCurrentUser,
+            isUserSelf: isUserSelf,
+
+            // Follow functions
             followUser: followUser,
             unfollowUser: unfollowUser,
             isCurrentUserFollowing: isCurrentUserFollowing,
-            isUserSelf: isUserSelf,
-            userHasTrack: userHasTrack,
-            addTrackToLibrary: addTrackToLibrary,
-            removeTrackFromLibrary: removeTrackFromLibrary
+
+            // Library functions
+            // userHasTrack: userHasTrack,
+            // addTrackToLibrary: addTrackToLibrary,
+            // removeTrackFromLibrary: removeTrackFromLibrary,
+            isInLibrary: isInLibrary,
+            addToLibrary: addToLibrary,
+            removeFromLibrary: removeFromLibrary
         };
 
         function register(user) {
@@ -78,8 +85,31 @@
                 });
         }
 
+        function isInLibrary(type, id) {
+            return $http.get('/project/rest/library/' + type + '/' + id)
+                .then(function(response) {
+                    console.log(response.data);
+                    return response.data;
+                });
+        }
+
+        function addToLibrary(type, id) {
+            return $http.post('/project/rest/library/add/' + type + '/' + id);
+        }
+
+        function removeFromLibrary(type, id) {
+            return $http.post('/project/rest/library/remove/' + type + '/' + id);
+        }
+
         function userHasTrack(trackId) {
             return $http.get('/project/rest/library/track/' + trackId)
+                .then(function(response) {
+                    return response.data;
+                })
+        }
+
+        function userHasAlbum(albumId) {
+            return $http.get('/project/rest/library/album' + albumId)
                 .then(function(response) {
                     return response.data;
                 })

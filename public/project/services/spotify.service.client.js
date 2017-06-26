@@ -11,7 +11,9 @@
             search: search,
             getTrack: getTrack,
             getTracks: getTracks,
-            getArtist: getArtist
+            getArtist: getArtist,
+            getAlbum: getAlbum,
+            getAlbums: getAlbums
         };
 
         function getAuthHead() {
@@ -48,12 +50,12 @@
             if (typeof page === 'undefined') {
                 page = 1;
             }
-            var offset = 20 * (page - 1);
             // Default to track search
             if (typeof type === 'undefined')
                 type = "track,artist,album";
             if (typeof limit === 'undefined')
                 limit = 20;
+            var offset = limit * (page - 1);
             var body = {
                 q: query,
                 type: type,
@@ -128,6 +130,26 @@
                     {headers: head});
             }).then(function(response) {
                 return response.data;
+            });
+        }
+
+
+        function getAlbum(albumId) {
+            return getAuthHead().then(function(head) {
+                return $http.get('https://api.spotify.com/v1/albums/' + albumId,
+                    {headers: head});
+            }).then(function(response) {
+                return response.data;
+            });
+        }
+
+        function getAlbums(albumIds) {
+            return getAuthHead().then(function(head) {
+                return $http.get('https://api.spotify.com/v1/albums?ids=' + albumIds.join(),
+                    {headers: head});
+            }).then(function(response) {
+                console.log(response);
+                return response.data.albums;
             });
         }
     }

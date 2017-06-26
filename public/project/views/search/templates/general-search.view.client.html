@@ -41,7 +41,9 @@
             <div class="hidden-xs col-sm-4 single-line"
                  data-toggle="tooltip"
                  title="{{track.album.name}}">
-                {{track.album.name}}
+                <a href="#!/m/album/{{track.album.id}}">
+                    {{track.album.name}}
+                </a>
                 <div class="text-fade-right"></div>
             </div>
             <div class="col-xs-5 col-sm-3 single-line"
@@ -74,20 +76,60 @@
 <div class="row">
     <div ng-repeat="artist in model.artists"
          class="col-xs-6 col-sm-4 artist-result">
-        <a href="#!/m/artist/{{artist.id}}">
-            <div class="artist-img"
-                 data-toggle="tooltip"
-                 title="{{artist.name}}">
+        <div class="artist-img"
+             data-toggle="tooltip"
+             title="{{artist.name}}">
+            <a href="#!/m/artist/{{artist.id}}">
+                <div ng-if="!artist.images[0]"></div>
                 <img ng-if="artist.images[0]"
                      ng-src="{{artist.images[0].url}}" />
-            </div>
-        </a>
-        <a href="#!/m/artist/{{artist.id}}">
-            <h5 align="center"
-                data-toggle="tooltip"
-                title="{{artist.name}}">
+            </a>
+        </div>
+        <h5 align="center"
+            data-toggle="tooltip"
+            title="{{artist.name}}">
+            <a href="#!/m/artist/{{artist.id}}">
                 {{artist.name}}
-            </h5>
-        </a>
+            </a>
+        </h5>
+        <div class="text-fade-down"></div>
+    </div>
+</div>
+
+<!-- ALBUMS -->
+<div class="search-section-label">
+    <h3>Albums</h3>
+    <a class="pull-right"
+       ng-if="model.albums.length > 0"
+       href="#!/m/search/album?q={{model.q}}">
+        View all >>
+    </a>
+</div>
+<ul class="list-group"
+    ng-if="!model.albums || model.albums.length < 1">
+    <li class="list-group-item">
+        No albums found
+    </li>
+</ul>
+<div class="row">
+    <div ng-repeat="album in model.albums"
+         class="col-xs-6 col-sm-4 album-result">
+        <div class="album-img"
+             data-toggle="tooltip"
+             title="{{album.name}}">
+            <a href="#!/m/album/{{album.id}}">
+                <div ng-if="!album.images[0]"></div>
+                <img ng-if="album.images[0]"
+                     ng-src="{{album.images[0].url}}" />
+            </a>
+        </div>
+        <h5 align="center"
+            data-toggle="tooltip"
+            title="{{album.name}}">
+            <a href="#!/m/album/{{album.id}}">
+                {{album.name}}
+            </a>
+        </h5>
+        <div class="text-fade-down"></div>
     </div>
 </div>

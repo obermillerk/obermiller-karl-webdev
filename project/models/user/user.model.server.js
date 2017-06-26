@@ -13,9 +13,9 @@ userModel.findUserByCredentials = findUserByCredentials;
 userModel.findUserById = findUserById;
 userModel.findUserByUsername = findUserByUsername;
 userModel.isUserFollowing = isUserFollowing;
-userModel.userHasTrack = userHasTrack;
-userModel.addTrackToLibrary = addTrackToLibrary;
-userModel.removeTrackFromLibrary = removeTrackFromLibrary;
+userModel.isInLibrary = isInLibrary;
+userModel.addToLibrary = addToLibrary;
+userModel.removeFromLibrary = removeFromLibrary;
 
 function followUser(followerId, userId) {
     return userModel.updateOne({_id: followerId}, {$addToSet: {following: userId}})
@@ -67,19 +67,22 @@ function isUserFollowing(follower, user) {
         });
 }
 
-function userHasTrack(user, trackId) {
+function isInLibrary(user, type, id) {
+    var field = type + 's';
     return userModel.findOne({_id: user._id})
         .then(function(found) {
-            return found.library.tracks.indexOf(trackId) > -1;
+            return found.library[field].indexOf(id) > -1;
         })
 }
 
-function addTrackToLibrary(user, trackId) {
+function addToLibrary(user, type, id) {
+    var field = 'library.' + type + 's';
     return userModel.updateOne({_id: user._id},
-        {$addToSet: {'library.tracks': trackId}} );
+        {$addToSet: {[field]: id}} );
 }
 
-function removeTrackFromLibrary(user, trackId) {
+function removeFromLibrary(user, type, id) {
+    var field = 'library.' + type + 's';
     return userModel.updateOne({_id: user._id},
-        {$pull: {'library.tracks': trackId}});
+        {$pull: {[field]: id}} );
 }

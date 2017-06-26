@@ -22,6 +22,10 @@
                 "./views/music/templates/artist.view.client.html",
                 "artistController",
                 {currentUser: currentUser, artist: artist}],
+            ["/m/album/:albumid",
+                "./views/music/templates/album.view.client.html",
+                "albumController",
+                {currentUser: currentUser, album: album}],
             ["/m/search",
                 "./views/search/templates/search.view.client.html",
                 "searchController"],
@@ -79,6 +83,10 @@
 
     function artist(spotifyService, $route) {
         return spotifyService.getArtist($route.current.params['artistid']);
+    }
+
+    function album(spotifyService, $route) {
+        return spotifyService.getAlbum($route.current.params['albumid']);
     }
 
 })();
