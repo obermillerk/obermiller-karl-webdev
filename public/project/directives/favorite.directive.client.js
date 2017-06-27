@@ -6,7 +6,8 @@
         return {
             templateUrl: 'views/common/templates/favorite.view.client.html',
             controller: 'favoriteController',
-            controllerAs: 'favorite'
+            controllerAs: 'favorite',
+            restrict: 'E'
         }
     }
 })();

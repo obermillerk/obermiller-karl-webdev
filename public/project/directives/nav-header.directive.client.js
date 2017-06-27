@@ -6,7 +6,8 @@
         return {
             templateUrl: 'views/common/templates/nav-header.view.client.html',
             controller: 'navHeaderController',
-            controllerAs: 'nav'
+            controllerAs: 'nav',
+            restrict: 'E'
         }
     }
 })();

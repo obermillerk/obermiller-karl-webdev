@@ -6,7 +6,8 @@
         return {
             templateUrl: 'views/common/templates/library.view.client.html',
             controller: 'libraryController',
-            controllerAs: 'library'
+            controllerAs: 'library',
+            restrict: 'E'
         }
     }
 })();

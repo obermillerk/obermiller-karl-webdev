@@ -4,7 +4,8 @@
 
     function navSearch() {
         return {
-            link: linkFunction
+            link: linkFunction,
+            restrict: 'E'
         };
         function linkFunction(scope, element) {
             element = $(element);

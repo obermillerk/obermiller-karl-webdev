@@ -157,6 +157,36 @@ nav-search {
     text-overflow: ellipsis;
     overflow: hidden; }
 
+.comment-header {
+  border-bottom: 1px solid #384e77; }
+
+.comment-draft {
+  margin: 10px 20px; }
+  .comment-draft .draft-content {
+    resize: none; }
+
+.comment {
+  border: 1px solid #f9cb40;
+  padding: 5px 10px;
+  margin-bottom: 5px;
+  border-radius: 5px; }
+  .comment .comment-username {
+    margin-bottom: 0;
+    float: left; }
+  .comment .comment-date {
+    margin-bottom: 0;
+    float: right; }
+  .comment .comment-remove {
+    margin-bottom: 0;
+    margin-top: 5px;
+    margin-right: 5px;
+    float: right; }
+  .comment .comment-content {
+    border-top: 1px solid #384e77;
+    margin-top: 30px;
+    padding: 5px 20px;
+    text-align: left; }
+
 /******** THEME ********/
 a {
   color: #48beff; }

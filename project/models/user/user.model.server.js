@@ -43,10 +43,18 @@ function unregister(userId) {
 }
 
 function findUserByCredentials(username, password) {
-    return userModel.findOne({ username: username, password: password })
+    return userModel.findOne({ username: username, password:password })
+        .select("+password")
         .populate('following')
         .populate('followers')
-        .exec();
+        .exec()
+        .then(function(response) {
+            if (response !== null) {
+                response.password = undefined;
+                response.pass = true;
+            }
+            return response;
+        });
 }
 
 function findUserById(userId) {

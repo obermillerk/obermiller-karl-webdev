@@ -6,7 +6,8 @@
         return {
             templateUrl: 'views/common/templates/follow.view.client.html',
             controller: 'followController',
-            controllerAs: 'follow'
+            controllerAs: 'follow',
+            restrict: 'E'
         }
     }
 })();

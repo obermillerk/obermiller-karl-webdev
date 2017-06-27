@@ -2,7 +2,7 @@
     angular.module('Sharm')
         .controller('followController', followController);
 
-    function followController(userService, $routeParams, $route) {
+    function followController(userService, $routeParams) {
         var model = this;
 
         var username = $routeParams['username'];
@@ -16,11 +16,15 @@
             })
             .then(function(ans) {
                 model.isSelf = ans;
-                return userService.isCurrentUserFollowing(model.user);
-            })
-            .then(function(ans) {
-                model.isFollowing = ans;
+                refresh();
             });
+
+        function refresh() {
+            userService.isCurrentUserFollowing(model.user)
+                .then(function(ans) {
+                    model.isFollowing = ans;
+                });
+        }
 
 
 
@@ -30,7 +34,7 @@
                         if (response.data === 'Not logged in') {
                             $('#loginModal').modal();
                         } else if (response.data === 'OK') {
-                            $route.reload();
+                            refresh();
                         }
                     });
         }
@@ -38,7 +42,7 @@
         function unfollowUser() {
             userService.unfollowUser(model.user)
                 .then(function(response) {
-                    $route.reload();
+                    refresh();
                 });
         }
     }

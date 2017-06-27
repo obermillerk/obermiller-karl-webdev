@@ -15,7 +15,7 @@ app.post('/rest/unregister', unregister);
 app.post('/rest/follow', followUser);
 app.post('/rest/unfollow', unfollowUser);
 
-app.put('/rest/library/add/:type/:id', addToLibrary);
+app.put('/rest/library/:type/:id', addToLibrary);
 app.put('/rest/favorites/:artistid', addToFavorites);
 
 app.delete('/rest/library/:type/:id', removeFromLibrary);
@@ -50,7 +50,7 @@ function localStrategy(username, password, done) {
     userModel
         .findUserByCredentials(username, password)
         .then(function(user) {
-                if (user !== null && user.username === username && user.password === password) {
+                if (user !== null && user.username === username && user.pass === true) {
                     return done(null, user);
                 } else {
                     return done(null, false);

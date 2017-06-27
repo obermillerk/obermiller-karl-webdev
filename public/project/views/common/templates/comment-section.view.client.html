@@ -1,0 +1,48 @@
+<h3 class="comment-header">Comments</h3>
+
+<div class="alert alert-danger"
+     ng-if="!model.currentUser">
+    Login to comment
+    <button class="btn btn-danger pull-right"
+            ng-click="model.login()">
+        Login
+    </button>
+</div>
+<form class="comment-draft"
+      ng-if="model.currentUser">
+    <textarea class="form-control draft-content"
+              ng-model="model.content"
+              rows="3"
+              required
+              placeholder="Comment..."></textarea>
+    <button class="btn btn-primary btn-block"
+            type="submit"
+            ng-click="model.postComment(model.content)">
+        Post
+    </button>
+</form>
+
+<div ng-if="model.thread.comments.length < 1"
+     class="comment">
+    No comments
+</div>
+
+<div ng-repeat="comment in model.thread.comments"
+     class="comment">
+    <div>
+        <h4 class="comment-username">
+            <a href="#!/profile/{{comment.user.username}}">
+                {{comment.user.username}}
+            </a>
+        </h4>
+        <h5 class="comment-date">
+            {{comment.date | date:"MMM d, '''yy h:mm a"}}
+        </h5>
+        <button ng-if="comment.user._id === model.currentUser._id"
+                class="btn-link comment-remove"
+                ng-click="model.removeComment(comment._id)">
+            <span class="glyphicon glyphicon-trash"></span>
+        </button>
+    </div>
+    <div class="comment-content">{{comment.content}}</div>
+</div>
