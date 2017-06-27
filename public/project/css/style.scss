@@ -331,3 +331,13 @@ a:hover {
   @include darkmode;
   border-bottom: 1px solid $color2;
 }
+
+.home-logo {
+  color: $color2;
+  border-bottom: 1px solid $color4;
+}
+
+.home-desc {
+  color: $color9;
+  margin-bottom: 50px;
+}

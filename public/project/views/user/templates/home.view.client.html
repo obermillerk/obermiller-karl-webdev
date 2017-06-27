@@ -1,5 +1,22 @@
 <nav-header></nav-header>
 
 <div class="container">
-    <h1>Home</h1>
+    <h1 align="center"
+        class="home-logo">Sharm</h1>
+    <h4 align="center"
+        class="home-desc">Search and tag your favorite songs, albums, and artists!</h4>
+
+
+    <form class="input-group">
+        <input class="form-control"
+               ng-model="model.q"
+                placeholder="Search..."/>
+        <span class="input-group-btn">
+            <button class="btn btn-default"
+                    type="submit"
+                    ng-click="model.search(model.q)">
+                <span class="glyphicon glyphicon-search"></span>
+            </button>
+        </span>
+    </form>
 </div>

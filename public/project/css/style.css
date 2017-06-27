@@ -243,4 +243,12 @@ a:hover {
   color: #f1f0ea;
   border-bottom: 1px solid #d33f49; }
 
+.home-logo {
+  color: #d33f49;
+  border-bottom: 1px solid #384e77; }
+
+.home-desc {
+  color: #f9cb40;
+  margin-bottom: 50px; }
+
 /*# sourceMappingURL=style.css.map */

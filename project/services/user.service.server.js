@@ -2,10 +2,18 @@ var app = require('../../express').projectRouter;
 var userModel = require('../models/user/user.model.server');
 var passport = require('../../passport').project;
 var LocalStrategy = require('passport-local').Strategy;
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+
+var googleConfig = {
+    clientID : process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: process.env.GOOGLE_CALLBACK
+};
 
 passport.serializeUser(serializeUser);
 passport.deserializeUser(deserializeUser);
 passport.use('project-local', new LocalStrategy(localStrategy));
+passport.use('google', new GoogleStrategy(googleConfig, googleStrategy));
 
 
 app.post('/rest/login', passport.authenticate('project-local'), login);
@@ -27,6 +35,13 @@ app.get('/rest/follow/:username', isCurrentUserFollowing);
 app.get('/rest/self/:username', isUserSelf);
 app.get('/rest/library/:type/:id', isInLibrary);
 app.get('/rest/favorites/:artistid', isInFavorites);
+
+app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] } ));
+app.get('/auth/google/callback',
+    passport.authenticate('google', {
+        successRedirect: '/project/#!/',
+        failureRedirect: '/project/#!/login'
+    }));
 
 
 
@@ -62,6 +77,42 @@ function localStrategy(username, password, done) {
             });
 }
 
+
+function googleStrategy(token, refreshToken, profile, done) {
+    userModel.findUserByGoogleId(profile.id)
+        .then(
+            function(user) {
+                if(user) {
+                    return done(null, user);
+                } else {
+                    var email = profile.emails[0].value;
+                    var emailParts = email.split("@");
+                    var newGoogleUser = {
+                        username:  'g_' + emailParts[0],
+                        firstName: profile.name.givenName,
+                        lastName:  profile.name.familyName,
+                        email:     email,
+                        google: {
+                            id:    profile.id,
+                            token: token
+                        }
+                    };
+                    return userModel.createUser(newGoogleUser);
+                }
+            },
+            function(err) {
+                if (err) { return done(err); }
+            }
+        )
+        .then(
+            function(user){
+                return done(null, user);
+            },
+            function(err){
+                if (err) { return done(err); }
+            }
+        );
+}
 
 
 

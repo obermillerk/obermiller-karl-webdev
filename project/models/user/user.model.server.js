@@ -11,6 +11,7 @@ userModel.createUser = createUser;
 userModel.unregister = unregister;
 userModel.findUserByCredentials = findUserByCredentials;
 userModel.findUserById = findUserById;
+userModel.findUserByGoogleId = findUserByGoogleId;
 userModel.findUserByUsername = findUserByUsername;
 userModel.isUserFollowing = isUserFollowing;
 userModel.isInLibrary = isInLibrary;
@@ -59,6 +60,15 @@ function findUserByCredentials(username, password) {
 
 function findUserById(userId) {
     return userModel.findById(userId)
+        .populate('following')
+        .populate('followers')
+        .exec();
+}
+
+function findUserByGoogleId(googleId) {
+    return userModel.findOne({google: {
+        id: googleId
+    }})
         .populate('following')
         .populate('followers')
         .exec();

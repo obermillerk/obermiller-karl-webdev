@@ -1,12 +1,12 @@
 (function() {
     angular.module('Sharm')
-        .controller('commentSectionController', commentSectionController);
+        .controller('postFeedController', postFeedController);
 
-    function commentSectionController(userService, commentService, $scope) {
+    function postFeedController(userService, postService, $scope) {
         var model = this;
 
-        model.postComment = postComment;
-        model.removeComment = removeComment;
+        model.post = post;
+        model.removePost = removePost;
 
         model.login = login;
 
@@ -16,21 +16,21 @@
             });
 
         model.thread = {};
-        model.thread.uri = $scope.thread;
+        model.thread.username = $scope.username;
 
         refreshThread();
 
         function refreshThread() {
-            commentService.findCommentsByThread(model.thread.uri)
+            postService.findPostsByUsername(model.thread.username)
                 .then(function(data) {
-                    model.thread.comments = data;
+                    model.thread.posts = data;
                 });
         }
 
-        function postComment(content) {
+        function post(content) {
             if (!content)
                 return;
-            commentService.postComment(model.thread.uri, content)
+            postService.post(model.thread.username, content)
                 .then(function(response) {
                     if (response.data === 'Not logged in')
                         login();
@@ -41,8 +41,8 @@
                 });
         }
 
-        function removeComment(commentId) {
-            commentService.removeComment(commentId)
+        function removePost(commentId) {
+            postService.removePost(commentId)
                 .then(function(response) {
                     refreshThread();
                 });

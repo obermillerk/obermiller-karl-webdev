@@ -2,7 +2,11 @@ var mongoose = require('mongoose');
 
 var userSchema = mongoose.Schema({
     username: {type: String, required: true, unique: true},
-    password: {type: String, required: true, select: false},
+    password: {type: String, select: false},
+    google: {
+        id: String,
+        token: String
+    },
     following: {type: [{type: mongoose.Schema.ObjectId, ref: 'UserModel'}], default: []},
     followers: {type: [{type: mongoose.Schema.ObjectId, ref: 'UserModel'}], default: []},
     library: {

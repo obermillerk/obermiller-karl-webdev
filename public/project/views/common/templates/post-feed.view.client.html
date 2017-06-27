@@ -1,0 +1,40 @@
+<h3 class="comment-header">Posts</h3>
+
+<form class="comment-draft"
+      ng-if="model.currentUser.username === model.thread.username">
+    <textarea class="form-control draft-content"
+              ng-model="model.content"
+              rows="3"
+              required
+              placeholder="Post..."></textarea>
+    <button class="btn btn-primary btn-block"
+            type="submit"
+            ng-click="model.post(model.content)">
+        Post
+    </button>
+</form>
+
+<div ng-if="model.thread.posts.length < 1"
+     class="comment">
+    No posts
+</div>
+
+<div ng-repeat="post in model.thread.posts"
+     class="comment">
+    <div>
+        <h4 class="comment-username">
+            <a href="#!/profile/{{post.user.username}}">
+                {{post.user.username}}
+            </a>
+        </h4>
+        <h5 class="comment-date">
+            {{post.date | date:"MMM d, '''yy h:mm a"}}
+        </h5>
+        <button ng-if="post.user._id === model.currentUser._id"
+                class="btn-link comment-remove"
+                ng-click="model.removePost(post._id)">
+            <span class="glyphicon glyphicon-trash"></span>
+        </button>
+    </div>
+    <div class="comment-content">{{post.content}}</div>
+</div>
