@@ -5,7 +5,7 @@ const querystring = require('querystring');
 const btoa = require('btoa');
 
 app.post('/rest/spotify/token', requestToken);
-app.get('/rest/spotify/callback');
+
 var clientId = process.env.SPOTIFY_CLIENT_ID;
 var clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
 

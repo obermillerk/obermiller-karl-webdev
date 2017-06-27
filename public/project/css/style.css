@@ -41,10 +41,15 @@ body {
   margin-bottom: 10px; }
 
 .follow-btn {
-  width: 100px; }
+  width: 100px;
+  margin-bottom: 10px; }
 
 .library-btn {
   width: 150px;
+  margin-bottom: 10px; }
+
+.favorite-btn {
+  width: 170px;
   margin-bottom: 10px; }
 
 .input-group {

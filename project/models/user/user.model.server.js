@@ -16,6 +16,9 @@ userModel.isUserFollowing = isUserFollowing;
 userModel.isInLibrary = isInLibrary;
 userModel.addToLibrary = addToLibrary;
 userModel.removeFromLibrary = removeFromLibrary;
+userModel.isInFavorites = isInFavorites;
+userModel.addToFavorites = addToFavorites;
+userModel.removeFromFavorites = removeFromFavorites;
 
 function followUser(followerId, userId) {
     return userModel.updateOne({_id: followerId}, {$addToSet: {following: userId}})
@@ -85,4 +88,21 @@ function removeFromLibrary(user, type, id) {
     var field = 'library.' + type + 's';
     return userModel.updateOne({_id: user._id},
         {$pull: {[field]: id}} );
+}
+
+function isInFavorites(user, artistId) {
+    return userModel.findOne({_id: user._id})
+        .then(function(found) {
+            return found.favorite_artists.indexOf(artistId) > -1;
+        })
+}
+
+function addToFavorites(user, artistId) {
+    return userModel.updateOne({_id: user._id},
+        {$addToSet: {favorite_artists: artistId}} );
+}
+
+function removeFromFavorites(user, artistId) {
+    return userModel.updateOne({_id: user._id},
+        {$pull: {favorite_artists: artistId}} );
 }

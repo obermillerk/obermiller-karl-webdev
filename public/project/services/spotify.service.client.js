@@ -12,6 +12,7 @@
             getTrack: getTrack,
             getTracks: getTracks,
             getArtist: getArtist,
+            getArtists: getArtists,
             getAlbum: getAlbum,
             getAlbums: getAlbums
         };
@@ -133,6 +134,15 @@
             });
         }
 
+        function getArtists(artistIds) {
+            return getAuthHead().then(function(head) {
+                return $http.get('https://api.spotify.com/v1/artists?ids=' + artistIds.join(),
+                    {headers: head});
+            }).then(function(response) {
+                return response.data.artists;
+            })
+        }
+
 
         function getAlbum(albumId) {
             return getAuthHead().then(function(head) {
@@ -148,7 +158,6 @@
                 return $http.get('https://api.spotify.com/v1/albums?ids=' + albumIds.join(),
                     {headers: head});
             }).then(function(response) {
-                console.log(response);
                 return response.data.albums;
             });
         }

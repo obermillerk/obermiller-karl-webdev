@@ -1,0 +1,21 @@
+<button class="btn btn-primary favorite-btn"
+        ng-click="favorite.addToFavorites()"
+        ng-if="!favorite.isInFavorites">
+    <span class="glyphicon glyphicon-star"></span>
+    Add to favorites
+</button>
+
+<button class="btn btn-primary favorite-btn"
+        ng-click="favorite.removeFromFavorites()"
+        ng-if="favorite.isInFavorites"
+        ng-mouseover="favorite.hover = true"
+        ng-mouseleave="favorite.hover = false">
+    <div ng-show="favorite.hover">
+        <span class="glyphicon glyphicon-remove-sign"></span>
+        Drop from favorites
+    </div>
+    <div ng-show="!favorite.hover">
+        <span class="glyphicon glyphicon-check"></span>
+        In favorites
+    </div>
+</button>

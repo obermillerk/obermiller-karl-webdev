@@ -8,6 +8,29 @@ passport.deserializeUser(deserializeUser);
 passport.use('project-local', new LocalStrategy(localStrategy));
 
 
+app.post('/rest/login', passport.authenticate('project-local'), login);
+app.post('/rest/logout', logout);
+app.post('/rest/register', register);
+app.post('/rest/unregister', unregister);
+app.post('/rest/follow', followUser);
+app.post('/rest/unfollow', unfollowUser);
+
+app.put('/rest/library/add/:type/:id', addToLibrary);
+app.put('/rest/favorites/:artistid', addToFavorites);
+
+app.delete('/rest/library/:type/:id', removeFromLibrary);
+app.delete('/rest/favorites/:artistid', removeFromFavorites);
+
+app.get('/rest/user/:username', findUserByUsername);
+app.get('/rest/loggedin', loggedin);
+app.get('/rest/follow/:username', isCurrentUserFollowing);
+app.get('/rest/self/:username', isUserSelf);
+app.get('/rest/library/:type/:id', isInLibrary);
+app.get('/rest/favorites/:artistid', isInFavorites);
+
+
+
+
 function serializeUser(user, done) {
     done(null, user);
 }
@@ -40,24 +63,9 @@ function localStrategy(username, password, done) {
 }
 
 
+
+
 /* API DEFINITION */
-
-app.post('/rest/login', passport.authenticate('project-local'), login);
-app.post('/rest/logout', logout);
-app.post('/rest/register', register);
-app.post('/rest/unregister', unregister);
-app.post('/rest/follow', followUser);
-app.post('/rest/unfollow', unfollowUser);
-app.post('/rest/library/add/:type/:id', addToLibrary);
-app.post('/rest/library/remove/:type/:id', removeFromLibrary);
-
-app.get('/rest/user/:username', findUserByUsername);
-app.get('/rest/loggedin', loggedin);
-app.get('/rest/follow/:username', isCurrentUserFollowing);
-app.get('/rest/self/:username', isUserSelf);
-app.get('/rest/library/:type/:id', isInLibrary);
-
-
 
 
 function login(req, res) {
@@ -100,6 +108,66 @@ function unregister(req, res) {
         });
 }
 
+function findUserByUsername(req, res) {
+    var username = req.params['username'];
+
+    userModel.findUserByUsername(username)
+        .then(function(user) {
+            if (user === null)
+                res.sendStatus(404);
+            else
+                res.json(user);
+        })
+}
+
+function loggedin(req, res) {
+    res.send(req.isAuthenticated() ? req.user : '0');
+}
+
+function isUserSelf(req, res) {
+    var username = req.params['username'];
+    var self = req.user;
+
+    if (typeof self === 'undefined') {
+        res.json(false);
+        return;
+    }
+
+    userModel.findUserByUsername(username)
+        .then(function(user) {
+            if (user === null) {
+                res.status(404).end('Could not find user');
+            } else {
+                var ans = String(self._id) === String(user._id);
+                res.json(ans);
+            }
+        });
+}
+
+/* FOLLOW */
+
+function isCurrentUserFollowing(req, res) {
+    var username = req.params['username'];
+    var follower = req.user;
+
+    if (typeof follower === 'undefined') {
+        res.json(false);
+        return;
+    }
+
+    userModel.findUserByUsername(username)
+        .then(function(user) {
+            if (user === null) {
+                res.status(404).end('Could not find user');
+            } else {
+                return userModel.isUserFollowing(follower, user);
+            }
+        })
+        .then(function(response) {
+            res.json(response);
+        })
+}
+
 function followUser(req, res) {
     var follower = req.user;
 
@@ -124,64 +192,6 @@ function followUser(req, res) {
         })
 }
 
-function findUserByUsername(req, res) {
-    var username = req.params['username'];
-
-    userModel.findUserByUsername(username)
-        .then(function(user) {
-            if (user === null)
-                res.sendStatus(404);
-            else
-                res.json(user);
-        })
-}
-
-function loggedin(req, res) {
-    res.send(req.isAuthenticated() ? req.user : '0');
-}
-
-function isCurrentUserFollowing(req, res) {
-    var username = req.params['username'];
-    var follower = req.user;
-
-    if (typeof follower === 'undefined') {
-        res.json(false);
-        return;
-    }
-
-    userModel.findUserByUsername(username)
-        .then(function(user) {
-            if (user === null) {
-                res.status(404).end('Could not find user');
-            } else {
-                return userModel.isUserFollowing(follower, user);
-            }
-        })
-        .then(function(response) {
-            res.json(response);
-        })
-}
-
-function isUserSelf(req, res) {
-    var username = req.params['username'];
-    var self = req.user;
-
-    if (typeof self === 'undefined') {
-        res.json(false);
-        return;
-    }
-
-    userModel.findUserByUsername(username)
-        .then(function(user) {
-            if (user === null) {
-                res.status(404).end('Could not find user');
-            } else {
-                var ans = String(self._id) === String(user._id);
-                res.json(ans);
-            }
-        });
-}
-
 function unfollowUser(req, res) {
     var follower = req.user;
 
@@ -201,6 +211,8 @@ function unfollowUser(req, res) {
         })
 }
 
+/* LIBRARY */
+
 function isInLibrary(req, res) {
     var user = req.user;
 
@@ -217,7 +229,7 @@ function isInLibrary(req, res) {
         return;
     }
 
-    return userModel.isInLibrary(user, type, id)
+    userModel.isInLibrary(user, type, id)
         .then(function(response) {
             res.send(response);
         });
@@ -265,6 +277,62 @@ function removeFromLibrary(req, res) {
     }
 
     userModel.removeFromLibrary(user, type, id)
+        .then(function(response) {
+            res.sendStatus(200);
+        }, function(err) {
+            console.error(err);
+            res.sendStatus(400);
+        });
+}
+
+/* FAVORITE */
+
+function isInFavorites(req, res) {
+    var user = req.user;
+
+    var id = req.params['artistid'];
+
+    if (typeof user === 'undefined') {
+        res.json(false);
+        return;
+    }
+
+    userModel.isInFavorites(user, id)
+        .then(function(response) {
+            res.send(response);
+        });
+}
+
+function addToFavorites(req, res) {
+    var user = req.user;
+
+    var id = req.params['artistid'];
+
+    if (typeof user === 'undefined') {
+        res.send('Not logged in');
+        return;
+    }
+
+    userModel.addToFavorites(user, id)
+        .then(function(response) {
+            res.sendStatus(200);
+        }, function(err) {
+            console.error(err);
+            res.sendStatus(400);
+        });
+}
+
+function removeFromFavorites(req, res) {
+    var user = req.user;
+
+    var id = req.params['artistid'];
+
+    if (typeof user === 'undefined') {
+        res.send('Not logged in');
+        return;
+    }
+
+    userModel.removeFromFavorites(user, id)
         .then(function(response) {
             res.sendStatus(200);
         }, function(err) {

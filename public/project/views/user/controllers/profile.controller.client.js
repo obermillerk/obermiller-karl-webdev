@@ -15,6 +15,7 @@
                 tracks: [],
                 albums: []
             };
+            model.favorites = [];
             if (model.user.library.tracks.length > 0)
                 spotifyService.getTracks(model.user.library.tracks)
                     .then(function(tracks) {
@@ -25,6 +26,11 @@
                     .then(function(albums) {
                         model.library.albums = albums;
                     });
+            if (model.user.favorite_artists.length > 0)
+                spotifyService.getArtists(model.user.favorite_artists)
+                    .then(function(artists) {
+                        model.favorites = artists;
+                    })
         }
     }
 })();

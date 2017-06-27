@@ -18,12 +18,14 @@
             isCurrentUserFollowing: isCurrentUserFollowing,
 
             // Library functions
-            // userHasTrack: userHasTrack,
-            // addTrackToLibrary: addTrackToLibrary,
-            // removeTrackFromLibrary: removeTrackFromLibrary,
             isInLibrary: isInLibrary,
             addToLibrary: addToLibrary,
-            removeFromLibrary: removeFromLibrary
+            removeFromLibrary: removeFromLibrary,
+
+            // Favorites functions
+            isInFavorites: isInFavorites,
+            addToFavorites: addToFavorites,
+            removeFromFavorites: removeFromFavorites
         };
 
         function register(user) {
@@ -88,39 +90,31 @@
         function isInLibrary(type, id) {
             return $http.get('/project/rest/library/' + type + '/' + id)
                 .then(function(response) {
-                    console.log(response.data);
                     return response.data;
                 });
         }
 
         function addToLibrary(type, id) {
-            return $http.post('/project/rest/library/add/' + type + '/' + id);
+            return $http.put('/project/rest/library/' + type + '/' + id);
         }
 
         function removeFromLibrary(type, id) {
-            return $http.post('/project/rest/library/remove/' + type + '/' + id);
+            return $http.delete('/project/rest/library/' + type + '/' + id);
         }
 
-        function userHasTrack(trackId) {
-            return $http.get('/project/rest/library/track/' + trackId)
+        function isInFavorites(artistId) {
+            return $http.get('/project/rest/favorites/' + artistId)
                 .then(function(response) {
                     return response.data;
-                })
+                });
         }
 
-        function userHasAlbum(albumId) {
-            return $http.get('/project/rest/library/album' + albumId)
-                .then(function(response) {
-                    return response.data;
-                })
+        function addToFavorites(artistId) {
+            return $http.put('/project/rest/favorites/' + artistId);
         }
 
-        function addTrackToLibrary(trackId) {
-            return $http.post('/project/rest/library/add/track/' + trackId);
-        }
-
-        function removeTrackFromLibrary(trackId) {
-            return $http.post('/project/rest/library/remove/track/' + trackId);
+        function removeFromFavorites(artistId) {
+            return $http.delete('/project/rest/favorites/' + artistId);
         }
     }
 })();
