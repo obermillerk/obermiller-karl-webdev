@@ -66,9 +66,7 @@ function findUserById(userId) {
 }
 
 function findUserByGoogleId(googleId) {
-    return userModel.findOne({google: {
-        id: googleId
-    }})
+    return userModel.findOne( {'google.id': googleId} )
         .populate('following')
         .populate('followers')
         .exec();
