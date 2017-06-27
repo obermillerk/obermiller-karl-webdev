@@ -8,6 +8,7 @@ module.exports = commentModel;
 commentModel.findCommentsByThread = findCommentsByThread;
 commentModel.postComment = postComment;
 commentModel.removeComment = removeComment;
+commentModel.deleteCommentsByUserId = deleteCommentsByUserId;
 
 function findCommentsByThread(thread, limit, offset) {
     var result = commentModel.find({thread: thread})
@@ -27,4 +28,8 @@ function postComment(thread, comment) {
 
 function removeComment(user, commentId) {
     return commentModel.remove({_id: commentId, user: user._id});
+}
+
+function deleteCommentsByUserId(userId) {
+    return commentModel.remove( {user: userId} );
 }

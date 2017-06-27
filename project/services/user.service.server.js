@@ -1,5 +1,6 @@
 var app = require('../../express').projectRouter;
 var userModel = require('../models/user/user.model.server');
+var commentModel = require('../models/comment/comment.model.server');
 var passport = require('../../passport').project;
 var LocalStrategy = require('passport-local').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
@@ -152,11 +153,18 @@ function unregister(req, res) {
     var user = req.body;
     userModel.unregister(user._id)
         .then(function(response) {
-            res.sendStatus(200);
+            commentModel.deleteCommentsByUserId(user._id)
+                .then(function (response) {
+                    res.sendStatus(200);
+                }, function(err) {
+                    console.error(err);
+                    res.sendStatus(200);
+                });
         }, function(err) {
             console.error(err);
             res.sendStatus(404);
         });
+
 }
 
 function findUserByUsername(req, res) {

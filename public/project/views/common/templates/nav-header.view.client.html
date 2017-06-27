@@ -15,7 +15,10 @@
                     data-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false">
-                <span class="glyphicon glyphicon-user"></span>
+                <span class="glyphicon glyphicon-user"
+                      ng-if="nav.currentUser"></span>
+                <span class="glyphicon glyphicon-asterisk"
+                      ng-if="!nav.currentUser"></span>
             </button>
 
             <ul class="dropdown-menu active"
@@ -46,6 +49,12 @@
                        data-target="#loginModal">
                         <span class="glyphicon glyphicon-log-in"></span>
                         Login
+                    </a>
+                </li>
+                <li ng-if="!nav.currentUser">
+                    <a href="#!/register">
+                        <span class="glyphicon glyphicon-edit"></span>
+                        Register
                     </a>
                 </li>
             </ul>

@@ -24,7 +24,7 @@
         function unregister() {
             userService.unregister(model.currentUser)
                 .then(function (response) {
-                    $location.url('/');
+                    $route.reload();
                 })
         }
 
