@@ -10,7 +10,8 @@ userModel.followUser = followUser;
 userModel.unfollowUser = unfollowUser;
 userModel.createUser = createUser;
 userModel.unregister = unregister;
-userModel.findUserByCredentials = findUserByCredentials;
+userModel.updateUser = updateUser;
+userModel.findUserWithCredentials = findUserWithCredentials;
 userModel.findUserById = findUserById;
 userModel.findUserByGoogleId = findUserByGoogleId;
 userModel.findUserByUsername = findUserByUsername;
@@ -40,6 +41,10 @@ function createUser(user) {
     return userModel.create(user);
 }
 
+function updateUser(userId, newUser) {
+    return userModel.updateOne({_id: userId}, newUser);
+}
+
 function unregister(userId) {
     return userModel.remove({ _id: userId });
 }
@@ -48,19 +53,12 @@ function getAllUsers() {
     return userModel.find();
 }
 
-function findUserByCredentials(username, password) {
-    return userModel.findOne({ username: username, password:password })
+function findUserWithCredentials(username) {
+    return userModel.findOne({ username: username })
         .select("+password")
         .populate('following')
         .populate('followers')
-        .exec()
-        .then(function(response) {
-            if (response !== null) {
-                response.password = undefined;
-                response.pass = true;
-            }
-            return response;
-        });
+        .exec();
 }
 
 function findUserById(userId) {

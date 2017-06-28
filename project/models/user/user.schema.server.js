@@ -7,6 +7,11 @@ var userSchema = mongoose.Schema({
         id: String,
         token: String
     },
+    email: String,
+    name: {
+        first: String,
+        last: String
+    },
     following: {type: [{type: mongoose.Schema.ObjectId, ref: 'UserModel'}], default: []},
     followers: {type: [{type: mongoose.Schema.ObjectId, ref: 'UserModel'}], default: []},
     library: {

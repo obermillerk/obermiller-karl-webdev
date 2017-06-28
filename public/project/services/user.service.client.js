@@ -15,6 +15,9 @@
             getCurrentUser: getCurrentUser,
             isUserSelf: isUserSelf,
 
+            updateUser: updateUser,
+            updateUserPassword: updateUserPassword,
+
             // Follow functions
             followUser: followUser,
             unfollowUser: unfollowUser,
@@ -81,6 +84,15 @@
                     var user = response.data;
                     return user._id ? user : null;
                 });
+        }
+
+        function updateUser(user) {
+            return $http.put('/project/rest/user', user);
+        }
+
+        function updateUserPassword(user, passwords) {
+            passwords._id = user._id;
+            return $http.put('/project/rest/password', passwords);
         }
 
         function followUser(user) {

@@ -2,6 +2,7 @@ var app = require('../../express').projectRouter;
 var userModel = require('../models/user/user.model.server');
 var commentModel = require('../models/comment/comment.model.server');
 var postModel = require('../models/post/post.model.server');
+var bcrypt = require('bcrypt-nodejs');
 var passport = require('../../passport').project;
 var LocalStrategy = require('passport-local').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
@@ -26,8 +27,10 @@ app.post('/rest/user', createUser);
 app.post('/rest/follow', followUser);
 app.post('/rest/unfollow', unfollowUser);
 
+app.put('/rest/user', updateUser);
 app.put('/rest/library/:type/:id', addToLibrary);
 app.put('/rest/favorites/:artistid', addToFavorites);
+app.put('/rest/password', updateUserPassword);
 
 app.delete('/rest/library/:type/:id', removeFromLibrary);
 app.delete('/rest/favorites/:artistid', removeFromFavorites);
@@ -68,9 +71,10 @@ function deserializeUser(user, done) {
 
 function localStrategy(username, password, done) {
     userModel
-        .findUserByCredentials(username, password)
+        .findUserWithCredentials(username)
         .then(function(user) {
-                if (user !== null && user.username === username && user.pass === true) {
+                if (user !== null && user.username === username && bcrypt.compareSync(password, user.password)) {
+                    user.password = undefined;
                     return done(null, user);
                 } else {
                     return done(null, false);
@@ -145,6 +149,7 @@ function logout(req, res) {
 
 function createUser(req, res) {
     var user = req.body;
+    user.password = bcrypt.hashSync(user.password);
     userModel.createUser(user)
         .then(function(response) {
             res.send(response);
@@ -155,6 +160,7 @@ function createUser(req, res) {
 
 function register(req, res) {
     var user = req.body;
+    user.password = bcrypt.hashSync(user.password);
     if (user.username === 'admin')
         user.role = 'ADMIN';
     else
@@ -251,6 +257,61 @@ function isUserSelf(req, res) {
                 res.json(ans);
             }
         });
+}
+
+function updateUser(req, res) {
+    var loggedin = req.user;
+
+    if (typeof loggedin === 'undefined') {
+        res.status(401).send('Not logged in');
+        return;
+    }
+
+    var user = req.body;
+
+    if (loggedin.role !== 'ADMIN' && String(loggedin._id) !== user._id) {
+        res.sendStatus(401);
+        return;
+    }
+
+    userModel.updateUser(user._id, user)
+        .then(function(response) {
+            res.sendStatus(200);
+        });
+}
+
+function updateUserPassword(req, res) {
+    var loggedin = req.user;
+
+    if (typeof loggedin === 'undefined') {
+        res.status(401).send('Not logged in');
+        return;
+    }
+
+    var passwords = req.body;
+
+    if (loggedin.role !== 'ADMIN' && String(loggedin._id) !== passwords._id) {
+        res.sendStatus(401);
+        return;
+    }
+
+    if (loggedin.role === 'ADMIN')
+        userModel.updateUser(loggedin._id, {password: bcrypt.hashSync(passwords.new)})
+            .then(function (response) {
+                res.send(200);
+            });
+    else
+        userModel.findUserWithCredentials(loggedin.username)
+            .then(function(user) {
+                if (bcrypt.compareSync(passwords.current, user.password)) {
+                    userModel.updateUser(loggedin._id, {password: bcrypt.hashSync(passwords.new)})
+                        .then(function (response) {
+                            res.send(200);
+                        });
+                } else {
+                    res.status(401).send('Invalid current password');
+                }
+            });
 }
 
 /* FOLLOW */

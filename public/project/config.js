@@ -39,7 +39,15 @@
             ["/admin/:username",
                 "./views/admin/templates/manage-user.view.client.html",
                 "manageUserController",
-                {isAdmin: isAdmin}]
+                {isAdmin: isAdmin}],
+            ["/account",
+                "./views/user/templates/account-settings.view.client.html",
+                "accountSettingsController",
+                {user: loggedIn}],
+            ["/account/:username",
+                "./views/user/templates/account-settings.view.client.html",
+                "accountSettingsController",
+                {isAdmin: isAdmin, user: profileUser}]
         ];
 
         for (var r in routes) {
@@ -71,6 +79,18 @@
 
                 if (user !== '0')
                     return user._id ? user : null;
+            });
+    }
+
+    function loggedIn($http, $location) {
+        return $http.get('/project/rest/loggedin')
+            .then(function(response) {
+                var user = response.data;
+
+                if (user !== '0')
+                    return user._id ? user : null;
+                else
+                    $location.url('/');
             });
     }
 

@@ -38,6 +38,12 @@
                     </a>
                 </li>
                 <li ng-if="nav.currentUser">
+                    <a href="#!/account">
+                        <span class="glyphicon glyphicon-cog"></span>
+                        Account Settings
+                    </a>
+                </li>
+                <li ng-if="nav.currentUser">
                     <a ng-click="nav.logout()" href="">
                         <span class="glyphicon glyphicon-log-out"></span>
                         Logout

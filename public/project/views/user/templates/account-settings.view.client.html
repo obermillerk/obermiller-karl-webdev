@@ -1,0 +1,78 @@
+<nav-header></nav-header>
+
+<div class="container">
+    <h2>{{model.user.username}}</h2>
+    <h1>Account Settings</h1>
+
+
+    <h3>Change Password</h3>
+    <div class="alert alert-success"
+         ng-show="model.passMsg">
+        {{model.passMsg}}
+    </div>
+    <div class="alert alert-danger"
+         ng-show="model.passErr">
+        {{model.passErr}}
+    </div>
+    <form class="form-group">
+        <label for="currentPass">Current Password</label>
+        <input type="password"
+               id="currentPass"
+               class="form-control"
+               ng-model="model.currentPass"
+               required />
+
+        <label for="newPass">New Password</label>
+        <input type="password"
+               id="newPass"
+               class="form-control"
+               ng-model="model.newPass"
+               required />
+
+        <label for="confirmPass">Confirm New Password</label>
+        <input type="password"
+               id="confirmPass"
+               class="form-control"
+               ng-model="model.confirmPass"
+               required />
+
+        <button class="btn btn-warning btn-block"
+                ng-click="model.updatePassword()">
+            Update Password
+        </button>
+    </form>
+
+    <h3>Change Details</h3>
+    <div class="alert alert-success"
+         ng-show="model.userMsg">
+        {{model.userMsg}}
+    </div>
+    <div class="alert alert-danger"
+         ng-show="model.userErr">
+        {{model.userErr}}
+    </div>
+    <form class="form-group">
+        <label for="email">E-Mail</label>
+        <input type="email"
+               id="email"
+               class="form-control"
+               ng-model="model.user.email" />
+
+        <label for="firstName">First Name</label>
+        <input type="text"
+               id="firstName"
+               class="form-control"
+               ng-model="model.user.name.first" />
+
+        <label for="lastName">Last Name</label>
+        <input type="text"
+               id="lastName"
+               class="form-control"
+               ng-model="model.user.name.last" />
+
+        <button class="btn btn-success btn-block"
+                ng-click="model.updateUser()">
+            Save Changes
+        </button>
+    </form>
+</div>
