@@ -296,7 +296,7 @@ function updateUserPassword(req, res) {
     }
 
     if (loggedin.role === 'ADMIN')
-        userModel.updateUser(loggedin._id, {password: bcrypt.hashSync(passwords.new)})
+        userModel.updateUser(passwords._id, {password: bcrypt.hashSync(passwords.new)})
             .then(function (response) {
                 res.send(200);
             });
@@ -304,7 +304,7 @@ function updateUserPassword(req, res) {
         userModel.findUserWithCredentials(loggedin.username)
             .then(function(user) {
                 if (bcrypt.compareSync(passwords.current, user.password)) {
-                    userModel.updateUser(loggedin._id, {password: bcrypt.hashSync(passwords.new)})
+                    userModel.updateUser(passwords._id, {password: bcrypt.hashSync(passwords.new)})
                         .then(function (response) {
                             res.send(200);
                         });

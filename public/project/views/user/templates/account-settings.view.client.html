@@ -15,11 +15,15 @@
         {{model.passErr}}
     </div>
     <form class="form-group">
-        <label for="currentPass">Current Password</label>
+        <label for="currentPass"
+               ng-if="!model.isAdmin">
+            Current Password
+        </label>
         <input type="password"
                id="currentPass"
                class="form-control"
                ng-model="model.currentPass"
+               ng-if="!model.isAdmin"
                required />
 
         <label for="newPass">New Password</label>

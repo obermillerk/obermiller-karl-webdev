@@ -2,10 +2,11 @@
     angular.module('Sharm')
         .controller('accountSettingsController', accountSettingsController);
 
-    function accountSettingsController(user, userService) {
+    function accountSettingsController(user, isAdmin, userService) {
         var model = this;
 
         model.user = user;
+        model.isAdmin = isAdmin;
 
         model.updatePassword = updatePassword;
         model.updateUser = updateUser;
@@ -13,7 +14,7 @@
         function updatePassword() {
             model.passMsg = undefined;
             model.passErr = undefined;
-            if(!model.currentPass || !model.newPass || !model.confirmPass)
+            if((!isAdmin && !model.currentPass) || !model.newPass || !model.confirmPass)
                 return;
 
             if (model.newPass !== model.confirmPass) {

@@ -43,7 +43,7 @@
             ["/account",
                 "./views/user/templates/account-settings.view.client.html",
                 "accountSettingsController",
-                {user: loggedIn}],
+                {isAdmin: falseOnly, user: loggedIn}],
             ["/account/:username",
                 "./views/user/templates/account-settings.view.client.html",
                 "accountSettingsController",
@@ -112,6 +112,10 @@
             }, function(err) {
                 $location.url('/');
             });
+    }
+
+    function falseOnly() {
+        return false;
     }
 
     function allUsers(userService) {
