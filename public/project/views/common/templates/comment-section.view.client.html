@@ -38,7 +38,7 @@
         <h5 class="comment-date">
             {{comment.date | date:"MMM d, '''yy h:mm a"}}
         </h5>
-        <button ng-if="comment.user._id === model.currentUser._id"
+        <button ng-if="model.currentUser.role === 'ADMIN' || comment.user._id === model.currentUser._id"
                 class="btn-link comment-remove"
                 ng-click="model.removeComment(comment._id)">
             <span class="glyphicon glyphicon-trash"></span>

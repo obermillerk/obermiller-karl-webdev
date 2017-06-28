@@ -5,6 +5,7 @@
     function commentService($http) {
         return {
             findCommentsByThread: findCommentsByThread,
+            findCommentsByUsername: findCommentsByUsername,
             postComment: postComment,
             removeComment: removeComment
         };
@@ -24,8 +25,14 @@
                 })
         }
 
+        function findCommentsByUsername(username) {
+            return $http.get('/project/rest/comment/user/' + username)
+                .then(function(response) {
+                    return response.data;
+                })
+        }
+
         function postComment(thread, content) {
-            console.log('reached');
             return $http.post('/project/rest/comment/' + thread, {
                 content: content
             });

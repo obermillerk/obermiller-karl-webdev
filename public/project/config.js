@@ -31,7 +31,15 @@
                 "searchController"],
             ["/m/search/:type",
                 "./views/search/templates/search.view.client.html",
-                "searchController"]
+                "searchController"],
+            ["/admin",
+                "./views/admin/templates/admin.view.client.html",
+                "adminController",
+                {isAdmin: isAdmin, allUsers: allUsers}],
+            ["/admin/:username",
+                "./views/admin/templates/manage-user.view.client.html",
+                "manageUserController",
+                {isAdmin: isAdmin}]
         ];
 
         for (var r in routes) {
@@ -75,6 +83,19 @@
                     $location.url('/');
                 }
             });
+    }
+
+    function isAdmin(userService, $location) {
+        return userService.isAdmin()
+            .then(function(response) {
+                return true;
+            }, function(err) {
+                $location.url('/');
+            });
+    }
+
+    function allUsers(userService) {
+        return userService.getAllUsers();
     }
 
     function track(spotifyService, $route) {

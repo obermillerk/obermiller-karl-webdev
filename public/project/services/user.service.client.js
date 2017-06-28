@@ -2,13 +2,16 @@
     angular.module('Sharm')
         .factory('userService', userService);
 
-    function userService($http, $q) {
+    function userService($http) {
         return {
+            isAdmin: isAdmin,
+            createUser: createUser,
             register: register,
             unregister: unregister,
             login: login,
             logout: logout,
             findUserByUsername: findUserByUsername,
+            getAllUsers: getAllUsers,
             getCurrentUser: getCurrentUser,
             isUserSelf: isUserSelf,
 
@@ -27,6 +30,21 @@
             addToFavorites: addToFavorites,
             removeFromFavorites: removeFromFavorites
         };
+
+        function isAdmin() {
+            return $http.get('/project/rest/admin');
+        }
+
+        function getAllUsers() {
+            return $http.get('/project/rest/user')
+                .then(function(response) {
+                    return response.data;
+                })
+        }
+
+        function createUser(user) {
+            return $http.post('/project/rest/user', user)
+        }
 
         function register(user) {
             return $http.post('/project/rest/register', user)

@@ -5,6 +5,7 @@ var userModel = db.model('UserModel', userSchema);
 
 module.exports = userModel;
 
+userModel.getAllUsers = getAllUsers;
 userModel.followUser = followUser;
 userModel.unfollowUser = unfollowUser;
 userModel.createUser = createUser;
@@ -41,6 +42,10 @@ function createUser(user) {
 
 function unregister(userId) {
     return userModel.remove({ _id: userId });
+}
+
+function getAllUsers() {
+    return userModel.find();
 }
 
 function findUserByCredentials(username, password) {

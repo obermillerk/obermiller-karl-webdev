@@ -1,0 +1,75 @@
+<nav-header></nav-header>
+
+<div class="container">
+    <h1>Admin</h1>
+
+    <h4>Create User</h4>
+    <div ng-show="model.createError"
+         class="alert alert-danger">
+        {{model.createError}}
+    </div>
+    <form class="form-inline">
+        <input type="text"
+               class="form-control"
+               placeholder="username"
+               ng-model="model.username"
+               required />
+        <input type="password"
+               class="form-control"
+               placeholder="password"
+               ng-model="model.password"
+               required />
+        <input type="password"
+               class="form-control"
+               placeholder="confirm password"
+               ng-model="model.passConfirm"
+               required />
+        <button class="btn btn-success form-control"
+                type="submit"
+                ng-click="model.createUser()">
+            Create
+        </button>
+    </form>
+
+    <ul class="list-group">
+        <li class="list-group-item active">
+            Users
+        </li>
+        <li ng-repeat="user in model.allUsers"
+            class="list-group-item admin-user-result">
+            {{user.username}}
+            <div class="btn-group pull-right">
+                <a href="#!/admin/{{user.username}}"
+                   class="btn btn-primary">
+                    Manage
+                </a>
+                <button class="btn btn-primary"
+                        id="manageMenu"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu active"
+                    aria-labelledby="manageMenu">
+                    <li>
+                        <a href="#!/profile/{{user.username}}">
+                            View Profile
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#!/manage/{{user.username}}">
+                            Account Settings
+                        </a>
+                    </li>
+                    <li>
+                        <a href=""
+                           ng-click="model.deleteUser(user)">
+                            Delete User
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+</div>

@@ -187,6 +187,9 @@ nav-search {
     padding: 5px 20px;
     text-align: left; }
 
+.admin-user-result {
+  height: 60px; }
+
 /******** THEME ********/
 a {
   color: #48beff; }

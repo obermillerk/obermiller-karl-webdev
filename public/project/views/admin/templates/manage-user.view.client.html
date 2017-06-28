@@ -1,0 +1,100 @@
+<nav-header></nav-header>
+
+<div class="container">
+    <h1>Manage {{model.user.username}}</h1>
+
+    <div class="dropdown">
+        <button class="btn btn-primary"
+                id="manageMenu"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false">
+            Actions <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu active"
+            aria-labelledby="manageMenu">
+            <li>
+                <a href="#!/profile/{{model.user.username}}">
+                    View Profile
+                </a>
+            </li>
+            <li>
+                <a href="#!/manage/{{model.user.username}}">
+                    Account Settings
+                </a>
+            </li>
+            <li>
+                <a href=""
+                   ng-click="model.deleteUser(model.user)">
+                    Delete User
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <h4 class="visible-xs-inline-block">Comments</h4>
+    <a href=""
+       ng-click="model.toggleComments()">
+        <span ng-if="model.commentsHidden">show</span>
+        <span ng-if="!model.commentsHidden">hide</span>
+    </a>
+    <div class="hidden"
+         id="comment-section">
+    <div ng-if="model.comments.length < 1"
+         class="comment">
+        No comments
+    </div>
+
+    <div ng-repeat="comment in model.comments"
+         class="comment">
+        <div>
+            <h5 class="comment-username">
+                {{comment.date | date:"MMM d, '''yy h:mm a"}}
+            </h5>
+            <button class="btn-link comment-remove"
+                    ng-click="model.removeComment(comment._id)">
+                <span class="glyphicon glyphicon-trash"></span>
+            </button>
+            <a class="comment-remove"
+               href="{{model.parseThreadToUrl(comment.thread)}}">
+                Go to thread
+            </a>
+        </div>
+        <div class="comment-content">{{comment.content}}</div>
+    </div>
+    </div>
+
+    <br />
+
+    <h4 class="visible-xs-inline-block">Posts</h4>
+    <a href=""
+       ng-click="model.togglePosts()">
+        <span ng-if="model.postsHidden">show</span>
+        <span ng-if="!model.postsHidden">hide</span>
+    </a>
+    <div class="hidden"
+         id="post-section">
+        <div ng-if="model.posts.length < 1"
+             class="comment">
+            No comments
+        </div>
+
+        <div ng-repeat="post in model.posts"
+             class="comment">
+            <div>
+                <h5 class="comment-username">
+                    {{post.date | date:"MMM d, '''yy h:mm a"}}
+                </h5>
+                <button class="btn-link comment-remove"
+                        ng-click="model.removePost(post._id)">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </button>
+                <a class="comment-remove"
+                   href="{{model.parseThreadToUrl(post.thread)}}">
+                    Go to thread
+                </a>
+            </div>
+            <div class="comment-content">{{post.content}}</div>
+        </div>
+    </div>
+</div>

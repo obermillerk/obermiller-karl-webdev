@@ -1,8 +1,10 @@
 var app = require('../../express').projectRouter;
 var commentModel = require('../models/comment/comment.model.server');
+var userModel = require('../models/user/user.model.server');
 
 
 app.get('/rest/comment/:thread', findCommentsByThread);
+app.get('/rest/comment/user/:username', findCommentsByUsername);
 
 app.post('/rest/comment/:thread', postComment);
 
@@ -17,6 +19,20 @@ function findCommentsByThread(req, res) {
             res.json(response);
         }, function(err) {
             console.log(err);
+        });
+}
+
+function findCommentsByUsername(req, res) {
+    var username = req.params['username'];
+
+    userModel.findUserByUsername(username)
+        .then(function(user) {
+            return commentModel.findCommentsByUser(user)
+                .then(function(response) {
+                    res.json(response);
+                }, function(err) {
+                    console.log(err);
+                });
         });
 }
 
@@ -51,7 +67,15 @@ function removeComment(req, res) {
     }
 
     var commentId = req.params['commentid'];
-    commentModel.removeComment(user, commentId)
+
+    var response;
+    if (user.role === 'ADMIN') {
+        response = commentModel.removeComment(commentId);
+    } else {
+        response = commentModel.removeComment(commentId, user);
+    }
+
+    response
         .then(function(response) {
             res.sendStatus(200);
         }, function(err) {

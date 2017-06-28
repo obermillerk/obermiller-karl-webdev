@@ -1,6 +1,7 @@
 var app = require('../../express').projectRouter;
 var userModel = require('../models/user/user.model.server');
 var commentModel = require('../models/comment/comment.model.server');
+var postModel = require('../models/post/post.model.server');
 var passport = require('../../passport').project;
 var LocalStrategy = require('passport-local').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
@@ -21,6 +22,7 @@ app.post('/rest/login', passport.authenticate('project-local'), login);
 app.post('/rest/logout', logout);
 app.post('/rest/register', register);
 app.post('/rest/unregister', unregister);
+app.post('/rest/user', createUser);
 app.post('/rest/follow', followUser);
 app.post('/rest/unfollow', unfollowUser);
 
@@ -30,6 +32,8 @@ app.put('/rest/favorites/:artistid', addToFavorites);
 app.delete('/rest/library/:type/:id', removeFromLibrary);
 app.delete('/rest/favorites/:artistid', removeFromFavorites);
 
+app.get('/rest/admin', isAdmin);
+app.get('/rest/user', getAllUsers);
 app.get('/rest/user/:username', findUserByUsername);
 app.get('/rest/loggedin', loggedin);
 app.get('/rest/follow/:username', isCurrentUserFollowing);
@@ -120,6 +124,15 @@ function googleStrategy(token, refreshToken, profile, done) {
 /* API DEFINITION */
 
 
+function isAdmin(req, res) {
+    var user = req.user;
+
+    if (user && user.role === 'ADMIN')
+        res.sendStatus(200);
+    else
+        res.sendStatus(401);
+}
+
 function login(req, res) {
     var user = req.body;
     res.json(user);
@@ -128,6 +141,16 @@ function login(req, res) {
 function logout(req, res) {
     req.logOut();
     res.sendStatus(200);
+}
+
+function createUser(req, res) {
+    var user = req.body;
+    userModel.createUser(user)
+        .then(function(response) {
+            res.send(response);
+        }, function(err) {
+            res.send(err);
+        })
 }
 
 function register(req, res) {
@@ -151,20 +174,43 @@ function register(req, res) {
 
 function unregister(req, res) {
     var user = req.body;
+    var loggedin = req.user;
+
+    if (loggedin.role !== 'ADMIN' && user._id !== loggedin._id) {
+        res.sendStatus(401);
+        return;
+    }
+
     userModel.unregister(user._id)
         .then(function(response) {
             commentModel.deleteCommentsByUserId(user._id)
-                .then(function (response) {
-                    res.sendStatus(200);
-                }, function(err) {
+                .then(function (response) {}, function(err) {
                     console.error(err);
-                    res.sendStatus(200);
                 });
+            postModel.deletePostsByUserId(user._id)
+                .then(function (response) {}, function(err) {
+                    console.error(err);
+                });
+            res.sendStatus(200);
         }, function(err) {
             console.error(err);
             res.sendStatus(404);
         });
 
+}
+
+function getAllUsers(req, res) {
+    var user = req.user;
+
+    if (!user || user.role !== 'ADMIN') {
+        res.sendStatus(401);
+        return;
+    }
+
+    userModel.getAllUsers()
+        .then(function(users) {
+            res.json(users);
+        })
 }
 
 function findUserByUsername(req, res) {

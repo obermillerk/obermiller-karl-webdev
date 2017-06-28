@@ -31,6 +31,12 @@
                 <li role="separator"
                     class="divider"
                     ng-if="nav.currentUser"></li>
+                <li ng-if="nav.currentUser.role === 'ADMIN'">
+                    <a href="#!/admin">
+                        <span class="glyphicon glyphicon-lock"></span>
+                        Admin Page
+                    </a>
+                </li>
                 <li ng-if="nav.currentUser">
                     <a ng-click="nav.logout()" href="">
                         <span class="glyphicon glyphicon-log-out"></span>

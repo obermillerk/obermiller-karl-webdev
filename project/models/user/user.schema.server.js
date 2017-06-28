@@ -13,7 +13,8 @@ var userSchema = mongoose.Schema({
         tracks: {type: [{type: String}], default: []},
         albums: {type: [{type: String}], default: []}
     },
-    favorite_artists: {type: [{type: String}], default: []}
+    favorite_artists: {type: [{type: String}], default: []},
+    role: {type: String, enum: ['USER', 'ADMIN'], default: 'USER'}
 }, {collection: 'user'});
 
 module.exports = userSchema;
