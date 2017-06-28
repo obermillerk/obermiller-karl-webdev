@@ -155,6 +155,10 @@ function createUser(req, res) {
 
 function register(req, res) {
     var user = req.body;
+    if (user.username === 'admin')
+        user.role = 'ADMIN';
+    else
+        user.role = 'USER';
     userModel.createUser(user)
         .then(function(user) {
             if (user)
