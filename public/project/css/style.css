@@ -190,6 +190,9 @@ nav-search {
 .admin-user-result {
   height: 60px; }
 
+.inline-block {
+  display: inline-block; }
+
 /******** THEME ********/
 a {
   color: #48beff; }

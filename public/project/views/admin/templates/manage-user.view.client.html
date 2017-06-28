@@ -32,7 +32,7 @@
         </ul>
     </div>
 
-    <h4 class="visible-xs-inline-block">Comments</h4>
+    <h4 class="inline-block">Comments</h4>
     <a href=""
        ng-click="model.toggleComments()">
         <span ng-if="model.commentsHidden">show</span>
@@ -76,7 +76,7 @@
          id="post-section">
         <div ng-if="model.posts.length < 1"
              class="comment">
-            No comments
+            No posts
         </div>
 
         <div ng-repeat="post in model.posts"

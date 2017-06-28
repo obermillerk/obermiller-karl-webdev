@@ -180,7 +180,7 @@ function unregister(req, res) {
     var user = req.body;
     var loggedin = req.user;
 
-    if (loggedin.role !== 'ADMIN' && user._id !== loggedin._id) {
+    if (loggedin && loggedin.role !== 'ADMIN' && user._id !== String(loggedin._id)) {
         res.sendStatus(401);
         return;
     }
