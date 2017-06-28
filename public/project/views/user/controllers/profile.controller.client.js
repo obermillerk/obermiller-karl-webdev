@@ -2,10 +2,16 @@
     angular.module('Sharm')
         .controller('profileController', profileController);
 
-    function profileController(currentUser, profileUser, spotifyService, $routeParams, $location) {
+    function profileController(currentUser, profileUser, spotifyService, $routeParams) {
         var model = this;
 
         var username = $routeParams['username'];
+
+        var section = $routeParams['section'];
+
+        model.section = $routeParams['section'];
+
+        model.isActive = isActive;
 
         model.user = profileUser;
         populateLibrary();
@@ -31,6 +37,14 @@
                     .then(function(artists) {
                         model.favorites = artists;
                     })
+        }
+
+        function isActive(section) {
+            if (typeof model.section === 'undefined' && section === 'posts')
+                return 'active';
+            else if(section === model.section)
+                return 'active';
+            else return '';
         }
     }
 })();

@@ -2,7 +2,7 @@
     angular.module('Sharm')
         .controller('accountSettingsController', accountSettingsController);
 
-    function accountSettingsController(user, isAdmin, userService) {
+    function accountSettingsController(user, isAdmin, userService, $route) {
         var model = this;
 
         model.user = user;
@@ -10,6 +10,7 @@
 
         model.updatePassword = updatePassword;
         model.updateUser = updateUser;
+        model.deleteAccount = deleteAccount;
 
         function updatePassword() {
             model.passMsg = undefined;
@@ -44,6 +45,13 @@
                 }, function(err) {
                     model.userErr = err.data;
                 });
+        }
+
+        function deleteAccount() {
+            userService.unregister(model.user)
+                .then(function (response) {
+                    $route.reload();
+                })
         }
     }
 })();

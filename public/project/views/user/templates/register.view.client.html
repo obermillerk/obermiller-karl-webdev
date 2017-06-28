@@ -7,24 +7,46 @@
                class="form-control"
                id="username"
                ng-model="username"
-               placeholder="username"/>
+               placeholder="username"
+               required />
 
         <label for="password">Password</label>
         <input type="password"
                class="form-control"
                id="password"
                ng-model="password"
-               placeholder="password"/>
+               placeholder="password"
+               required />
 
         <label for="passConfirm">Confirm Password</label>
         <input type="password"
                class="form-control"
                id="passConfirm"
                ng-model="passConfirm"
-               placeholder="confirm"/>
+               placeholder="confirm"
+               required />
+
+
+        <label for="email">E-Mail</label>
+        <input type="email"
+               id="email"
+               class="form-control"
+               ng-model="email" />
+
+        <label for="firstName">First Name</label>
+        <input type="text"
+               id="firstName"
+               class="form-control"
+               ng-model="name.first" />
+
+        <label for="lastName">Last Name</label>
+        <input type="text"
+               id="lastName"
+               class="form-control"
+               ng-model="name.last" />
 
         <button class="btn btn-block btn-success"
-                ng-click="model.register(username, password, passConfirm)">
+                ng-click="model.register(username, password, passConfirm, email, name)">
             Register
         </button>
 

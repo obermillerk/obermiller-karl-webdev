@@ -8,7 +8,7 @@
         model.register = register;
 
 
-        function register(username, password, password2) {
+        function register(username, password, password2, email, name) {
             if (typeof username === 'undefined') {
                 model.error = "Please enter a username";
                 return;
@@ -26,11 +26,12 @@
 
             var user = {
                 username: username,
-                password: password
+                password: password,
+                email: email,
+                name: name
             };
             userService.register(user)
                 .then(function(user) {
-                    console.log(user);
                     $location.url('/profile/' + user.username);
                 });
         }

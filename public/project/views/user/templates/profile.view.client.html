@@ -4,76 +4,110 @@
     <h2>{{model.user.username}}</h2>
     <follow></follow>
 
-    <h4>Following:</h4>
-    <ul class="list-group">
-        <li ng-if="model.user.following.length < 1"
-            class="list-group-item">
-            No users followed
-        </li>
-        <li ng-repeat="user in model.user.following"
-            class="list-group-item">
-            <a href="#!/profile/{{user.username}}">
-                {{user.username}}
+    <ul class="nav nav-tabs">
+        <li role="presentation"
+            ng-class="model.isActive('posts')">
+            <a href="#!/profile/{{model.user.username}}">
+                Posts
             </a>
         </li>
-    </ul>
-    <h4>Followers:</h4>
-    <ul class="list-group">
-        <li ng-if="model.user.followers.length < 1"
-            class="list-group-item">
-            No followers
-        </li>
-        <li ng-repeat="user in model.user.followers"
-            class="list-group-item">
-            <a href="#!/profile/{{user.username}}">
-                {{user.username}}
+        <li role="presentation"
+            ng-class="model.isActive('following')">
+            <a href="#!/profile/{{model.user.username}}?section=following">
+                Following
             </a>
         </li>
-    </ul>
-    <h4>Library:</h4>
-    <ul class="list-group">
-        <li class="list-group-item active">
-            Tracks
-        </li>
-        <li ng-if="model.library.tracks.length < 1"
-            class="list-group-item">
-            No tracks in library
-        </li>
-        <li ng-repeat="track in model.library.tracks"
-            class="list-group-item">
-            <a href="#!/m/track/{{track.id}}">
-                {{track.name}}
-            </a>
-        </li>
-    </ul>
-    <ul class="list-group">
-        <li class="list-group-item active">
-            Albums
-        </li>
-        <li ng-if="model.library.albums.length < 1"
-            class="list-group-item">
-            No albums in library
-        </li>
-        <li ng-repeat="album in model.library.albums"
-            class="list-group-item">
-            <a href="#!/m/album/{{album.id}}">
-                {{album.name}}
-            </a>
-        </li>
-    </ul>
-    <h4>Favorite Artists:</h4>
-    <ul class="list-group">
-        <li ng-if="model.favorites.length < 1"
-            class="list-group-item">
-            No artists in favorites
-        </li>
-        <li ng-repeat="artist in model.favorites"
-            class="list-group-item">
-            <a href="#!/m/artist/{{artist.id}}">
-                {{artist.name}}
+        <li role="presentation"
+            ng-class="model.isActive('library')">
+            <a href="#!/profile/{{model.user.username}}?section=library">
+                Library/Favorites
             </a>
         </li>
     </ul>
 
-    <post-feed username="{{model.user.username}}"></post-feed>
+    <div ng-switch="model.section">
+        <div ng-switch-default>
+            <post-feed username="{{model.user.username}}"></post-feed>
+        </div>
+
+        <div ng-switch-when="following">
+            <h4>Following:</h4>
+            <ul class="list-group">
+                <li ng-if="model.user.following.length < 1"
+                    class="list-group-item">
+                    No users followed
+                </li>
+                <li ng-repeat="user in model.user.following"
+                    class="list-group-item">
+                    <a href="#!/profile/{{user.username}}">
+                        {{user.username}}
+                    </a>
+                </li>
+            </ul>
+
+            <h4>Followers:</h4>
+            <ul class="list-group">
+                <li ng-if="model.user.followers.length < 1"
+                    class="list-group-item">
+                    No followers
+                </li>
+                <li ng-repeat="user in model.user.followers"
+                    class="list-group-item">
+                    <a href="#!/profile/{{user.username}}">
+                        {{user.username}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div ng-switch-when="library">
+            <h4>Library:</h4>
+            <ul class="list-group">
+                <li class="list-group-item active">
+                    Tracks
+                </li>
+                <li ng-if="model.library.tracks.length < 1"
+                    class="list-group-item">
+                    No tracks in library
+                </li>
+                <li ng-repeat="track in model.library.tracks"
+                    class="list-group-item">
+                    <a href="#!/m/track/{{track.id}}">
+                        {{track.name}}
+                    </a>
+                </li>
+            </ul>
+            <ul class="list-group">
+                <li class="list-group-item active">
+                    Albums
+                </li>
+                <li ng-if="model.library.albums.length < 1"
+                    class="list-group-item">
+                    No albums in library
+                </li>
+                <li ng-repeat="album in model.library.albums"
+                    class="list-group-item">
+                    <a href="#!/m/album/{{album.id}}">
+                        {{album.name}}
+                    </a>
+                </li>
+            </ul>
+
+            <h4>Favorite Artists:</h4>
+            <ul class="list-group">
+                <li ng-if="model.favorites.length < 1"
+                    class="list-group-item">
+                    No artists in favorites
+                </li>
+                <li ng-repeat="artist in model.favorites"
+                    class="list-group-item">
+                    <a href="#!/m/artist/{{artist.id}}">
+                        {{artist.name}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
 </div>

@@ -98,8 +98,10 @@ function googleStrategy(token, refreshToken, profile, done) {
                     var emailParts = email.split("@");
                     var newGoogleUser = {
                         username:  'g_' + emailParts[0],
-                        firstName: profile.name.givenName,
-                        lastName:  profile.name.familyName,
+                        name: {
+                            first: profile.name.givenName,
+                            last:  profile.name.familyName
+                        },
                         email:     email,
                         google: {
                             id:    profile.id,
@@ -298,7 +300,7 @@ function updateUserPassword(req, res) {
     if (loggedin.role === 'ADMIN')
         userModel.updateUser(passwords._id, {password: bcrypt.hashSync(passwords.new)})
             .then(function (response) {
-                res.send(200);
+                res.sendStatus(200);
             });
     else
         userModel.findUserWithCredentials(loggedin.username)
@@ -306,7 +308,7 @@ function updateUserPassword(req, res) {
                 if (bcrypt.compareSync(passwords.current, user.password)) {
                     userModel.updateUser(passwords._id, {password: bcrypt.hashSync(passwords.new)})
                         .then(function (response) {
-                            res.send(200);
+                            res.sendStatus(200);
                         });
                 } else {
                     res.status(401).send('Invalid current password');

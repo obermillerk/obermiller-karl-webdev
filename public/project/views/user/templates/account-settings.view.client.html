@@ -4,7 +4,6 @@
     <h2>{{model.user.username}}</h2>
     <h1>Account Settings</h1>
 
-
     <h3>Change Password</h3>
     <div class="alert alert-success"
          ng-show="model.passMsg">
@@ -79,4 +78,10 @@
             Save Changes
         </button>
     </form>
+
+
+    <button class="btn btn-danger btn-block"
+            ng-click="model.deleteAccount()">
+        Delete Account
+    </button>
 </div>
