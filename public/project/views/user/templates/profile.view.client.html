@@ -106,6 +106,25 @@
                     </a>
                 </li>
             </ul>
+
+            <h4>Collections:</h4>
+            <ul class="list-group">
+                <li ng-if="model.collections.length < 1"
+                    class="list-group-item">
+                    No collections
+                </li>
+                <li ng-repeat="collection in model.collections"
+                    class="list-group-item">
+                    <a href="#!/collection/{{collection._id}}">
+                        {{collection.name}}
+                    </a>
+                    <a href="" class="pull-right"
+                       ng-if="model.currentUser._id === model.user._id"
+                       ng-click="model.deleteCollection(collection._id)">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
 

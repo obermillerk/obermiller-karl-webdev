@@ -1,21 +1,105 @@
-<button class="btn btn-primary library-btn"
-        ng-click="library.addToLibrary()"
-        ng-if="!library.isInLibrary">
-    <span class="glyphicon glyphicon-plus-sign"></span>
-    Add to library
-</button>
+<div class="btn-group">
+    <button class="btn btn-primary library-btn"
+            ng-click="library.addToLibrary()"
+            ng-if="!library.isInLibrary">
+        <span class="glyphicon glyphicon-plus-sign"></span>
+        Add to library
+    </button>
 
-<button class="btn btn-primary library-btn"
-        ng-click="library.removeFromLibrary()"
-        ng-if="library.isInLibrary"
-        ng-mouseover="library.hover = true"
-        ng-mouseleave="library.hover = false">
-    <div ng-show="library.hover">
-        <span class="glyphicon glyphicon-remove-sign"></span>
-        Drop from library
+    <button class="btn btn-primary library-btn"
+            ng-click="library.removeFromLibrary()"
+            ng-if="library.isInLibrary"
+            ng-mouseover="library.hover = true"
+            ng-mouseleave="library.hover = false">
+        <div ng-show="library.hover">
+            <span class="glyphicon glyphicon-remove-sign"></span>
+            Drop from library
+        </div>
+        <div ng-show="!library.hover">
+            <span class="glyphicon glyphicon-check"></span>
+            In library
+        </div>
+    </button>
+
+    <button class="btn btn-primary dropdown-toggle"
+            type="button"
+            id="collectionMenu"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false">
+        <span class="caret"></span>
+    </button>
+
+    <ul class="dropdown-menu active"
+        aria-labelledby="collectionMenu">
+        <li>
+            <a href=""
+               type="button"
+               data-toggle="modal"
+               data-target="#collectionModal">
+                <span class="glyphicon glyphicon-plus"></span>
+                Add to Collection
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+
+<div id="collectionModal"
+     class="modal fade modal"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="collectionModalLabel">
+    <div class="modal-dialog"
+         role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-label="Close"
+                        ng-click="model.err=''">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </button>
+                <h3 id="collectionModalLabel"
+                    class="modal-title">Choose Collection</h3>
+            </div>
+            <div class="modal-body">
+
+                <label for="collectionName">Create New Collection</label>
+                <div class="input-group">
+                    <input type="text"
+                           id="collectionName"
+                           class="form-control"
+                           ng-model="name"
+                           placeholder="Collection name"/>
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary"
+                                ng-click="library.createCollection(name)">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                    </span>
+                </div>
+
+                <label>Select Existing Collection</label>
+                <ul class="list-group">
+                    <li class="list-group-item active">
+                        Collections:
+                    </li>
+                    <li class="list-group-item"
+                        ng-if="library.collections.length < 1">
+                        No collections
+                    </li>
+                    <li class="list-group-item"
+                        ng-repeat="collection in library.collections">
+                        <a href="" ng-click="library.addToCollection(collection._id, library.type, library.id)">
+                            {{collection.name}}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
-    <div ng-show="!library.hover">
-        <span class="glyphicon glyphicon-check"></span>
-        In library
-    </div>
-</button>
+</div>

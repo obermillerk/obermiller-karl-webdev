@@ -193,6 +193,12 @@ nav-search {
 .inline-block {
   display: inline-block; }
 
+.text-center-xs {
+  text-align: start; }
+
+@media (max-width: 767px) {
+  .text-center-xs {
+    text-align: center; } }
 .nav-tabs {
   border-bottom-color: #f9cb40; }
   .nav-tabs li.active > a,

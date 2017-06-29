@@ -47,7 +47,11 @@
             ["/account/:username",
                 "./views/user/templates/account-settings.view.client.html",
                 "accountSettingsController",
-                {isAdmin: isAdmin, user: profileUser}]
+                {isAdmin: isAdmin, user: profileUser}],
+            ["/collection/:collectionid",
+                "./views/music/templates/collection.view.client.html",
+                "collectionController",
+                {collection: collection, currentUser: currentUser}]
         ];
 
         for (var r in routes) {
@@ -116,6 +120,15 @@
 
     function falseOnly() {
         return false;
+    }
+
+    function collection(collectionService, $route) {
+        return collectionService.getCollection($route.current.params['collectionid'])
+            .then(function(response) {
+                return response;
+            }, function(err) {
+                return {error: 'Collection not found'};
+            });
     }
 
     function allUsers(userService) {

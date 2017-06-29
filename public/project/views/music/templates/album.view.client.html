@@ -15,10 +15,8 @@
                      ng-src="{{model.album.images[0].url}}" />
             </div>
         </div>
-        <div class="col-xs-12 col-sm-7 col-md-8">
-            <h1 align="center"
-                class="visible-xs">{{model.album.name}}</h1>
-            <h1 class="hidden-xs">{{model.album.name}}</h1>
+        <div class="col-xs-12 col-sm-7 col-md-8 text-center-xs">
+            <h1>{{model.album.name}}</h1>
             <h3 align="center"
                 class="visible-xs">
                 <a href="#!/m/artist/{{model.album.artists[0].id}}">
@@ -31,12 +29,7 @@
                 </a>
             </h3>
 
-            <div class="text-center visible-xs">
                 <library type="album"></library>
-            </div>
-            <div class="hidden-xs">
-                <library type="album"></library>
-            </div>
         </div>
     </div>
 

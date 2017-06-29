@@ -1,0 +1,52 @@
+<nav-header></nav-header>
+
+<div class="container">
+    <h2>{{model.collection.name}}</h2>
+    <h4>
+        by
+        <a href="#!/profile/{{model.collection.user.username}}">
+            {{model.collection.user.username}}
+        </a>
+    </h4>
+
+    <ul class="list-group">
+        <li class="list-group-item active">
+            Tracks
+        </li>
+        <li ng-if="model.collection.tracks.length < 1"
+            class="list-group-item">
+            No tracks in library
+        </li>
+        <li ng-repeat="track in model.collection.tracks"
+            class="list-group-item">
+            <a href="#!/m/track/{{track.id}}">
+                {{track.name}}
+            </a>
+            <a href="" class="pull-right"
+               ng-if="model.currentUser._id === model.collection.user._id"
+               ng-click="model.removeFromCollection('track', track.id)">
+                <span class="glyphicon glyphicon-remove"></span>
+            </a>
+        </li>
+    </ul>
+    <ul class="list-group">
+        <li class="list-group-item active">
+            Albums
+        </li>
+        <li ng-if="model.collection.albums.length < 1"
+            class="list-group-item">
+            No albums in library
+        </li>
+        <li ng-repeat="album in model.collection.albums"
+            class="list-group-item">
+            <a href="#!/m/album/{{album.id}}">
+                {{album.name}}
+            </a>
+            <a href="" class="pull-right"
+               ng-if="model.currentUser._id === model.collection.user._id"
+               ng-click="model.removeFromCollection('album', album.id)">
+                <span class="glyphicon glyphicon-remove"></span>
+            </a>
+        </li>
+    </ul>
+</div>
