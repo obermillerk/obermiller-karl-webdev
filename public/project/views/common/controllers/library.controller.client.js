@@ -41,7 +41,6 @@
             } else
                 collectionService.findCollectionsByUser(currentUser.username)
                     .then(function(collections) {
-                        console.log(collections);
                         model.collections = collections;
                     });
         }
@@ -72,8 +71,6 @@
                         $('#collectionModal').modal('hide');
                         $('#loginModal').modal();
                     } else {
-                        console.log(response);
-                        addToCollection(response.data._id, model.type, model.id);
                         refreshCollections();
                     }
                 });
@@ -82,7 +79,7 @@
         function addToCollection(collectionId, type, id) {
             collectionService.addToCollection(collectionId, type, id)
                 .then(function(response) {
-                    $('#collectionModal').modal('hide');
+                    model.collectionMsg = 'Successfully added to collection.';
                 });
         }
     }

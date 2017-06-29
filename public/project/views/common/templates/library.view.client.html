@@ -47,7 +47,7 @@
 
 
 <div id="collectionModal"
-     class="modal fade modal"
+     class="modal fade modal text-center"
      tabindex="-1"
      role="dialog"
      aria-labelledby="collectionModalLabel">
@@ -67,38 +67,46 @@
                     class="modal-title">Choose Collection</h3>
             </div>
             <div class="modal-body">
-
-                <label for="collectionName">Create New Collection</label>
-                <div class="input-group">
-                    <input type="text"
-                           id="collectionName"
-                           class="form-control"
-                           ng-model="name"
-                           placeholder="Collection name"/>
-                    <span class="input-group-btn">
+                <div ng-if="!library.collectionMsg">
+                    <label for="collectionName">Create New Collection</label>
+                    <div class="input-group">
+                        <input type="text"
+                               id="collectionName"
+                               class="form-control"
+                               ng-model="name"
+                               placeholder="Collection name"/>
+                        <span class="input-group-btn">
                         <button class="btn btn-primary"
                                 ng-click="library.createCollection(name)">
                             <span class="glyphicon glyphicon-plus"></span>
                         </button>
                     </span>
-                </div>
+                    </div>
 
-                <label>Select Existing Collection</label>
-                <ul class="list-group">
-                    <li class="list-group-item active">
-                        Collections:
-                    </li>
-                    <li class="list-group-item"
-                        ng-if="library.collections.length < 1">
-                        No collections
-                    </li>
-                    <li class="list-group-item"
-                        ng-repeat="collection in library.collections">
-                        <a href="" ng-click="library.addToCollection(collection._id, library.type, library.id)">
-                            {{collection.name}}
-                        </a>
-                    </li>
-                </ul>
+                    <label>Select Existing Collection</label>
+                    <ul class="list-group">
+                        <li class="list-group-item active">
+                            Collections:
+                        </li>
+                        <li class="list-group-item"
+                            ng-if="library.collections.length < 1">
+                            No collections
+                        </li>
+                        <li class="list-group-item"
+                            ng-repeat="collection in library.collections">
+                            <a href="" ng-click="library.addToCollection(collection._id, library.type, library.id)">
+                                {{collection.name}}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div ng-if="library.collectionMsg"
+                     class="alert alert-success">
+                    {{library.collectionMsg}}
+                    <button ng-click="library.collectionMsg = undefined; $('#collectionModal').modal('hide');"
+                            type="button"
+                            class="btn btn-success pull-right">OK</button>
+                </div>
             </div>
         </div>
     </div>
