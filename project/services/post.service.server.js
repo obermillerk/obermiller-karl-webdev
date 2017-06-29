@@ -18,7 +18,7 @@ function findPostsByUsername(req, res) {
         .then(function(response) {
             res.json(response);
         }, function(err) {
-            console.log(err);
+            console.error(err);
         });
 }
 

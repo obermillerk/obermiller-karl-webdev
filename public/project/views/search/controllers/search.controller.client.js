@@ -47,7 +47,6 @@
                 limit = 6;
 
             spotifyService.search(query, page, type, limit).then(function (data) {
-                    console.log(data);
                     if (data.tracks)
                         model.tracks = data.tracks.items;
                     if (data.artists)

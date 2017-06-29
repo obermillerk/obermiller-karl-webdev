@@ -6,7 +6,6 @@
         var model = this;
 
         model.album = album;
-        console.log(album);
 
         var albumId = album.id;
 

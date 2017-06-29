@@ -36,7 +36,6 @@
         function select(track) {
             model.selected = track;
             track.duration_formated = formatDuration(track.duration_ms);
-            console.log(track);
         }
 
         function formatDuration(ms) {
